@@ -7,8 +7,8 @@
 <Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="732.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mono.pong.GameController">
    <children>
       <Rectangle fx:id="field" height="650.0" smooth="false" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="732.0" />
-      <Rectangle fx:id="player2" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="60.0" layoutX="703.0" layoutY="295.0" stroke="WHITE" strokeType="INSIDE" width="15.0" />
-      <Rectangle fx:id="player1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="60.0" layoutX="14.0" layoutY="295.0" stroke="WHITE" strokeType="INSIDE" width="15.0" />
+      <Rectangle fx:id="player2" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="90.0" layoutX="703.0" layoutY="295.0" stroke="WHITE" strokeType="INSIDE" width="15.0" />
+      <Rectangle fx:id="player1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="90.0" layoutX="14.0" layoutY="295.0" stroke="WHITE" strokeType="INSIDE" width="15.0" />
       <Line endY="700.0" layoutX="366.0" layoutY="-25.0" stroke="WHITE" strokeWidth="2.0" style="-fx-stroke-dash-array: 10;" />
       <Circle fx:id="ball" fill="WHITE" layoutX="366.0" layoutY="325.0" radius="5.0" stroke="WHITE" strokeType="INSIDE" />
       <Text fill="WHITE" layoutX="223.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="100.8125">

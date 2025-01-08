@@ -57,10 +57,19 @@ public class GameController {
     }
 
     private void reset(){
-        double angle = Math.random()*Math.PI*2;
+        double randomValue;
+        do {
+            randomValue = Math.random(); // Генерация числа от 0.1 до 1.0
+        } while (isInExcludedRange(randomValue));
+
+        double angle = randomValue*Math.PI*2; //Math.random();
         ball.setCenterY(centerY);
         ball.setCenterX(centerX);
         changeBallSpeed(angle, 5);
+    }
+
+    private static boolean isInExcludedRange(double number) {
+        return (number >= 0.2 && number <= 0.3) || (number >= 0.7 && number <= 0.8);
     }
 
     private void moveBall(){
