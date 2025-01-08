@@ -1,26 +1,23 @@
 import com.sun.net.httpserver.HttpServer;
-import endpoints.AuthController;
+import endpoints.Builder;
 
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Server {
+    private static final Logger logger = LoggerFactory.getLogger(Server.class);
+    private static final int serverPort = 8000;
 
     public static void main(String[] args) {
         try {
-            int serverPort = 8000;
+            logger.info("Starting server");
             HttpServer server = HttpServer.create(new InetSocketAddress(serverPort), 0);
-            server.createContext("/", (exchange -> {
-                String respText = "пасаси";
-                exchange.sendResponseHeaders(200, respText.getBytes().length);
-                OutputStream output = exchange.getResponseBody();
-                output.write(respText.getBytes());
-                output.flush();
-                exchange.close();
-            }));
-            AuthController.init(server);
+            Builder.build(server);
             server.setExecutor(null);
             server.start();
+            logger.info("Server started on port {}", serverPort);
         } catch (Exception e) {
             e.printStackTrace();
         }

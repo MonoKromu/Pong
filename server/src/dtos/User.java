@@ -20,4 +20,9 @@ public class User {
         this.Nickname = login;
         this.Password = password;
     }
+
+    @Override
+    public String toString() {
+        return Nickname + " " + Password + " " + Points;
+    }
 }

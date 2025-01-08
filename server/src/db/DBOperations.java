@@ -7,22 +7,19 @@ import java.util.ArrayList;
 
 public class DBOperations {
 
-    private final String baseURI = "jdbc:mysql://%s:3306/new_test_db";
-    private final String DB_URL = baseURI.formatted("http://localhost");
-    private final String LOGIN = "work_user";
-    private final String PASSWORD = "qwe123qwe";
+    private final static String baseURI = "jdbc:mysql://%s:3306/new_test_db";
+    private final static String DB_URL = baseURI.formatted("95.181.27.102");
+    private final static String LOGIN = "work_user";
+    private final static String PASSWORD = "qwe123qwe";
 
     /// Получение списка пользователей для вывода в "Таблица рейтинга" (ник, очки)
-    public ArrayList<User> getRating() {
+    public static ArrayList<User> getRating() {
         try (Connection conn = DriverManager.getConnection(DB_URL, LOGIN, PASSWORD);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT Nickname, Points FROM users_table ORDER BY Points DESC")) {
             ArrayList<User> users = new ArrayList<>();
             while (rs.next()) {
-                users.add(new User(rs.getString(2), Integer.parseInt(rs.getString(4))));
-            }
-            for (var user : users) {
-                System.out.println(user.Nickname + " \t" + user.Points);
+                users.add(new User(rs.getString(1), Integer.parseInt(rs.getString(2))));
             }
             return users;
         } catch (SQLException e) {
@@ -32,7 +29,7 @@ public class DBOperations {
     }
 
     /// Получение (ника, очков, пароля) для авторизации
-    public User getUser(String nick, String password) {
+    public static User getUser(String nick, String password) {
         try (Connection conn = DriverManager.getConnection(DB_URL, LOGIN, PASSWORD);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM users_table WHERE Nickname LIKE '%s' and Password LIKE '%s';".formatted(nick, password))) {
@@ -47,7 +44,7 @@ public class DBOperations {
         }
     }
 
-    public boolean putPassword(String nick, String oldPass, String newPass) {
+    public static boolean putPassword(String nick, String oldPass, String newPass) {
         try (Connection conn = DriverManager.getConnection(DB_URL, LOGIN, PASSWORD);
              Statement stmt = conn.createStatement()) {
 
@@ -62,7 +59,7 @@ public class DBOperations {
     }
 
     /// Добавление (пользователя)
-    public boolean postUser(String nick, String password) {
+    public static boolean postUser(String nick, String password) {
         try (Connection conn = DriverManager.getConnection(DB_URL, LOGIN, PASSWORD);
              Statement stmt = conn.createStatement()) {
             if (getUser(nick, password) == null) {
@@ -77,7 +74,7 @@ public class DBOperations {
     }
 
     /// Прибавление (очков)
-    public boolean putUserPoints(String nick) {
+    public static boolean putUserPoints(String nick) {
         try {
             Connection conn = DriverManager.getConnection(DB_URL, LOGIN, PASSWORD);
             Statement stmt = conn.createStatement();
