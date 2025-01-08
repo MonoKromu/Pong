@@ -10,34 +10,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="092bc016-42db-431c-b506-412034ba8fbd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/server_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/google_code_gson.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/db/DBOperations.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/dtos/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/endpoints/AuthController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/endpoints/RegisterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataBase_Test/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataBase_Test/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataBase_Test/.idea/gradle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataBase_Test/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataBase_Test/build.gradle.kts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataBase_Test/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataBase_Test/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataBase_Test/gradlew" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataBase_Test/gradlew.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataBase_Test/settings.gradle.kts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataBase_Test/src/main/java/ru/enoughLev/DatabaseOperations.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataBase_Test/src/main/java/ru/enoughLev/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataBase_Test/src/main/java/ru/enoughLev/User.java" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/ch_qos_logback_classic.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/mysql_connector_j.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/endpoints/Builder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/endpoints/RatingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/server_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/server_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/server.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/db/DBOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/db/DBOperations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dtos/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dtos/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/endpoints/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/endpoints/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/endpoints/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/endpoints/RegisterController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +64,7 @@
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Artifacts",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.18850575",
     "show.migrate.to.gradle.popup": "false",
@@ -97,9 +82,7 @@
       <module name="server" />
       <method v="2">
         <option name="Make" enabled="true" />
-        <option name="BuildArtifacts" enabled="true">
-          <artifact name="server:jar" />
-        </option>
+        <option name="BuildArtifacts" enabled="true" />
       </method>
     </configuration>
   </component>
@@ -114,6 +97,9 @@
       <workItem from="1736330035916" duration="248000" />
       <workItem from="1736330292924" duration="7496000" />
       <workItem from="1736337900246" duration="64000" />
+      <workItem from="1736358605860" duration="3645000" />
+      <workItem from="1736362317786" duration="320000" />
+      <workItem from="1736362654583" duration="937000" />
     </task>
     <servers />
   </component>
