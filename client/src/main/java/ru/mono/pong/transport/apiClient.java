@@ -9,11 +9,12 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class apiClient {
-    //static final String baseURI = "http://95.181.27.102:8000";
-    static final String baseURI = "http://localhost:8000";
+    static final String baseURI = "http://95.181.27.100:8000";
+    //static final String baseURI = "http://localhost:8000";
 
     public static String netTest() throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
@@ -38,7 +39,7 @@ public class apiClient {
         }
     }
 
-    public static String postAuth(String login, String password) {
+    public static User postAuth(String login, String password) {
         try {
             Gson gson = new Gson();
             User quest_user = new User(login, password);
@@ -50,7 +51,7 @@ public class apiClient {
                     .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(quest_user)))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return String.valueOf(response.statusCode());
+            return gson.fromJson(response.body(), User.class);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             return null;
@@ -62,17 +63,39 @@ public class apiClient {
             Gson gson = new Gson();
             User user = new User(login, password);
             HttpClient client = HttpClient.newHttpClient();
-
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(baseURI + "/register"))
+                    .uri(URI.create(baseURI + "/user"))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(user)))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(response.statusCode());
             return String.valueOf(response.statusCode());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public static boolean putPassword(String login, String oldPass, String newPass) {
+        try {
+            Gson gson = new Gson();
+            User user = new User(login, oldPass, newPass);
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(baseURI + "/password"))
+                    .header("Content-Type", "application/json")
+                    .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson(user)))
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if(Objects.equals(String.valueOf(response.statusCode()), "200")){
+                System.out.println("Status code: " + response.statusCode());
+                return true;
+            }
+            else return false;
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 

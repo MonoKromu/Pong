@@ -32,10 +32,15 @@
             <Font size="18.0" />
          </font>
       </PasswordField>
-        <Button fx:id="test_btn" contentDisplay="CENTER" defaultButton="true" layoutX="393.0" layoutY="516.0" mnemonicParsing="false" onAction="#onButtonEnter" prefHeight="65.0" prefWidth="240.0" text="Войти">
+        <Button fx:id="enter_btn" contentDisplay="CENTER" defaultButton="true" layoutX="393.0" layoutY="516.0" mnemonicParsing="false" onAction="#onButtonEnter" prefHeight="65.0" prefWidth="240.0" text="Войти">
          <font>
             <Font size="24.0" />
          </font></Button>
         <TextArea fx:id="clientOutput" focusTraversable="false" layoutX="94.0" layoutY="456.0" prefHeight="258.0" prefWidth="184.0" />
+      <Label fx:id="err_lab" layoutX="353.0" layoutY="490.0" text="Логин и/или пароль неверный. Попробуйте еще раз." textFill="RED" visible="false">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
     </children>
 </Pane>

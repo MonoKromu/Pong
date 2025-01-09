@@ -2,15 +2,19 @@ package ru.mono.pong;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import ru.mono.pong.transport.User;
 import ru.mono.pong.transport.apiClient;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class RatingController {
@@ -27,8 +31,8 @@ public class RatingController {
                 for (var user : users) {
                     Label increment = new Label(String.valueOf(i));
                     GridPane.setHalignment(increment, HPos.CENTER);
-                    Label nick = new Label(user.Nickname);
-                    Label points = new Label(String.valueOf(user.Points));
+                    Label nick = new Label(user.login);
+                    Label points = new Label(String.valueOf(user.points));
                     increment.setFont(new Font(20));
                     nick.setFont(new Font(20));
                     nick.setPadding(new Insets(0, 0, 0, 5));
@@ -45,6 +49,18 @@ public class RatingController {
     }
 
     public void onButtonExit() {
-        Platform.exit();
+        Stage stage = (Stage) exit_btn.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("menu.fxml"));
+        Scene scene;
+        try {
+            scene = new Scene(fxmlLoader.load(), 1024, 768);
+        } catch (
+                IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setTitle("Menu");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
     }
 }

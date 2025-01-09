@@ -14,7 +14,14 @@ public class MenuController {
     @FXML
     Label points_label;
     @FXML
-    Button play_btn, rating_btn, exit_btn, account_btn;
+    Button play_btn, rating_btn, exit_btn, profile_btn;
+
+    public void initialize() {
+        Platform.runLater(() -> {
+            profile_btn.setText(State.currentUser.login);
+            points_label.setText(String.valueOf(State.currentUser.points));
+        });
+    }
 
     public void onButtonPlay(){
 
@@ -41,6 +48,18 @@ public class MenuController {
     }
 
     public void onButtonAccount() {
-
+        Stage stage = (Stage) profile_btn.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("profile.fxml"));
+        Scene scene;
+        try {
+            scene = new Scene(fxmlLoader.load(), 1024, 768);
+        } catch (
+                IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setTitle("Your profile");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
     }
 }
