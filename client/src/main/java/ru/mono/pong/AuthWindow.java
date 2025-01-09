@@ -4,11 +4,10 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import ru.mono.pong.transport.User;
 import ru.mono.pong.transport.apiClient;
 
 import java.io.IOException;
@@ -16,21 +15,27 @@ import java.util.Objects;
 
 public class AuthWindow {
     @FXML
-    Button test_btn, reg_btn;
+    Button enter_btn, reg_btn;
     @FXML
-    Label salute;
+    Label salute, err_lab;
     @FXML
-    TextField login, password;
+    TextField login;
+    @FXML
+    PasswordField password;
     @FXML
     TextArea clientOutput;
 
 
     public void onButtonEnter() {
+        err_lab.setVisible(false);
+        enter_btn.setDisable(true); reg_btn.setDisable(true);
+        login.setDisable(true); password.setDisable(true);
         new Thread(() -> {
-            String response = apiClient.postAuth(login.getText(), password.getText());
+            User response = apiClient.postAuth(login.getText(), password.getText());
+            State.currentUser = response;
             Platform.runLater(() -> {
-                clientOutput.setText(response);
-                if (Objects.equals(response, "200")) {
+                //clientOutput.setText(State.currentUser.login + " " + State.currentUser.points);
+                if (!Objects.equals(State.currentUser, null)) {
                     Stage stage = (Stage) reg_btn.getScene().getWindow();
                     FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("menu.fxml"));
                     Scene scene;
@@ -44,8 +49,14 @@ public class AuthWindow {
                     stage.setScene(scene);
                     stage.setResizable(false);
                     stage.show();
+                    System.out.println("-- Auth successful");
+                } else {
+                    System.out.println("-- Auth bad");
+                    err_lab.setVisible(true);
                 }
             });
+            enter_btn.setDisable(false); reg_btn.setDisable(false);
+            login.setDisable(false); password.setDisable(false);
         }).start();
     }
 

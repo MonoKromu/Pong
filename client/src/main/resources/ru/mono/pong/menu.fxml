@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mono.pong.MenuController">
    <children>
       <Button fx:id="play_btn" defaultButton="true" layoutX="363.0" layoutY="275.0" mnemonicParsing="false" onAction="#onButtonPlay" prefHeight="90.0" prefWidth="298.0" text="Играть">
@@ -25,9 +24,9 @@
             <Font size="24.0" />
          </font>
       </Button>
-      <Button fx:id="account_btn" alignment="CENTER" focusTraversable="false" layoutX="428.0" layoutY="157.0" mnemonicParsing="false" onAction="#onButtonAccount" prefHeight="39.0" prefWidth="168.0" style="-fx-background-color: #f4f4f4;" text="Player">
+      <Button fx:id="profile_btn" alignment="CENTER" focusTraversable="false" layoutX="428.0" layoutY="157.0" mnemonicParsing="false" onAction="#onButtonAccount" prefHeight="39.0" prefWidth="168.0" style="-fx-background-color: #f4f4f4;" text="Player" underline="true">
          <font>
-            <Font size="18.0" />
+            <Font size="24.0" />
          </font>
          <opaqueInsets>
             <Insets />
@@ -38,7 +37,7 @@
       </Button>
       <Label fx:id="points_label" alignment="CENTER" layoutX="456.0" layoutY="196.0" prefHeight="39.0" prefWidth="113.0" text="123456">
          <font>
-            <Font size="14.0" />
+            <Font size="18.0" />
          </font>
       </Label>
    </children>
