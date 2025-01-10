@@ -1,19 +1,19 @@
-package ru.mono.pong;
+package ru.mono.pong.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import ru.mono.pong.transport.User;
+import ru.mono.pong.Main;
+import ru.mono.pong.State;
 import ru.mono.pong.transport.apiClient;
 
 import java.io.IOException;
 import java.util.Objects;
 
-public class AuthWindow {
+public class AuthController {
     @FXML
     Button enter_btn, reg_btn;
     @FXML
@@ -28,16 +28,16 @@ public class AuthWindow {
 
     public void onButtonEnter() {
         err_lab.setVisible(false);
-        enter_btn.setDisable(true); reg_btn.setDisable(true);
-        login.setDisable(true); password.setDisable(true);
+        enter_btn.setDisable(true);
+        reg_btn.setDisable(true);
+        login.setDisable(true);
+        password.setDisable(true);
         new Thread(() -> {
-            User response = apiClient.postAuth(login.getText(), password.getText());
-            State.currentUser = response;
+            State.currentUser = apiClient.postAuth(login.getText(), password.getText());
             Platform.runLater(() -> {
-                //clientOutput.setText(State.currentUser.login + " " + State.currentUser.points);
                 if (!Objects.equals(State.currentUser, null)) {
                     Stage stage = (Stage) reg_btn.getScene().getWindow();
-                    FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("menu.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu.fxml"));
                     Scene scene;
                     try {
                         scene = new Scene(fxmlLoader.load(), 1024, 768);
@@ -55,14 +55,16 @@ public class AuthWindow {
                     err_lab.setVisible(true);
                 }
             });
-            enter_btn.setDisable(false); reg_btn.setDisable(false);
-            login.setDisable(false); password.setDisable(false);
+            enter_btn.setDisable(false);
+            reg_btn.setDisable(false);
+            login.setDisable(false);
+            password.setDisable(false);
         }).start();
     }
 
     public void onButtonReg() {
         Stage stage = (Stage) reg_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("reg.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("reg.fxml"));
         Scene scene;
         try {
             scene = new Scene(fxmlLoader.load(), 1024, 768);

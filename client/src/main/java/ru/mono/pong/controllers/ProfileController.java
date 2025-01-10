@@ -1,4 +1,4 @@
-package ru.mono.pong;
+package ru.mono.pong.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -9,7 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import ru.mono.pong.transport.User;
+import ru.mono.pong.Main;
+import ru.mono.pong.State;
 import ru.mono.pong.transport.apiClient;
 
 import java.io.IOException;
@@ -54,7 +55,7 @@ public class ProfileController {
     public void onButtonToMenu() {
         Platform.runLater(() -> {
             Stage stage = (Stage) menu_btn.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("menu.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu.fxml"));
             Scene scene;
             try {
                 scene = new Scene(fxmlLoader.load(), 1024, 768);

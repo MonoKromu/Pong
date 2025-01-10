@@ -1,4 +1,4 @@
-package ru.mono.pong;
+package ru.mono.pong.controllers;
 
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
