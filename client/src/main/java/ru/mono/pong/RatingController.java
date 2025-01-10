@@ -16,34 +16,49 @@ import ru.mono.pong.transport.apiClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class RatingController {
     @FXML
     Button refresh_btn, exit_btn;
     @FXML
     GridPane rating_table;
+    @FXML
+    Label err_lab;
+
+    public void initialize() {
+        Platform.runLater(this::onButtonRefresh);
+    }
 
     public void onButtonRefresh() {
+        rating_table.getChildren().clear();
+        refresh_btn.setDisable(true);
+        exit_btn.setDisable(true);
+        err_lab.setVisible(false);
         new Thread(() -> {
             ArrayList<User> users = apiClient.getRating();
-            Platform.runLater(() -> {
-                int i = 1;
-                for (var user : users) {
-                    Label increment = new Label(String.valueOf(i));
-                    GridPane.setHalignment(increment, HPos.CENTER);
-                    Label nick = new Label(user.login);
-                    Label points = new Label(String.valueOf(user.points));
-                    increment.setFont(new Font(20));
-                    nick.setFont(new Font(20));
-                    nick.setPadding(new Insets(0, 0, 0, 5));
-                    points.setFont(new Font(20));
-                    points.setPadding(new Insets(0, 0, 0, 5));
-                    rating_table.add(increment, 0, i);
-                    rating_table.add(nick, 1, i);
-                    rating_table.add(points, 2, i);
-                    i++;
-                }
-            });
+            if(!Objects.equals(users, null)) {
+                Platform.runLater(() -> {
+                    int i = 0;
+                    for (var user : users) {
+                        Label increment = new Label(String.valueOf(i));
+                        GridPane.setHalignment(increment, HPos.CENTER);
+                        Label nick = new Label(user.login);
+                        Label points = new Label(String.valueOf(user.points));
+                        increment.setFont(new Font(20));
+                        nick.setFont(new Font(20));
+                        nick.setPadding(new Insets(0, 0, 0, 5));
+                        points.setFont(new Font(20));
+                        points.setPadding(new Insets(0, 0, 0, 5));
+                        rating_table.add(increment, 0, i);
+                        rating_table.add(nick, 1, i);
+                        rating_table.add(points, 2, i);
+                        i++;
+                    }
+                    refresh_btn.setDisable(false);
+                    exit_btn.setDisable(false);
+                });
+            } else err_lab.setVisible(true);
         }).start();
 
     }

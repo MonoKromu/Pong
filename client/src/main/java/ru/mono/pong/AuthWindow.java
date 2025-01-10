@@ -58,6 +58,16 @@ public class AuthWindow {
             enter_btn.setDisable(false); reg_btn.setDisable(false);
             login.setDisable(false); password.setDisable(false);
         }).start();
+
+        /*try {
+            clientOutput.setText(String.valueOf(apiClient.netTest()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+         */
     }
 
     public void onButtonReg() {

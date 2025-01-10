@@ -79,8 +79,8 @@ public class RoomsController {
     public void joinRoom(int id) {
         new Thread(() -> {
             boolean response = apiClient.postGame(currentUser, id);
-            if (response){
-                
+            if (response) {
+                startGame();
             }
         }).start();
         System.out.printf("\nEntering room %s", id);
@@ -115,6 +115,22 @@ public class RoomsController {
             throw new RuntimeException(e);
         }
         stage.setTitle("Menu");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    public void startGame() {
+        Stage stage = (Stage) refresh_btn.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game.fxml"));
+        Scene scene;
+        try {
+            scene = new Scene(fxmlLoader.load(), 1024, 768);
+        } catch (
+                IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setTitle("Pong Masters");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
