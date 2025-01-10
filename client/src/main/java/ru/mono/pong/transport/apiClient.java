@@ -13,8 +13,9 @@ import java.util.Objects;
 
 
 public class apiClient {
-    static final String baseURI = "http://95.181.27.100:8000";
-    //static final String baseURI = "http://localhost:8000";
+    //static final String baseURI = "http://95.181.27.100:8000";
+    static final String baseURI = "http://46.181.90.183:8000";
+    //static final String baseURI = "http://26.223.214.153:4899";
 
     public static String netTest() throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
