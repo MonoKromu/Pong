@@ -8,5 +8,7 @@ public class Builder {
         RegisterController.init(server);
         PasswordController.init(server);
         RatingController.init(server);
+        RoomsGetController.init(server);
+        RoomsAddController.init(server);
     }
 }
