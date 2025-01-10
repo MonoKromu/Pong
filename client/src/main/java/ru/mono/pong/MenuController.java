@@ -24,7 +24,19 @@ public class MenuController {
     }
 
     public void onButtonPlay(){
-
+        Stage stage = (Stage) profile_btn.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("rooms.fxml"));
+        Scene scene;
+        try {
+            scene = new Scene(fxmlLoader.load(), 1024, 768);
+        } catch (
+                IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setTitle("Game rooms");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
     }
 
     public void onButtonRating() {
