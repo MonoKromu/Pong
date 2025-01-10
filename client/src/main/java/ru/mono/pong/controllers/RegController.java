@@ -1,4 +1,4 @@
-package ru.mono.pong;
+package ru.mono.pong.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -9,8 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import ru.mono.pong.Main;
 import ru.mono.pong.transport.apiClient;
-import javafx.scene.paint.Paint.*;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -24,16 +24,18 @@ public class RegController {
     TextField login, password, sec_pass;
 
     public void onButtonAccept() {
-        accept_btn.setDisable(true); auth_btn.setDisable(true);
-        login.setDisable(true); password.setDisable(true); sec_pass.setDisable(true);
+        accept_btn.setDisable(true);
+        auth_btn.setDisable(true);
+        login.setDisable(true);
+        password.setDisable(true);
+        sec_pass.setDisable(true);
         if (Objects.equals(password.getText(), sec_pass.getText()) && !login.getText().isEmpty() &&
                 !password.getText().isEmpty() && !sec_pass.getText().isEmpty()) {
             new Thread(() -> {
                 String response = apiClient.postReg(login.getText(), password.getText());
                 System.out.println(response);
                 Platform.runLater(() -> {
-
-                    if (Objects.equals(response, "200")){
+                    if (Objects.equals(response, "200")) {
                         status_code.setText("Регистрация прошла успешно!");
                         status_code.setTextFill(Paint.valueOf("GREEN"));
                         status_code.setVisible(true);
@@ -46,8 +48,11 @@ public class RegController {
                         status_code.setTextFill(Paint.valueOf("RED"));
                         status_code.setVisible(true);
                     }
-                    accept_btn.setDisable(false); auth_btn.setDisable(false);
-                    login.setDisable(false); password.setDisable(false); sec_pass.setDisable(false);
+                    accept_btn.setDisable(false);
+                    auth_btn.setDisable(false);
+                    login.setDisable(false);
+                    password.setDisable(false);
+                    sec_pass.setDisable(false);
                 });
             }).start();
         } else if (!Objects.equals(password.getText(), sec_pass.getText())) {
@@ -73,7 +78,7 @@ public class RegController {
 
     public void onButtonToAuth() {
         Stage stage = (Stage) auth_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("auth.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("auth.fxml"));
         Scene scene;
         try {
             scene = new Scene(fxmlLoader.load(), 1024, 768);

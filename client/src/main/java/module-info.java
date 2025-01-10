@@ -9,4 +9,6 @@ module ru.mono.pong {
     opens ru.mono.pong to javafx.fxml;
     opens ru.mono.pong.transport to com.google.gson;
     exports ru.mono.pong;
+    exports ru.mono.pong.controllers;
+    opens ru.mono.pong.controllers to javafx.fxml;
 }
