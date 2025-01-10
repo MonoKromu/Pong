@@ -10,18 +10,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="092bc016-42db-431c-b506-412034ba8fbd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/ch_qos_logback_classic.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/mysql_connector_j.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/endpoints/Builder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/endpoints/RatingController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/artifacts/server_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/server_jar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/35080817-35a4-4736-8711-80621a1ed674.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/35080817-35a4-4736-8711-80621a1ed674.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.iml" beforeDir="false" afterPath="$PROJECT_DIR$/server.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/errors.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/errors.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/db/DBOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/db/DBOperations.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dtos/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dtos/Room.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dtos/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dtos/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/endpoints/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/endpoints/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/endpoints/Builder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/endpoints/Builder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/endpoints/PasswordController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/endpoints/PasswordController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/endpoints/RatingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/endpoints/RatingController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/endpoints/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/endpoints/RegisterController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -47,42 +46,44 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "server",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.18850575",
-    "show.migrate.to.gradle.popup": "false",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;server&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.18850575&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Server" />
       <module name="server" />
       <method v="2">
         <option name="Make" enabled="true" />
-        <option name="BuildArtifacts" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="server:jar" />
+        </option>
       </method>
     </configuration>
   </component>
@@ -100,6 +101,10 @@
       <workItem from="1736358605860" duration="3645000" />
       <workItem from="1736362317786" duration="320000" />
       <workItem from="1736362654583" duration="937000" />
+      <workItem from="1736428000370" duration="6557000" />
+      <workItem from="1736435318277" duration="1557000" />
+      <workItem from="1736502546567" duration="140000" />
+      <workItem from="1736508396603" duration="1250000" />
     </task>
     <servers />
   </component>

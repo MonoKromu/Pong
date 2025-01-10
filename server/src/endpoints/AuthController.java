@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
@@ -15,19 +16,29 @@ public class AuthController {
 
     public static void init(HttpServer server) {
         server.createContext(LOGIN_ENDPOINT, (exchange -> {
-            logger.info("Received request at {}", exchange.getRequestURI());
-            Gson gson = new Gson();
-            InputStream input = exchange.getRequestBody();
-            String body = new String(input.readAllBytes());
-            User user = gson.fromJson(body, User.class);
-            if (DBOperations.getUser(user.Nickname, user.Password) != null) {
-                exchange.sendResponseHeaders(200, 0);
-                exchange.close();
-            }
-            else {
-                exchange.sendResponseHeaders(401, 0);
-                exchange.close();
-            }
+            new Thread(() -> {
+                try {
+                    logger.info("Received request {} {} from {}", exchange.getRequestMethod(), exchange.getRequestURI(), exchange.getRemoteAddress());
+                    Gson gson = new Gson();
+                    InputStream input = exchange.getRequestBody();
+                    String body = new String(input.readAllBytes());
+                    User user = gson.fromJson(body, User.class);
+                    User userDB = DBOperations.getUser(user.login, user.password);
+                    if (userDB != null) {
+                        String userJson = gson.toJson(userDB);
+                        exchange.sendResponseHeaders(200, userJson.length());
+                        OutputStream output = exchange.getResponseBody();
+                        output.write(userJson.getBytes());
+                        output.flush();
+                        exchange.close();
+                    } else {
+                        exchange.sendResponseHeaders(401, 0);
+                        exchange.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
         }));
 
     }
