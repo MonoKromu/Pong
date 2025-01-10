@@ -1,4 +1,4 @@
-package ru.mono.pong;
+package ru.mono.pong.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import ru.mono.pong.Main;
+import ru.mono.pong.State;
 
 import java.io.IOException;
 
@@ -25,7 +27,7 @@ public class MenuController {
 
     public void onButtonPlay() {
         Stage stage = (Stage) profile_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("rooms.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("rooms.fxml"));
         Scene scene;
         try {
             scene = new Scene(fxmlLoader.load(), 1024, 768);
@@ -41,7 +43,7 @@ public class MenuController {
 
     public void onButtonRating() {
         Stage stage = (Stage) rating_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("rating.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("rating.fxml"));
         Scene scene;
         try {
             scene = new Scene(fxmlLoader.load(), 1024, 768);
@@ -61,7 +63,7 @@ public class MenuController {
 
     public void onButtonAccount() {
         Stage stage = (Stage) profile_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("profile.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("profile.fxml"));
         Scene scene;
         try {
             scene = new Scene(fxmlLoader.load(), 1024, 768);
