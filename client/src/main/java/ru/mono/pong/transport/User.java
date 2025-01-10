@@ -6,6 +6,10 @@ public class User {
     public String newPassword;
     public int points;
 
+    public User(String login) {
+        this.login = login;
+    }
+
     public User(String login, int points) {
         this.login = login;
         this.points = points;
@@ -27,6 +31,7 @@ public class User {
         this.password = password;
         this.newPassword = newPassword;
     }
+
     @Override
     public String toString() {
         return login + " " + password + " " + points;
