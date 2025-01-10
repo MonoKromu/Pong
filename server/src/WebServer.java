@@ -6,13 +6,12 @@ import java.net.InetSocketAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Server {
-    private static final Logger logger = LoggerFactory.getLogger(Server.class);
+public class WebServer {
+    private static final Logger logger = LoggerFactory.getLogger(WebServer.class);
     private static final int serverPort = 8000;
 
-    public static void main(String[] args) {
+    public static void init() {
         try {
-            logger.info("Starting server");
             HttpServer server = HttpServer.create(new InetSocketAddress(serverPort), 0);
             Builder.build(server);
             server.setExecutor(null);
