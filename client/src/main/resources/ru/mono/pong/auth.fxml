@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mono.pong.AuthWindow">
+    <children>
+        <Label fx:id="salute" alignment="CENTER" focusTraversable="false" layoutX="258.0" layoutY="174.0" prefHeight="127.0" prefWidth="509.0" text="Pong Masters">
+            <font>
+                <Font size="64.0" />
+            </font>
+        </Label>
+      <Button fx:id="reg_btn" layoutX="448.0" layoutY="591.0" mnemonicParsing="false" onAction="#onButtonReg" prefHeight="39.0" prefWidth="130.0" style="-fx-background-color: #f4f4f4;" text="Регистрация" textOverrun="CLIP">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+        <TextField fx:id="login" layoutX="348.0" layoutY="334.0" prefHeight="65.0" prefWidth="330.0" promptText="Логин">
+         <font>
+            <Font size="18.0" />
+         </font></TextField>
+      <PasswordField fx:id="password" layoutX="348.0" layoutY="417.0" prefHeight="65.0" prefWidth="330.0" promptText="Пароль">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </PasswordField>
+        <Button fx:id="enter_btn" contentDisplay="CENTER" defaultButton="true" layoutX="393.0" layoutY="516.0" mnemonicParsing="false" onAction="#onButtonEnter" prefHeight="65.0" prefWidth="240.0" text="Войти">
+         <font>
+            <Font size="24.0" />
+         </font></Button>
+        <TextArea fx:id="clientOutput" focusTraversable="false" layoutX="94.0" layoutY="456.0" prefHeight="258.0" prefWidth="184.0" />
+      <Label fx:id="err_lab" layoutX="353.0" layoutY="490.0" text="Логин и/или пароль неверный. Попробуйте еще раз." textFill="RED" visible="false">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+    </children>
+</Pane>
