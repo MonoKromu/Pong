@@ -9,7 +9,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import ru.mono.pong.transport.User;
 import ru.mono.pong.transport.apiClient;
 
 import java.io.IOException;

@@ -10,25 +10,24 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mono.pong.RoomsController">
    <children>
-      <Button fx:id="refresh_btn" layoutX="707.0" layoutY="123.0" mnemonicParsing="false" onAction="#onButtonRefresh" prefHeight="51.0" prefWidth="226.0" text="Обновить">
+      <Button fx:id="refresh_btn" layoutX="722.0" layoutY="123.0" mnemonicParsing="false" onAction="#onButtonRefresh" prefHeight="51.0" prefWidth="226.0" text="Обновить">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Button fx:id="create_btn" layoutX="707.0" layoutY="184.0" mnemonicParsing="false" onAction="#onButtonCreate" prefHeight="49.0" prefWidth="226.0" text="Создать комнату">
+      <Button fx:id="create_btn" layoutX="722.0" layoutY="184.0" mnemonicParsing="false" onAction="#onButtonCreate" prefHeight="49.0" prefWidth="226.0" text="Создать комнату">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Button fx:id="toMenu_btn" layoutX="707.0" layoutY="307.0" mnemonicParsing="false" onAction="#onButtonToMenu" prefHeight="49.0" prefWidth="226.0" text="В главное меню">
+      <Button fx:id="toMenu_btn" layoutX="722.0" layoutY="307.0" mnemonicParsing="false" onAction="#onButtonToMenu" prefHeight="49.0" prefWidth="226.0" text="В главное меню">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <ScrollPane focusTraversable="false" layoutX="92.0" layoutY="123.0" prefHeight="573.0" prefWidth="600.0">
+      <ScrollPane focusTraversable="false" layoutX="80.0" layoutY="123.0" prefHeight="573.0" prefWidth="622.0">
          <content>
             <GridPane fx:id="rooms_grid" alignment="CENTER" prefHeight="45.0" prefWidth="595.0">
               <columnConstraints>
