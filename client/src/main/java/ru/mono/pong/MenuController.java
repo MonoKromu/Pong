@@ -23,7 +23,7 @@ public class MenuController {
         });
     }
 
-    public void onButtonPlay(){
+    public void onButtonPlay() {
         Stage stage = (Stage) profile_btn.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("rooms.fxml"));
         Scene scene;

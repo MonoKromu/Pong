@@ -5,9 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import ru.mono.pong.transport.User;
 import ru.mono.pong.transport.apiClient;
 
 import java.io.IOException;
@@ -28,13 +26,13 @@ public class AuthWindow {
 
     public void onButtonEnter() {
         err_lab.setVisible(false);
-        enter_btn.setDisable(true); reg_btn.setDisable(true);
-        login.setDisable(true); password.setDisable(true);
+        enter_btn.setDisable(true);
+        reg_btn.setDisable(true);
+        login.setDisable(true);
+        password.setDisable(true);
         new Thread(() -> {
-            User response = apiClient.postAuth(login.getText(), password.getText());
-            State.currentUser = response;
+            State.currentUser = apiClient.postAuth(login.getText(), password.getText());
             Platform.runLater(() -> {
-                //clientOutput.setText(State.currentUser.login + " " + State.currentUser.points);
                 if (!Objects.equals(State.currentUser, null)) {
                     Stage stage = (Stage) reg_btn.getScene().getWindow();
                     FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("menu.fxml"));
@@ -55,19 +53,11 @@ public class AuthWindow {
                     err_lab.setVisible(true);
                 }
             });
-            enter_btn.setDisable(false); reg_btn.setDisable(false);
-            login.setDisable(false); password.setDisable(false);
+            enter_btn.setDisable(false);
+            reg_btn.setDisable(false);
+            login.setDisable(false);
+            password.setDisable(false);
         }).start();
-
-        /*try {
-            clientOutput.setText(String.valueOf(apiClient.netTest()));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-         */
     }
 
     public void onButtonReg() {

@@ -6,7 +6,7 @@ public class Room {
     public User guest;
     public int id;
 
-    public Room(String name, User host, int id){
+    public Room(String name, User host, int id) {
         this.name = name;
         this.host = host;
         this.id = id;

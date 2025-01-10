@@ -12,7 +12,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.mono.pong.transport.Room;
-import ru.mono.pong.transport.User;
 import ru.mono.pong.transport.apiClient;
 
 import java.io.IOException;
@@ -22,24 +21,21 @@ import static ru.mono.pong.State.currentUser;
 
 public class RoomsController {
     @FXML
-    Button refresh_btn, create_btn, toMenu_btn;
+    Button refresh_btn;
+    @FXML
+    static Button create_btn;
+    @FXML
+    Button toMenu_btn;
     @FXML
     GridPane rooms_grid;
 
     public void initialize() {
-        //Platform.runLater(this::onButtonRefresh);
+        Platform.runLater(this::onButtonRefresh);
     }
 
     public void onButtonRefresh() {
         new Thread(() -> {
-            //ArrayList<Room> rooms = apiClient.getRooms();
-            User user1 = new User("lev");
-            User user2 = new User("Ivan");
-            Room room1 = new Room("Комната", user1, 1);
-            Room room2 = new Room("Second", user2, 2);
-            ArrayList<Room> rooms = new ArrayList<Room>();
-            rooms.add(room1);
-            rooms.add(room2);
+            ArrayList<Room> rooms = apiClient.getRooms();
             int i = 0;
             for (var room : rooms) {
                 addRoom(room.name, room.host.login, i, room.id);
@@ -80,6 +76,7 @@ public class RoomsController {
         new Thread(() -> {
             boolean response = apiClient.postGame(currentUser, id);
             if (response) {
+                System.out.println("-- Success join to room");
                 startGame();
             }
         }).start();

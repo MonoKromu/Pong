@@ -37,7 +37,7 @@ public class RatingController {
         err_lab.setVisible(false);
         new Thread(() -> {
             ArrayList<User> users = apiClient.getRating();
-            if(!Objects.equals(users, null)) {
+            if (!Objects.equals(users, null)) {
                 Platform.runLater(() -> {
                     int i = 0;
                     for (var user : users) {

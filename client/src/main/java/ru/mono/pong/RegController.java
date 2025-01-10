@@ -10,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import ru.mono.pong.transport.apiClient;
-import javafx.scene.paint.Paint.*;
 
 import java.io.IOException;
 import java.util.Objects;

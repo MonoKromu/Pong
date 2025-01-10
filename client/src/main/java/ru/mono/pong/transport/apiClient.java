@@ -115,7 +115,7 @@ public class apiClient {
         }
     }
 
-    public static boolean putRoom(String name, String login) {
+    public static String putRoom(String name, String login) {
         try {
             Gson gson = new Gson();
             User user = new User(login);
@@ -127,20 +127,17 @@ public class apiClient {
                     .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson(room)))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if (Objects.equals(String.valueOf(response.statusCode()), "200")) {
-                System.out.println("New room is created. Start this");
-                return true;
-            } else return false;
+            System.out.println("New room is created");
+            return String.valueOf(response.statusCode());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 
     public static boolean postGame(User guest, int id) {
         try {
             Gson gson = new Gson();
-            //User user = new User(guest);
             Room room = new Room(guest, id);
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
@@ -150,7 +147,6 @@ public class apiClient {
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             if (Objects.equals(String.valueOf(response.statusCode()), "200")) {
-                System.out.println("-- Success join to room");
                 return true;
             } else return false;
         } catch (IOException | InterruptedException e) {
