@@ -1,4 +1,4 @@
-package ru.mono.pong;
+package ru.mono.pong.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -6,12 +6,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import ru.mono.pong.Main;
+import ru.mono.pong.State;
 import ru.mono.pong.transport.apiClient;
 
 import java.io.IOException;
 import java.util.Objects;
 
-public class AuthWindow {
+public class AuthController {
     @FXML
     Button enter_btn, reg_btn;
     @FXML
@@ -35,7 +37,7 @@ public class AuthWindow {
             Platform.runLater(() -> {
                 if (!Objects.equals(State.currentUser, null)) {
                     Stage stage = (Stage) reg_btn.getScene().getWindow();
-                    FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("menu.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu.fxml"));
                     Scene scene;
                     try {
                         scene = new Scene(fxmlLoader.load(), 1024, 768);
@@ -62,7 +64,7 @@ public class AuthWindow {
 
     public void onButtonReg() {
         Stage stage = (Stage) reg_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("reg.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("reg.fxml"));
         Scene scene;
         try {
             scene = new Scene(fxmlLoader.load(), 1024, 768);

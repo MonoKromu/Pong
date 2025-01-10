@@ -1,4 +1,4 @@
-package ru.mono.pong;
+package ru.mono.pong.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ru.mono.pong.Main;
 import ru.mono.pong.transport.Room;
 import ru.mono.pong.transport.apiClient;
 
@@ -85,7 +86,7 @@ public class RoomsController {
 
     public void onButtonCreate() {
         Stage createWindow = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("create-room.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("create-room.fxml"));
         Scene scene;
         try {
             scene = new Scene(fxmlLoader.load(), 500, 300);
@@ -103,7 +104,7 @@ public class RoomsController {
 
     public void onButtonToMenu() {
         Stage stage = (Stage) toMenu_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("menu.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu.fxml"));
         Scene scene;
         try {
             scene = new Scene(fxmlLoader.load(), 1024, 768);
@@ -119,7 +120,7 @@ public class RoomsController {
 
     public void startGame() {
         Stage stage = (Stage) refresh_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("game.fxml"));
         Scene scene;
         try {
             scene = new Scene(fxmlLoader.load(), 1024, 768);

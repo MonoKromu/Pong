@@ -4,7 +4,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mono.pong.GameController">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mono.pong.controllers.GameController">
    <children>
       <Rectangle fx:id="field" height="768.0" smooth="false" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1024.0" />
       <Rectangle fx:id="player2" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="90.0" layoutX="703.0" layoutY="295.0" stroke="WHITE" strokeType="INSIDE" width="15.0" />

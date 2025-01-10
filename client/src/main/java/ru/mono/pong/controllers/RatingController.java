@@ -1,4 +1,4 @@
-package ru.mono.pong;
+package ru.mono.pong.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import ru.mono.pong.Main;
 import ru.mono.pong.transport.User;
 import ru.mono.pong.transport.apiClient;
 
@@ -65,7 +66,7 @@ public class RatingController {
 
     public void onButtonExit() {
         Stage stage = (Stage) exit_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("menu.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu.fxml"));
         Scene scene;
         try {
             scene = new Scene(fxmlLoader.load(), 1024, 768);
