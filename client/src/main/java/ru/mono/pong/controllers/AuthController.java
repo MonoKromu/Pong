@@ -1,5 +1,6 @@
 package ru.mono.pong.controllers;
 
+import io.jsonwebtoken.SignatureAlgorithm;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,8 +10,15 @@ import javafx.stage.Stage;
 import ru.mono.pong.Main;
 import ru.mono.pong.State;
 import ru.mono.pong.transport.apiClient;
+import io.jsonwebtoken.Jwts;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.Objects;
 
 public class AuthController {
@@ -26,14 +34,32 @@ public class AuthController {
     TextArea clientOutput;
 
 
-    public void onButtonEnter() {
+    public static String sha256Hash(String data) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hashBytes = digest.digest(data.getBytes());
+        return bytesToHex(hashBytes);
+    }
+
+    private static String bytesToHex(byte[] hash) {
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : hash) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) hexString.append('0');
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+
+
+    public void onButtonEnter() throws NoSuchAlgorithmException {
         err_lab.setVisible(false);
         enter_btn.setDisable(true);
         reg_btn.setDisable(true);
         login.setDisable(true);
         password.setDisable(true);
+        String hashed = sha256Hash(password.getText());
         new Thread(() -> {
-            State.currentUser = apiClient.postAuth(login.getText(), password.getText());
+            State.currentUser = apiClient.postAuth(login.getText(), hashed);
             Platform.runLater(() -> {
                 if (!Objects.equals(State.currentUser, null)) {
                     Stage stage = (Stage) reg_btn.getScene().getWindow();
