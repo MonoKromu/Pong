@@ -6,7 +6,7 @@ import java.net.DatagramSocket;
 
 public class UDPServer {
     private static final Logger logger = LoggerFactory.getLogger(UDPServer.class);
-    private static final int serverPort = 9876;
+    private static final int serverPort = 8000;
 
     public static void init() {
         new Thread(() -> {
