@@ -13,6 +13,9 @@ import ru.mono.pong.Main;
 import ru.mono.pong.transport.apiClient;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
 public class RegController {
@@ -23,7 +26,23 @@ public class RegController {
     @FXML
     TextField login, password, sec_pass;
 
-    public void onButtonAccept() {
+    public static String sha256Hash(String data) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hashBytes = digest.digest(data.getBytes());
+        return bytesToHex(hashBytes);
+    }
+
+    private static String bytesToHex(byte[] hash) {
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : hash) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) hexString.append('0');
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    }
+
+    public void onButtonAccept() throws NoSuchAlgorithmException {
         accept_btn.setDisable(true);
         auth_btn.setDisable(true);
         login.setDisable(true);
@@ -31,9 +50,9 @@ public class RegController {
         sec_pass.setDisable(true);
         if (Objects.equals(password.getText(), sec_pass.getText()) && !login.getText().isEmpty() &&
                 !password.getText().isEmpty() && !sec_pass.getText().isEmpty()) {
+            String hashed = sha256Hash(password.getText());
             new Thread(() -> {
-                String response = apiClient.postReg(login.getText(), password.getText());
-                System.out.println(response);
+                String response = apiClient.postReg(login.getText(), hashed);//password.getText());
                 Platform.runLater(() -> {
                     if (Objects.equals(response, "200")) {
                         status_code.setText("Регистрация прошла успешно!");

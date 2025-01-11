@@ -4,6 +4,7 @@ module ru.mono.pong {
     requires java.desktop;
     requires java.net.http;
     requires com.google.gson;
+    requires jjwt;
 
 
     opens ru.mono.pong to javafx.fxml;
