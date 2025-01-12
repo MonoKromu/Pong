@@ -11,7 +11,7 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import ru.mono.pong.Main;
 import ru.mono.pong.State;
-import ru.mono.pong.transport.apiClient;
+import ru.mono.pong.transport.HttpClient;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -59,7 +59,7 @@ public class ProfileController {
                 } catch (NoSuchAlgorithmException e) {
                     throw new RuntimeException(e);
                 }
-                boolean response = apiClient.putPassword(State.currentUser.login, hashedNewPass, hashedOldPass);
+                boolean response = HttpClient.putPassword(State.currentUser.login, hashedNewPass, hashedOldPass);
                 if (response) {
                     System.out.println("-- Change pass successful");
                     change_lab.setText("Пароль изменен!");

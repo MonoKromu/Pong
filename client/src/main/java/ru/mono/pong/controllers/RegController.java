@@ -10,10 +10,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import ru.mono.pong.Main;
-import ru.mono.pong.transport.apiClient;
+import ru.mono.pong.transport.HttpClient;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
@@ -52,7 +51,7 @@ public class RegController {
                 !password.getText().isEmpty() && !sec_pass.getText().isEmpty()) {
             String hashed = sha256Hash(password.getText());
             new Thread(() -> {
-                String response = apiClient.postReg(login.getText(), hashed);//password.getText());
+                String response = HttpClient.postReg(login.getText(), hashed);//password.getText());
                 Platform.runLater(() -> {
                     if (Objects.equals(response, "200")) {
                         status_code.setText("Регистрация прошла успешно!");
