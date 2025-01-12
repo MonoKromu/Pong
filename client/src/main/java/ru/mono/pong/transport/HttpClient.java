@@ -2,6 +2,7 @@ package ru.mono.pong.transport;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import ru.mono.pong.State;
 import ru.mono.pong.transport.dtos.Room;
 import ru.mono.pong.transport.dtos.User;
 
@@ -151,6 +152,8 @@ public class HttpClient {
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             if (Objects.equals(String.valueOf(response.statusCode()), "200")) {
+                State.gameId = id;
+                State.playerId = 2;
                 return true;
             } else return false;
         } catch (IOException | InterruptedException e) {

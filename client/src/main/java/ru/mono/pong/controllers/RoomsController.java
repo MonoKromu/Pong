@@ -30,6 +30,8 @@ public class RoomsController {
     @FXML
     GridPane rooms_grid;
 
+    private CreateRoomController child;
+
     public void initialize() {
         Platform.runLater(this::onButtonRefresh);
     }
@@ -114,9 +116,29 @@ public class RoomsController {
         createWindow.setTitle("Rooms");
         createWindow.setScene(scene);
         createWindow.setResizable(false);
-        createWindow.showAndWait();
 
+        child = fxmlLoader.getController();
+        child.setPapa(this);
+
+        createWindow.showAndWait();
     }
+
+    public void switchToGame( ) {
+        Stage stage = (Stage) refresh_btn.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("game.fxml"));
+        Scene scene;
+        try {
+            scene = new Scene(fxmlLoader.load(), 1024, 768);
+        } catch (
+                IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setTitle("Pong Masters");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
+
 
     public void onButtonToMenu() {
         Stage stage = (Stage) toMenu_btn.getScene().getWindow();

@@ -7,12 +7,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.mono.pong.State;
 import ru.mono.pong.transport.UdpClient;
 import ru.mono.pong.transport.dtos.Action;
-import ru.mono.pong.transport.dtos.GameState;
 
 public class GameController {
+    private static final Logger logger = LoggerFactory.getLogger(GameController.class);
     @FXML
     Circle ball;
     @FXML
@@ -27,42 +29,53 @@ public class GameController {
 
     public void initialize() {
         udp = new UdpClient(this::update);
+        logger.info(String.valueOf(State.playerId));
         if (State.playerId == 2) udp.start();
+        pane.sceneProperty().addListener((observable, oldScene, newScene) -> {
+            if (newScene != null) {
+                newScene.setOnKeyPressed(this::onKeyPressed);
+                newScene.setOnKeyReleased(this::onKeyReleased);
+            }
+        });
         start();
     }
 
     public void start() {
         new Thread(() -> {
-            try {
-                Thread.sleep(20);
-                switch (keyPressed) {
-                    case 'w', 's':
-                        udp.sendAction(new Action(State.gameId, State.playerId, keyPressed));
-                        break;
-                    default:
-                        //udp.sendAction(new Action(State.gameId, State.playerId, keyPressed));
-                        break;
+            while (true) {
+                try {
+                    Thread.sleep(20);
+                    switch (keyPressed) {
+                        case 'w', 's':
+                            udp.sendAction(new Action(State.gameId, State.playerId, keyPressed));
+                            break;
+                        default:
+                            //udp.sendAction(new Action(State.gameId, State.playerId, keyPressed));
+                            break;
+                    }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
             }
         }).start();
     }
 
     public void update() {
-        ball.setCenterX(GameState.ballX);
-        ball.setCenterY(GameState.ballY);
 
-        plank1.setY(GameState.plank1);
-        plank2.setY(GameState.plank2);
+        ball.setLayoutX(State.gameState.ballX);
+        ball.setLayoutY(State.gameState.ballY);
 
-        plank1Points.setText(String.valueOf(GameState.plank1Points));
-        plank2Points.setText(String.valueOf(GameState.plank2Points));
+        plank1.setY(State.gameState.plank1);
+        plank2.setY(State.gameState.plank2);
+
+        plank1Points.setText(String.valueOf(State.gameState.plank1Points));
+        plank2Points.setText(String.valueOf(State.gameState.plank2Points));
     }
 
     @FXML
     private void onKeyPressed(KeyEvent e) {
         KeyCode code = e.getCode();
+        logger.info("Key pressed: " + code);
         switch (code) {
             case W -> keyPressed = 'w';
             case S -> keyPressed = 's';

@@ -7,4 +7,5 @@ public class State {
     public static User currentUser;
     public static int gameId;
     public static int playerId;
+    public static GameState gameState;
 }

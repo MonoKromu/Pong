@@ -12,6 +12,7 @@ import ru.mono.pong.transport.HttpClient;
 
 import java.util.Objects;
 
+
 public class CreateRoomController {
     @FXML
     Button back_btn, create_btn;
@@ -19,6 +20,12 @@ public class CreateRoomController {
     Label err_lab;
     @FXML
     TextField name_label;
+
+    private RoomsController papa;
+
+    public void setPapa(RoomsController papa) {
+        this.papa = papa;
+    }
 
 
     public void onButtonCreate() {
@@ -31,6 +38,8 @@ public class CreateRoomController {
                         err_lab.setText("Комната создана");
                         err_lab.setTextFill(Paint.valueOf("GREEN"));
                         err_lab.setVisible(true);
+                        onButtonBack();
+                        goToGame();
                     } else {
                         err_lab.setTextFill(Paint.valueOf("BLUE"));
                         err_lab.setText("Status code: " + response);
@@ -43,6 +52,10 @@ public class CreateRoomController {
                 err_lab.setVisible(true);
             }
         }).start();
+    }
+
+    private void goToGame() {
+        papa.switchToGame();
     }
 
     public void onButtonBack() {
