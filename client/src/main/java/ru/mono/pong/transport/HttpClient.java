@@ -132,7 +132,10 @@ public class HttpClient {
                     .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(room)))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            Room newRoom = gson.fromJson(response.body(), Room.class);
             System.out.println("New room is created");
+            State.gameId = newRoom.id;
+            State.playerId = 1;
             return String.valueOf(response.statusCode());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
