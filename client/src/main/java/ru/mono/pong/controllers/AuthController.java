@@ -1,6 +1,5 @@
 package ru.mono.pong.controllers;
 
-import io.jsonwebtoken.SignatureAlgorithm;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,16 +8,12 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import ru.mono.pong.Main;
 import ru.mono.pong.State;
-import ru.mono.pong.transport.apiClient;
-import io.jsonwebtoken.Jwts;
+import ru.mono.pong.transport.HttpClient;
 
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.Objects;
 
 public class AuthController {
@@ -59,7 +54,7 @@ public class AuthController {
         password.setDisable(true);
         String hashed = sha256Hash(password.getText());
         new Thread(() -> {
-            State.currentUser = apiClient.postAuth(login.getText(), hashed);
+            State.currentUser = HttpClient.postAuth(login.getText(), hashed);
             Platform.runLater(() -> {
                 if (!Objects.equals(State.currentUser, null)) {
                     Stage stage = (Stage) reg_btn.getScene().getWindow();

@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import ru.mono.pong.State;
-import ru.mono.pong.transport.apiClient;
+import ru.mono.pong.transport.HttpClient;
 
 import java.util.Objects;
 
@@ -26,7 +26,7 @@ public class CreateRoomController {
             err_lab.setVisible(false);
             if (!Objects.equals(name_label.getText(), "") && !Objects.equals(name_label.getText(), " ")) {
                 Platform.runLater(() -> {
-                    String response = apiClient.putRoom(name_label.getText(), State.currentUser.login);
+                    String response = HttpClient.postRoom(name_label.getText(), State.currentUser.login);
                     if (Objects.equals(response, "200")) {
                         err_lab.setText("Комната создана");
                         err_lab.setTextFill(Paint.valueOf("GREEN"));

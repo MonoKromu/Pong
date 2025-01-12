@@ -12,8 +12,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.mono.pong.Main;
-import ru.mono.pong.transport.Room;
-import ru.mono.pong.transport.apiClient;
+import ru.mono.pong.transport.dtos.Room;
+import ru.mono.pong.transport.HttpClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class RoomsController {
 
     public void onButtonRefresh() {
         new Thread(() -> {
-            ArrayList<Room> rooms = apiClient.getRooms();
+            ArrayList<Room> rooms = HttpClient.getRooms();
             int i = 0;
             for (var room : rooms) {
                 addRoom(room.name, room.host.login, i, room.id);
@@ -66,7 +66,7 @@ public class RoomsController {
             joinButton.setMinWidth(163);
             joinButton.setPrefHeight(29);
             joinButton.setPrefWidth(163);
-            joinButton.setOnAction(_ -> joinRoom(id));
+            joinButton.setOnAction(it -> joinRoom(id));
             rooms_grid.add(labelRoomName, 0, row);
             rooms_grid.add(labelLogin, 1, row);
             rooms_grid.add(joinButton, 2, row);
@@ -75,7 +75,7 @@ public class RoomsController {
 
     public void joinRoom(int id) {
         new Thread(() -> {
-            boolean response = apiClient.postGame(currentUser, id);
+            boolean response = HttpClient.putRoom(id, currentUser);
             if (response) {
                 System.out.println("-- Success join to room");
                 startGame();
