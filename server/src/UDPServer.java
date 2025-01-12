@@ -14,50 +14,57 @@ import java.util.HashMap;
 
 public class UDPServer {
     private static final Logger logger = LoggerFactory.getLogger(UDPServer.class);
-    private static final int serverPort = 8000;
+    private static final int receivePort = 8000;
+    private static final int sendPort = 8001;
     private static HashMap<Integer, Worker> workers = new HashMap<>();
     private static HashMap<Integer, GameState> states = new HashMap<>();
-    public static DatagramSocket serverSocket;
+    public static DatagramSocket receiveSocket;
+    public static DatagramSocket sendSocket;
 
     public static void init() {
         new Thread(() -> {
             try {
                 Gson gson = new Gson();
-                serverSocket = new DatagramSocket(serverPort);
-                logger.info("Server started on port {}", serverPort);
+                receiveSocket = new DatagramSocket(receivePort);
+                sendSocket = new DatagramSocket(sendPort);
+                logger.info("Server started on port {}", receivePort);
 
                 byte[] receiveData = new byte[512];
 
                 while (true) {
                     DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                     // ожидание запроса
-                    serverSocket.receive(receivePacket);
+                    receiveSocket.receive(receivePacket);
 
                     String receivedMessage = new String(receivePacket.getData(), 0, receivePacket.getLength());
                     Action action = gson.fromJson(receivedMessage, Action.class);
                     if(action.key=='n') {
+                        logger.info("Player joined room");
                         states.put(action.id, new GameState());
                         workers.put(action.id, new Worker(states.get(action.id), () -> {
                             GameState state = states.get(action.id);
                             byte[] out = gson.toJson(state).getBytes();
                             Room room = CustomState.rooms.get(action.id);
-                            DatagramPacket packet1 = new DatagramPacket(out, out.length, room.hostIP, 8000);
-                            DatagramPacket packet2 = new DatagramPacket(out, out.length, room.guestIP, 8000);
+                            DatagramPacket packet1 = new DatagramPacket(out, out.length, room.hostIP, sendPort);
+                            DatagramPacket packet2 = new DatagramPacket(out, out.length, room.guestIP, sendPort);
                             try {
-                                serverSocket.send(packet1);
-                                serverSocket.send(packet2);
+                                //logger.info("Sending gamestate to players {} {}", room.hostIP, room.guestIP);
+                                sendSocket.send(packet1);
+                                sendSocket.send(packet2);
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
                         }));
+                        workers.get(action.id).start();
                     }
                     else if(action.key == 'w' || action.key == 's'){
-                        workers.get(action.id).update(action);
+                        logger.info("Received action {}", new String(receivePacket.getData()));
+                        if(workers.get(action.id)!=null) workers.get(action.id).update(action);
                     }
                     //String response = "Сообщение получено: " + receivedMessage;
                     //byte[] sendData = response.getBytes();
                     //DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, receivePacket.getAddress(), receivePacket.getPort());
-                    //serverSocket.send(sendPacket);
+                    //receiveSocket.send(sendPacket);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
