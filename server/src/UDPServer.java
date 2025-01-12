@@ -2,6 +2,8 @@ import com.google.gson.Gson;
 import domain.Worker;
 import dtos.Action;
 import dtos.GameState;
+import dtos.Room;
+import endpoints.CustomState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,9 +40,12 @@ public class UDPServer {
                         workers.put(action.id, new Worker(states.get(action.id), () -> {
                             GameState state = states.get(action.id);
                             byte[] out = gson.toJson(state).getBytes();
-                            DatagramPacket packet = new DatagramPacket(out, out.length, receivePacket.getAddress(), receivePacket.getPort());
+                            Room room = CustomState.rooms.get(action.id);
+                            DatagramPacket packet1 = new DatagramPacket(out, out.length, room.hostIP, 8000);
+                            DatagramPacket packet2 = new DatagramPacket(out, out.length, room.guestIP, 8000);
                             try {
-                                serverSocket.send(packet);
+                                serverSocket.send(packet1);
+                                serverSocket.send(packet2);
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }

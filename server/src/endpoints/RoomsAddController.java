@@ -18,16 +18,25 @@ public class RoomsAddController {
                 try {
                     logger.info("Received request {} {} from {}", exchange.getRequestMethod(), exchange.getRequestURI(), exchange.getRemoteAddress());
                     Gson gson = new Gson();
-                    if ("PUT".equals(exchange.getRequestMethod())){
-                        InputStream input = exchange.getRequestBody();
-                        String body = new String(input.readAllBytes());
-                        Room room = gson.fromJson(body, Room.class);
-                        if(!CustomState.rooms.isEmpty()) room.id = CustomState.rooms.getLast().id+1;
-                        else room.id = 1;
-                        if (CustomState.rooms.add(room)) exchange.sendResponseHeaders(200,0);
-                        else exchange.sendResponseHeaders(500,0);
+                    InputStream input = exchange.getRequestBody();
+                    String body = new String(input.readAllBytes());
+                    Room room = gson.fromJson(body, Room.class);
+                    if ("POST".equals(exchange.getRequestMethod())){
+                        if(!CustomState.rooms.isEmpty()) room.id = CustomState.lastID+1;
+                        CustomState.lastID = room.id;
+                        room.hostIP = exchange.getRemoteAddress().getAddress();
+                        CustomState.rooms.put(room.id, room);
+                        exchange.sendResponseHeaders(200,0);
                         exchange.close();
                     }
+                    if("PUT".equals(exchange.getRequestMethod())){
+                        Room targetRoom = CustomState.rooms.get(room.id);
+                        targetRoom.guest = room.guest;
+                        room.hostIP = exchange.getRemoteAddress().getAddress();
+                        exchange.sendResponseHeaders(200,0);
+                        exchange.close();
+                    }
+
                     else{
                         exchange.sendResponseHeaders(405, 0);
                         exchange.getResponseBody().close();
