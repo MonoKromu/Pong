@@ -84,6 +84,22 @@ public class RoomsController {
         System.out.printf("\nEntering room %s", id);
     }
 
+    public void startGame() {
+        Stage stage = (Stage) refresh_btn.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("game.fxml"));
+        Scene scene;
+        try {
+            scene = new Scene(fxmlLoader.load(), 1024, 768);
+        } catch (
+                IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setTitle("Pong Masters");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
+
     public void onButtonCreate() {
         Stage createWindow = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("create-room.fxml"));
@@ -113,22 +129,6 @@ public class RoomsController {
             throw new RuntimeException(e);
         }
         stage.setTitle("Menu");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
-    }
-
-    public void startGame() {
-        Stage stage = (Stage) refresh_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("game.fxml"));
-        Scene scene;
-        try {
-            scene = new Scene(fxmlLoader.load(), 1024, 768);
-        } catch (
-                IOException e) {
-            throw new RuntimeException(e);
-        }
-        stage.setTitle("Pong Masters");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

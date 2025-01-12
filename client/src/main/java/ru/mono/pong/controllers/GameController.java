@@ -9,6 +9,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import ru.mono.pong.State;
+import ru.mono.pong.transport.Action;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
 
 public class GameController {
     @FXML
@@ -25,6 +33,19 @@ public class GameController {
     double centerX;
     double centerY;
 
+    static final String serverAddress = "95.181.27.100"; // Адрес сервера
+    static final int PORT = 9876;              // Порт сервера
+    private static final DatagramSocket clientSocket;
+    static {
+        try {
+            clientSocket = new DatagramSocket();
+        } catch (SocketException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    ;
+
     @FXML
     public void initialize(){
         player1.setUserData(0);
@@ -35,7 +56,10 @@ public class GameController {
         pane.sceneProperty().addListener((observable, oldScene, newScene) -> {
             if (newScene != null) {
                 newScene.setOnKeyPressed(this::onKeyPressed);
-                newScene.setOnKeyReleased(this::onKeyReleased);
+                newScene.setOnKeyReleased(e -> {
+                    Action action = new Action(1, 1, 'q');
+                    onKeyReleased(e);
+                });
             }
         });
 
@@ -113,13 +137,42 @@ public class GameController {
     }
 
     private void onKeyReleased(KeyEvent e) {
-        KeyCode code = e.getCode();
-        switch(code){
-            case UP, DOWN: player2.setUserData(0);
+        KeyCode key = e.getCode();
+        switch(key){
+            case UP, DOWN: {
+                sendKeyData(key.toString());
+                System.out.println(key);
+                player2.setUserData(0);
+            }
                 break;
-            case W, S: player1.setUserData(0);
+            case W, S: {
+                sendKeyData(key.toString());
+                System.out.println(key);
+                player1.setUserData(0);
+            }
                 break;
         }
+    }
+
+    private static void sendKeyData(String key) {
+        try {
+            String message = key;
+            byte[] buffer = message.getBytes();
+            InetAddress address = InetAddress.getByName(serverAddress); // Измените на нужный адрес
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, PORT);
+            clientSocket.send(packet);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static String receiveData() throws IOException {
+        byte[] receiveData = new byte[1024];
+        DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+        clientSocket.receive(receivePacket);
+        String receivedMessage = new String(receivePacket.getData(), 0, receivePacket.getLength());
+        System.out.println("Ответ от сервера: " + receivedMessage);
+        return receivedMessage;
     }
 
     private void onKeyPressed(KeyEvent e) {
