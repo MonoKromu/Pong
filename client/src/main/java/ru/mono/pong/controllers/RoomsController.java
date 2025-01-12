@@ -12,8 +12,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.mono.pong.Main;
-import ru.mono.pong.transport.dtos.Room;
 import ru.mono.pong.transport.HttpClient;
+import ru.mono.pong.transport.dtos.Room;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -78,7 +78,7 @@ public class RoomsController {
             boolean response = HttpClient.putRoom(id, currentUser);
             if (response) {
                 System.out.println("-- Success join to room");
-                startGame();
+                Platform.runLater(this::startGame);
             }
         }).start();
         System.out.printf("\nEntering room %s", id);
