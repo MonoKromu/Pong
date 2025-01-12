@@ -125,7 +125,7 @@ public class HttpClient {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(baseURI + "/room"))
                     .header("Content-Type", "application/json")
-                    .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson(room)))
+                    .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(room)))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println("New room is created");
