@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public class RoomsAddController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
@@ -22,21 +23,24 @@ public class RoomsAddController {
                     String body = new String(input.readAllBytes());
                     Room room = gson.fromJson(body, Room.class);
                     if ("POST".equals(exchange.getRequestMethod())){
-                        if(!CustomState.rooms.isEmpty()) room.id = CustomState.lastID+1;
+                        room.id = CustomState.lastID+1;
                         CustomState.lastID = room.id;
                         room.hostIP = exchange.getRemoteAddress().getAddress();
                         CustomState.rooms.put(room.id, room);
-                        exchange.sendResponseHeaders(200,0);
+                        String roomJson = gson.toJson(room);
+                        exchange.sendResponseHeaders(200,roomJson.length());
+                        OutputStream output = exchange.getResponseBody();
+                        output.write(roomJson.getBytes());
+                        output.flush();
                         exchange.close();
                     }
-                    if("PUT".equals(exchange.getRequestMethod())){
+                    else if("PUT".equals(exchange.getRequestMethod())){
                         Room targetRoom = CustomState.rooms.get(room.id);
                         targetRoom.guest = room.guest;
-                        room.hostIP = exchange.getRemoteAddress().getAddress();
+                        targetRoom.guestIP = exchange.getRemoteAddress().getAddress();
                         exchange.sendResponseHeaders(200,0);
                         exchange.close();
                     }
-
                     else{
                         exchange.sendResponseHeaders(405, 0);
                         exchange.getResponseBody().close();
