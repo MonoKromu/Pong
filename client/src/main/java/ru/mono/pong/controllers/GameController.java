@@ -27,6 +27,7 @@ public class GameController {
 
     public void initialize() {
         udp = new UdpClient(this::update);
+        if (State.playerId == 2) udp.start();
         start();
     }
 

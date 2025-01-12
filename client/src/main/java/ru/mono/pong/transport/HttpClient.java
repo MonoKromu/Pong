@@ -10,6 +10,7 @@ import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 
@@ -50,8 +51,10 @@ public class HttpClient {
                     .uri(URI.create(baseURI + "/rooms"))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return gson.fromJson(response.body(), new TypeToken<ArrayList<Room>>() {
+            HashMap<Integer, Room> roomsMap = gson.fromJson(response.body(), new TypeToken<HashMap<Integer, Room>>() {
             }.getType());
+
+            return new ArrayList<>(roomsMap.values());
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -142,7 +145,7 @@ public class HttpClient {
             Room room = new Room(id, guest);
             java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(baseURI + "/game"))
+                    .uri(URI.create(baseURI + "/room"))
                     .header("Content-Type", "application/json")
                     .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson(room)))
                     .build();

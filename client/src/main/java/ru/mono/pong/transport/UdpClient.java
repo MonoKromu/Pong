@@ -3,13 +3,14 @@ package ru.mono.pong.transport;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.mono.pong.State;
 import ru.mono.pong.transport.dtos.Action;
 import ru.mono.pong.transport.dtos.GameState;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.SocketException;
+import java.net.InetAddress;
 
 public class UdpClient {
     private static final Logger logger = LoggerFactory.getLogger(UdpClient.class);
@@ -33,10 +34,25 @@ public class UdpClient {
                     DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                     // ожидание запроса
                     clientSocket.receive(receivePacket);
-
+                    logger.info(receivePacket.toString());
                     String receivedMessage = new String(receivePacket.getData(), 0, receivePacket.getLength());
                     GameState state = gson.fromJson(receivedMessage, GameState.class);
                 }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+    }
+
+    public void start() {
+        new Thread(() -> {
+            Gson gson = new Gson();
+            Action action = new Action(State.gameId, State.playerId, 'n');
+            byte[] actionByte = gson.toJson(action).getBytes();
+            try {
+                DatagramPacket startPacket = new DatagramPacket(actionByte, actionByte.length, InetAddress.getByName(serverAddress), PORT);
+                clientSocket.send(startPacket);
+                logger.info("Start packet sent");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
