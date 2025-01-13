@@ -29,8 +29,8 @@ public class GameController {
 
     public void initialize() {
         udp = new UdpClient(this::update);
-        logger.info(String.valueOf(State.playerId));
-        if (State.playerId == 2) udp.start();
+        logger.info(String.valueOf(State.currentPlayerId));
+        if (State.currentPlayerId == 2) udp.start();
         pane.sceneProperty().addListener((observable, oldScene, newScene) -> {
             if (newScene != null) {
                 newScene.setOnKeyPressed(this::onKeyPressed);
@@ -47,7 +47,7 @@ public class GameController {
                     Thread.sleep(20);
                     switch (keyPressed) {
                         case 'w', 's':
-                            udp.sendAction(new Action(State.gameId, State.playerId, keyPressed));
+                            udp.sendAction(new Action(State.currentRoomId, State.currentPlayerId, keyPressed));
                             break;
                         default:
                             //udp.sendAction(new Action(State.gameId, State.playerId, keyPressed));
@@ -61,15 +61,14 @@ public class GameController {
     }
 
     public void update() {
+        ball.setLayoutX(State.currentGameState.ballX);
+        ball.setLayoutY(State.currentGameState.ballY);
 
-        ball.setLayoutX(State.gameState.ballX);
-        ball.setLayoutY(State.gameState.ballY);
+        plank1.setY(State.currentGameState.plank1);
+        plank2.setY(State.currentGameState.plank2);
 
-        plank1.setY(State.gameState.plank1);
-        plank2.setY(State.gameState.plank2);
-
-        plank1Points.setText(String.valueOf(State.gameState.plank1Points));
-        plank2Points.setText(String.valueOf(State.gameState.plank2Points));
+        plank1Points.setText(String.valueOf(State.currentGameState.plank1Points));
+        plank2Points.setText(String.valueOf(State.currentGameState.plank2Points));
     }
 
     @FXML
