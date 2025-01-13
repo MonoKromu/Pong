@@ -42,7 +42,7 @@ public class UdpClient {
                     String receivedMessage = new String(receivePacket.getData(), 0, receivePacket.getLength());
                     GameState state = gson.fromJson(receivedMessage, GameState.class);
                     i++;
-                    State.gameState = state;
+                    State.currentGameState = state;
                     update.run();
                 }
             } catch (IOException e) {
@@ -54,7 +54,7 @@ public class UdpClient {
     public void start() {
         new Thread(() -> {
             Gson gson = new Gson();
-            Action action = new Action(State.gameId, State.playerId, 'n');
+            Action action = new Action(State.currentRoomId, State.currentPlayerId, 'n');
             byte[] actionByte = gson.toJson(action).getBytes();
             try {
                 DatagramPacket startPacket = new DatagramPacket(actionByte, actionByte.length, InetAddress.getByName(serverAddress), PORT);
