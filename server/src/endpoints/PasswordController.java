@@ -11,10 +11,10 @@ import java.io.InputStream;
 
 public class PasswordController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
-    static final String LOGIN_ENDPOINT = "/password";
+    static final String PASSWORD_ENDPOINT = "/password";
 
     public static void init(HttpServer server) {
-        server.createContext(LOGIN_ENDPOINT, (exchange -> {
+        server.createContext(PASSWORD_ENDPOINT, (exchange -> {
             new Thread(() -> {
                 try {
                     logger.info("Received request {} {} from {}", exchange.getRequestMethod(), exchange.getRequestURI(), exchange.getRemoteAddress());

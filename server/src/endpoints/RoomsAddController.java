@@ -11,10 +11,10 @@ import java.io.OutputStream;
 
 public class RoomsAddController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
-    static final String LOGIN_ENDPOINT = "/room";
+    static final String ROOMS_ADD_ENDPOINT = "/room";
 
     public static void init(HttpServer server) {
-        server.createContext(LOGIN_ENDPOINT, (exchange -> {
+        server.createContext(ROOMS_ADD_ENDPOINT, (exchange -> {
             new Thread(() -> {
                 try {
                     logger.info("Received request {} {} from {}", exchange.getRequestMethod(), exchange.getRequestURI(), exchange.getRemoteAddress());
