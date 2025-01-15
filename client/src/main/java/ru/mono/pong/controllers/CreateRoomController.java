@@ -8,9 +8,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import ru.mono.pong.State;
-import ru.mono.pong.transport.apiClient;
+import ru.mono.pong.transport.HttpClient;
 
 import java.util.Objects;
+
 
 public class CreateRoomController {
     @FXML
@@ -20,17 +21,25 @@ public class CreateRoomController {
     @FXML
     TextField name_label;
 
+    private RoomsController papa;
+
+    public void setPapa(RoomsController papa) {
+        this.papa = papa;
+    }
+
 
     public void onButtonCreate() {
         new Thread(() -> {
             err_lab.setVisible(false);
             if (!Objects.equals(name_label.getText(), "") && !Objects.equals(name_label.getText(), " ")) {
                 Platform.runLater(() -> {
-                    String response = apiClient.putRoom(name_label.getText(), State.currentUser.login);
+                    String response = HttpClient.postRoom(name_label.getText(), State.currentUser.login);
                     if (Objects.equals(response, "200")) {
                         err_lab.setText("Комната создана");
                         err_lab.setTextFill(Paint.valueOf("GREEN"));
                         err_lab.setVisible(true);
+                        onButtonBack();
+                        goToGame();
                     } else {
                         err_lab.setTextFill(Paint.valueOf("BLUE"));
                         err_lab.setText("Status code: " + response);
@@ -43,6 +52,10 @@ public class CreateRoomController {
                 err_lab.setVisible(true);
             }
         }).start();
+    }
+
+    private void goToGame() {
+        papa.switchToGame();
     }
 
     public void onButtonBack() {

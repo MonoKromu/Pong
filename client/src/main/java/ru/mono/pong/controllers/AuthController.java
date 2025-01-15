@@ -4,26 +4,37 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.mono.pong.Main;
 import ru.mono.pong.State;
-import ru.mono.pong.transport.apiClient;
+import ru.mono.pong.transport.HttpClient;
+import ru.mono.pong.utils.HashManager;
+import ru.mono.pong.utils.SceneManager;
 
 import java.io.IOException;
 import java.util.Objects;
 
 public class AuthController {
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     @FXML
     Button enter_btn, reg_btn;
     @FXML
-    Label salute, err_lab;
+    Label err_lab, errorConnect;
     @FXML
     TextField login;
     @FXML
     PasswordField password;
     @FXML
-    TextArea clientOutput;
+    TextField serverAddress;
+    @FXML
+    VBox authForm, connectForm;
 
 
     public void onButtonEnter() {
@@ -32,26 +43,21 @@ public class AuthController {
         reg_btn.setDisable(true);
         login.setDisable(true);
         password.setDisable(true);
+        String hashed = HashManager.sha256Hash(password.getText());
         new Thread(() -> {
-            State.currentUser = apiClient.postAuth(login.getText(), password.getText());
+            State.currentUser = HttpClient.postAuth(login.getText(), hashed);
             Platform.runLater(() -> {
                 if (!Objects.equals(State.currentUser, null)) {
-                    Stage stage = (Stage) reg_btn.getScene().getWindow();
-                    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu.fxml"));
-                    Scene scene;
+                    logger.info("Auth successful");
                     try {
-                        scene = new Scene(fxmlLoader.load(), 1024, 768);
-                    } catch (
-                            IOException e) {
+                        Stage stage = (Stage) reg_btn.getScene().getWindow();
+                        SceneManager.loadScene(stage, "menu.fxml", "Menu");
+                        stage.show();
+                    } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                    stage.setTitle("Menu");
-                    stage.setScene(scene);
-                    stage.setResizable(false);
-                    stage.show();
-                    System.out.println("-- Auth successful");
                 } else {
-                    System.out.println("-- Auth bad");
+                    logger.info("Auth bad");
                     err_lab.setVisible(true);
                 }
             });
@@ -63,19 +69,30 @@ public class AuthController {
     }
 
     public void onButtonReg() {
-        Stage stage = (Stage) reg_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("reg.fxml"));
-        Scene scene;
         try {
-            scene = new Scene(fxmlLoader.load(), 1024, 768);
-        } catch (
-                IOException e) {
+            Stage stage = (Stage) reg_btn.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("reg.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 1024, 768);
+            stage.setTitle("Registration");
+            stage.setScene(scene);
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        stage.setTitle("Registration");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
     }
 
+    public void onButtonConnect() {
+        State.serverAddress = "http://" + serverAddress.getText();
+        try {
+            if (HttpClient.pingServer()) {
+                logger.info("Connection to server established");
+                connectForm.setVisible(false);
+                authForm.setVisible(true);
+                errorConnect.setVisible(false);
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+    }
 }
