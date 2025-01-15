@@ -10,5 +10,6 @@ public class Builder {
         RatingController.init(server);
         RoomsGetController.init(server);
         RoomsAddController.init(server);
+        PingController.init(server);
     }
 }
