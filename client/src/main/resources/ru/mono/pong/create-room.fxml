@@ -6,19 +6,19 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mono.pong.controllers.CreateRoomController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mono.pong.controllers.CreateRoomController">
    <children>
       <TextField fx:id="name_label" layoutX="39.0" layoutY="80.0" prefHeight="61.0" prefWidth="259.0" promptText="Название">
          <font>
             <Font size="24.0" />
          </font>
       </TextField>
-      <Button fx:id="create_btn" defaultButton="true" layoutX="319.0" layoutY="80.0" mnemonicParsing="false" onAction="#onButtonCreate" prefHeight="68.0" prefWidth="143.0" text="Создать">
+      <Button fx:id="create_btn" defaultButton="true" layoutX="319.0" layoutY="80.0" mnemonicParsing="false" onAction="#onButtonCreate" prefHeight="61.0" prefWidth="143.0" text="Создать">
          <font>
             <Font size="24.0" />
          </font>
       </Button>
-      <Button fx:id="back_btn" cancelButton="true" layoutX="319.0" layoutY="210.0" mnemonicParsing="false" onAction="#onButtonBack" prefHeight="45.0" prefWidth="143.0" text="Назад">
+      <Button fx:id="back_btn" cancelButton="true" layoutX="319.0" layoutY="192.0" mnemonicParsing="false" onAction="#onButtonBack" prefHeight="45.0" prefWidth="143.0" text="Назад">
          <font>
             <Font size="18.0" />
          </font>

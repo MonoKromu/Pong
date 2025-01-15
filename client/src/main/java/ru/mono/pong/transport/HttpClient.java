@@ -75,7 +75,7 @@ public class HttpClient {
         }
     }
 
-    public static String postReg(String login, String password) {
+    public static boolean postReg(String login, String password) {
         try {
             Gson gson = new Gson();
             User user = new User(login, password);
@@ -83,10 +83,10 @@ public class HttpClient {
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseURI + "/user")).header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(gson.toJson(user))).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             System.out.println(response.statusCode());
-            return String.valueOf(response.statusCode());
+            return response.statusCode() == 200;
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-            return null;
+            return false;
         }
     }
 

@@ -6,22 +6,13 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mono.pong.controllers.RatingController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mono.pong.controllers.RatingController">
    <children>
-      <Button fx:id="refresh_btn" layoutX="346.0" layoutY="571.0" mnemonicParsing="false" onAction="#onButtonRefresh" text="Обновить">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <Button fx:id="exit_btn" layoutX="580.0" layoutY="571.0" mnemonicParsing="false" onAction="#onButtonExit" prefHeight="39.0" prefWidth="105.0" text="Выход">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
       <Label fx:id="err_lab" layoutX="435.0" layoutY="532.0" text="Рейтинг не найден" textFill="RED" visible="false">
          <font>
             <Font size="18.0" />
@@ -59,5 +50,19 @@
             </GridPane>
          </content>
       </ScrollPane>
+      <HBox alignment="CENTER" layoutX="316.0" layoutY="532.0" prefHeight="61.0" prefWidth="392.0" spacing="100.0">
+         <children>
+            <Button fx:id="refresh_btn" mnemonicParsing="false" onAction="#onButtonRefresh" text="Обновить">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="exit_btn" mnemonicParsing="false" onAction="#onButtonExit" prefHeight="39.0" prefWidth="105.0" text="Назад">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
    </children>
 </Pane>
