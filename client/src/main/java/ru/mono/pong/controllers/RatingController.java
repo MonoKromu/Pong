@@ -12,8 +12,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import ru.mono.pong.Main;
-import ru.mono.pong.transport.User;
-import ru.mono.pong.transport.apiClient;
+import ru.mono.pong.transport.dtos.User;
+import ru.mono.pong.transport.HttpClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class RatingController {
         exit_btn.setDisable(true);
         err_lab.setVisible(false);
         new Thread(() -> {
-            ArrayList<User> users = apiClient.getRating();
+            ArrayList<User> users = HttpClient.getRating();
             if (!Objects.equals(users, null)) {
                 Platform.runLater(() -> {
                     int i = 0;

@@ -12,8 +12,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.mono.pong.Main;
-import ru.mono.pong.transport.Room;
-import ru.mono.pong.transport.apiClient;
+import ru.mono.pong.transport.HttpClient;
+import ru.mono.pong.transport.dtos.Room;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,13 +30,15 @@ public class RoomsController {
     @FXML
     GridPane rooms_grid;
 
+    private CreateRoomController child;
+
     public void initialize() {
         Platform.runLater(this::onButtonRefresh);
     }
 
     public void onButtonRefresh() {
         new Thread(() -> {
-            ArrayList<Room> rooms = apiClient.getRooms();
+            ArrayList<Room> rooms = HttpClient.getRooms();
             int i = 0;
             for (var room : rooms) {
                 addRoom(room.name, room.host.login, i, room.id);
@@ -66,7 +68,7 @@ public class RoomsController {
             joinButton.setMinWidth(163);
             joinButton.setPrefHeight(29);
             joinButton.setPrefWidth(163);
-            joinButton.setOnAction(_ -> joinRoom(id));
+            joinButton.setOnAction(it -> joinRoom(id));
             rooms_grid.add(labelRoomName, 0, row);
             rooms_grid.add(labelLogin, 1, row);
             rooms_grid.add(joinButton, 2, row);
@@ -75,13 +77,29 @@ public class RoomsController {
 
     public void joinRoom(int id) {
         new Thread(() -> {
-            boolean response = apiClient.postGame(currentUser, id);
+            boolean response = HttpClient.putRoom(id, currentUser);
             if (response) {
                 System.out.println("-- Success join to room");
-                startGame();
+                Platform.runLater(this::startGame);
             }
         }).start();
         System.out.printf("\nEntering room %s", id);
+    }
+
+    public void startGame() {
+        Stage stage = (Stage) refresh_btn.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("game.fxml"));
+        Scene scene;
+        try {
+            scene = new Scene(fxmlLoader.load(), 1024, 768);
+        } catch (
+                IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setTitle("Pong Masters");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
     }
 
     public void onButtonCreate() {
@@ -98,9 +116,29 @@ public class RoomsController {
         createWindow.setTitle("Rooms");
         createWindow.setScene(scene);
         createWindow.setResizable(false);
-        createWindow.showAndWait();
 
+        child = fxmlLoader.getController();
+        child.setPapa(this);
+
+        createWindow.showAndWait();
     }
+
+    public void switchToGame( ) {
+        Stage stage = (Stage) refresh_btn.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("game.fxml"));
+        Scene scene;
+        try {
+            scene = new Scene(fxmlLoader.load(), 1024, 768);
+        } catch (
+                IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setTitle("Pong Masters");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
+
 
     public void onButtonToMenu() {
         Stage stage = (Stage) toMenu_btn.getScene().getWindow();
@@ -113,22 +151,6 @@ public class RoomsController {
             throw new RuntimeException(e);
         }
         stage.setTitle("Menu");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
-    }
-
-    public void startGame() {
-        Stage stage = (Stage) refresh_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("game.fxml"));
-        Scene scene;
-        try {
-            scene = new Scene(fxmlLoader.load(), 1024, 768);
-        } catch (
-                IOException e) {
-            throw new RuntimeException(e);
-        }
-        stage.setTitle("Pong Masters");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

@@ -7,21 +7,17 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mono.pong.controllers.ProfileController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mono.pong.controllers.ProfileController">
    <children>
-      <Label layoutX="415.0" layoutY="445.0" prefHeight="35.0" prefWidth="193.0" text="Сменить пароль:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
       <Label fx:id="login_lab" layoutX="392.0" layoutY="210.0" text="NICKNAME">
          <font>
             <Font size="48.0" />
          </font>
       </Label>
-      <GridPane layoutX="437.0" layoutY="280.0" prefHeight="30.0" prefWidth="213.0">
+      <GridPane layoutX="406.0" layoutY="280.0" prefHeight="30.0" prefWidth="213.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="157.33340454101562" minWidth="10.0" prefWidth="75.66668701171875" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="212.66666666666663" minWidth="10.0" prefWidth="116.99997965494791" />
@@ -42,26 +38,35 @@
             </Label>
          </children>
       </GridPane>
-      <PasswordField fx:id="old_pass_lab" layoutX="392.0" layoutY="492.0" prefHeight="39.0" prefWidth="240.0" promptText="Пароль">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </PasswordField>
-      <PasswordField fx:id="new_pass_lab" layoutX="392.0" layoutY="539.0" prefHeight="39.0" prefWidth="240.0" promptText="Новый пароль">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </PasswordField>
-      <PasswordField fx:id="sec_new_pass_lab" layoutX="392.0" layoutY="585.0" prefHeight="39.0" prefWidth="240.0" promptText="Повторите новый пароль">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </PasswordField>
-      <Button fx:id="accept_btn" layoutX="446.0" layoutY="663.0" mnemonicParsing="false" onAction="#onButtonChangePass" prefHeight="35.0" prefWidth="131.0" text="Подтвердить">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
+      <VBox alignment="CENTER" layoutX="388.0" layoutY="423.0" prefHeight="296.0" prefWidth="248.0" spacing="15.0">
+         <children>
+            <Label prefHeight="35.0" prefWidth="193.0" text="Сменить пароль:">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="old_pass_lab" prefHeight="39.0" prefWidth="240.0" promptText="Текущий пароль">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </PasswordField>
+            <PasswordField fx:id="new_pass_lab" prefHeight="39.0" prefWidth="240.0" promptText="Новый пароль">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </PasswordField>
+            <PasswordField fx:id="sec_new_pass_lab" prefHeight="39.0" prefWidth="240.0" promptText="Повторите новый пароль">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </PasswordField>
+            <Button fx:id="accept_btn" mnemonicParsing="false" onAction="#onButtonChangePass" prefHeight="35.0" prefWidth="131.0" text="Подтвердить">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
       <Button fx:id="menu_btn" layoutX="396.0" layoutY="333.0" mnemonicParsing="false" onAction="#onButtonToMenu" prefHeight="51.0" prefWidth="231.0" text="Меню">
          <font>
             <Font size="24.0" />
