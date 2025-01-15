@@ -12,10 +12,10 @@ import java.io.OutputStream;
 
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
-    static final String LOGIN_ENDPOINT = "/auth";
+    static final String AUTH_ENDPOINT = "/auth";
 
     public static void init(HttpServer server) {
-        server.createContext(LOGIN_ENDPOINT, (exchange -> {
+        server.createContext(AUTH_ENDPOINT, (exchange -> {
             new Thread(() -> {
                 try {
                     logger.info("Received request {} {} from {}", exchange.getRequestMethod(), exchange.getRequestURI(), exchange.getRemoteAddress());

@@ -1,39 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="server:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="c2bcb69a-24ad-4adf-a063-fd1289b82a90" name="Changes" comment="" />
+    <list default="true" id="092bc016-42db-431c-b506-412034ba8fbd" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/endpoints/Builder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/endpoints/Builder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/endpoints/PingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/endpoints/PingController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectId" id="2rXSBh869bdkCQ7t75FWYDLqsMh" />
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;MonoKromu&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/MonoKromu/Pong.git&quot;,
+    &quot;accountId&quot;: &quot;7e87d383-9474-4334-911b-ee932c30cc8c&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2rLEcZa8gwYkwuZUZpLfSnPlypd" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Main.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "client",
+    "git-widget-placeholder": "server",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Mono/Documents/GitHub/Pong/server",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.18850575",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "show.migrate.to.gradle.popup": "false",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="server" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="server:jar" />
+        </option>
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c2bcb69a-24ad-4adf-a063-fd1289b82a90" name="Changes" comment="" />
-      <created>1736703794131</created>
+      <changelist id="092bc016-42db-431c-b506-412034ba8fbd" name="Changes" comment="" />
+      <created>1736330034876</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1736703794131</updated>
-      <workItem from="1736703795380" duration="7000" />
+      <updated>1736330034876</updated>
+      <workItem from="1736330035916" duration="248000" />
+      <workItem from="1736330292924" duration="7496000" />
+      <workItem from="1736337900246" duration="64000" />
+      <workItem from="1736358605860" duration="3645000" />
+      <workItem from="1736362317786" duration="320000" />
+      <workItem from="1736362654583" duration="937000" />
+      <workItem from="1736428000370" duration="6557000" />
+      <workItem from="1736435318277" duration="1557000" />
+      <workItem from="1736502546567" duration="140000" />
+      <workItem from="1736508396603" duration="1250000" />
+      <workItem from="1736515327004" duration="65000" />
+      <workItem from="1736532469386" duration="1340000" />
+      <workItem from="1736579983387" duration="363000" />
     </task>
     <servers />
   </component>
