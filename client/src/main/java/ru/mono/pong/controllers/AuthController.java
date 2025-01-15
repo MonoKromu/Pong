@@ -16,6 +16,7 @@ import ru.mono.pong.Main;
 import ru.mono.pong.State;
 import ru.mono.pong.transport.HttpClient;
 import ru.mono.pong.utils.HashManager;
+import ru.mono.pong.utils.SceneManager;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -50,11 +51,7 @@ public class AuthController {
                     logger.info("Auth successful");
                     try {
                         Stage stage = (Stage) reg_btn.getScene().getWindow();
-                        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu.fxml"));
-                        Scene scene = new Scene(fxmlLoader.load(), 1024, 768);
-                        stage.setTitle("Menu");
-                        stage.setScene(scene);
-                        stage.setResizable(false);
+                        SceneManager.loadScene(stage, "menu.fxml", "Menu");
                         stage.show();
                     } catch (IOException e) {
                         throw new RuntimeException(e);
