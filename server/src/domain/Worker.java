@@ -84,8 +84,10 @@ public class Worker {
         }
 
         if (plank1Points == MAX_POINTS || plank2Points == MAX_POINTS){
-            logger.info("сосал");
+            logger.info("Game has ended");
             gameEnded = true;
+            state.isGameOver = true;
+            send.run();
         }
         else reset();
     }
