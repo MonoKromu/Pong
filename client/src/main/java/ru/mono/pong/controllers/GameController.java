@@ -28,22 +28,21 @@ public class GameController {
     UdpClient udp;
 
     public void initialize() {
-        udp = new UdpClient(this::update);
+        udp = new UdpClient(this::update, State.currentPlayerId == 2);
         logger.info(String.valueOf(State.currentPlayerId));
-        if (State.currentPlayerId == 2) udp.start();
         pane.sceneProperty().addListener((observable, oldScene, newScene) -> {
             if (newScene != null) {
                 newScene.setOnKeyPressed(this::onKeyPressed);
                 newScene.setOnKeyReleased(this::onKeyReleased);
             }
         });
-        start();
+        sendActions();
     }
 
-    public void start() {
+    public void sendActions() {
         new Thread(() -> {
-            while (true) {
-                try {
+            try {
+                while (!State.currentGameState.isGameOver) {
                     Thread.sleep(20);
                     switch (keyPressed) {
                         case 'w', 's':
@@ -53,14 +52,17 @@ public class GameController {
                             //udp.sendAction(new Action(State.gameId, State.playerId, keyPressed));
                             break;
                     }
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
                 }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            finally {
+                udp.close();
             }
         }).start();
     }
 
-    public void update() {
+    private void update() {
         ball.setLayoutX(State.currentGameState.ballX);
         ball.setLayoutY(State.currentGameState.ballY);
 

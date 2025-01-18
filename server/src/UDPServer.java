@@ -26,7 +26,7 @@ public class UDPServer {
             try {
                 Gson gson = new Gson();
                 receiveSocket = new DatagramSocket(receivePort);
-                sendSocket = new DatagramSocket(sendPort);
+                sendSocket = new DatagramSocket(sendPort + 5);
                 logger.info("Server started on port {}", receivePort);
 
                 byte[] receiveData = new byte[512];
