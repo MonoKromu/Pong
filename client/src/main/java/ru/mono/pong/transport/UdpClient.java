@@ -11,8 +11,9 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
 
-public class UdpClient {
+public class UdpClient implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(UdpClient.class);
     // static final String serverAddress = "95.181.27.100"; // Адрес сервера
     static final String serverAddress = "46.181.90.183";
@@ -20,16 +21,26 @@ public class UdpClient {
     private static DatagramSocket receiveSocket;
     private static DatagramSocket sendSocket;
 
-    // private Runnable update;
+    private final Runnable update;
 
-    public UdpClient(Runnable update) {
+    public UdpClient(Runnable update, boolean start) {
+        this.update = update;
+        try {
+            receiveSocket = new DatagramSocket(PORT + 1);
+            sendSocket = new DatagramSocket(PORT + 2);
+            logger.info("UDP client started on port {}", receiveSocket.getPort());
+            if (start) this.start();
+            this.listen();
+        } catch (SocketException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private void listen() {
         new Thread(() -> {
             try {
                 Gson gson = new Gson();
-                receiveSocket = new DatagramSocket(PORT + 1);
-                sendSocket = new DatagramSocket(PORT);
-                logger.info("UDP client started on port {}", PORT);
-
                 byte[] receiveData = new byte[256];
                 int i = 0;
                 while (true) {
@@ -51,7 +62,7 @@ public class UdpClient {
         }).start();
     }
 
-    public void start() {
+    private void start() {
         new Thread(() -> {
             Gson gson = new Gson();
             Action action = new Action(State.currentRoomId, State.currentPlayerId, 'n');
@@ -76,5 +87,11 @@ public class UdpClient {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void close() {
+        receiveSocket.close();
+        // sendSocket.close();
     }
 }
