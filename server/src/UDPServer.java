@@ -41,7 +41,7 @@ public class UDPServer {
                     if(action.key=='n') {
                         logger.info("Player joined room");
                         states.put(action.id, new GameState());
-                        workers.put(action.id, new Worker(states.get(action.id), () -> {
+                        workers.put(action.id, new Worker(states.get(action.id), action.id, () -> {
                             GameState state = states.get(action.id);
                             byte[] out = gson.toJson(state).getBytes();
                             Room room = CustomState.rooms.get(action.id);

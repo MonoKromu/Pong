@@ -1,8 +1,9 @@
 package domain;
 
+import db.DBOperations;
 import dtos.Action;
 import dtos.GameState;
-import endpoints.AuthController;
+import endpoints.CustomState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,6 +12,7 @@ public class Worker {
 
     private Runnable send;
     private GameState state;
+    private int id;
 
     public int plank1 = 200, plank2 = 200;
     public int plank1Points, plank2Points;
@@ -32,9 +34,10 @@ public class Worker {
     public final double BOTTOM_LIMIT = -Math.PI / 4;
     public final double TOP_LIMIT = Math.PI / 4;
 
-    public Worker(GameState state, Runnable send) {
+    public Worker(GameState state, int id, Runnable send) {
         this.send = send;
         this.state = state;
+        this.id = id;
     }
 
     public void start() {
@@ -88,6 +91,8 @@ public class Worker {
             gameEnded = true;
             state.isGameOver = true;
             send.run();
+            if(plank1Points == MAX_POINTS) DBOperations.putUserPoints(CustomState.rooms.get(id).host.login);
+            else if(plank2Points == MAX_POINTS) DBOperations.putUserPoints(CustomState.rooms.get(id).guest.login);
         }
         else reset();
     }
