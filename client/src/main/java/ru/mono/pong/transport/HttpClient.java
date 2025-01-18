@@ -38,8 +38,7 @@ public class HttpClient {
             java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseURI + "/rating")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return gson.fromJson(response.body(), new TypeToken<ArrayList<User>>() {
-            }.getType());
+            return gson.fromJson(response.body(), new TypeToken<ArrayList<User>>() {}.getType());
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -51,10 +50,8 @@ public class HttpClient {
             java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseURI + "/rooms")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            HashMap<Integer, Room> roomsMap = gson.fromJson(response.body(), new TypeToken<HashMap<Integer, Room>>() {
-            }.getType());
+            return gson.fromJson(response.body(), new TypeToken<ArrayList<Room>>() {}.getType());
 
-            return new ArrayList<>(roomsMap.values());
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
