@@ -9,4 +9,5 @@ public class Room {
     public InetAddress hostIP;
     public User guest;
     public InetAddress guestIP;
+    public boolean gameStarted = false;
 }

@@ -55,6 +55,7 @@ public class UDPServer {
                                 throw new RuntimeException(e);
                             }
                         }));
+                        CustomState.rooms.get(action.id).gameStarted = true;
                         workers.get(action.id).start();
                     }
                     else if(action.key == 'w' || action.key == 's'){
