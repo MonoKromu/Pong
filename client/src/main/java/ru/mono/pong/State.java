@@ -8,5 +8,5 @@ public class State {
     public static User currentUser;
     public static int currentRoomId;
     public static int currentPlayerId;
-    public static GameState currentGameState;
+    public static GameState currentGameState = new GameState();
 }

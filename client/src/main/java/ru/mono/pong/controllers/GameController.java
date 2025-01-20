@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import ru.mono.pong.State;
 import ru.mono.pong.transport.UdpClient;
 import ru.mono.pong.transport.dtos.Action;
+import ru.mono.pong.transport.dtos.GameState;
 
 public class GameController {
     private static final Logger logger = LoggerFactory.getLogger(GameController.class);
@@ -29,7 +30,7 @@ public class GameController {
 
     public void initialize() {
         udp = new UdpClient(this::update, State.currentPlayerId == 2);
-        logger.info(String.valueOf(State.currentPlayerId));
+        logger.info(String.valueOf("You are " + State.currentPlayerId + " player"));
         pane.sceneProperty().addListener((observable, oldScene, newScene) -> {
             if (newScene != null) {
                 newScene.setOnKeyPressed(this::onKeyPressed);
@@ -42,6 +43,9 @@ public class GameController {
     public void sendActions() {
         new Thread(() -> {
             try {
+                //GameState states = new GameState();
+                //states.isGameOver = false;
+                //State.currentGameState.isGameOver = false;
                 while (!State.currentGameState.isGameOver) {
                     Thread.sleep(20);
                     switch (keyPressed) {
