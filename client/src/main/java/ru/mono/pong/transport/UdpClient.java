@@ -13,7 +13,7 @@ import java.net.*;
 public class UdpClient implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(UdpClient.class);
     // static final String serverAddress = "95.181.27.100"; // Адрес сервера
-    static final String serverAddress = "46.181.90.183";
+    static String serverAddress = State.serverAddress.split(":")[0];
     static final int PORT = 8000;              // Порт сервера
     private static DatagramSocket receiveSocket;
     private static DatagramSocket sendSocket;

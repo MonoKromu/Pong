@@ -18,7 +18,7 @@ import ru.mono.pong.transport.HttpClient;
 import ru.mono.pong.utils.HashManager;
 import ru.mono.pong.utils.SceneManager;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.Objects;
 
 public class AuthController {
@@ -36,6 +36,17 @@ public class AuthController {
     @FXML
     VBox authForm, connectForm;
 
+
+    public void initialize(){
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("src/address"));
+            serverAddress.setText(reader.readLine());
+            reader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 
     public void onButtonEnter() {
         err_lab.setVisible(false);
@@ -83,7 +94,7 @@ public class AuthController {
     }
 
     public void onButtonConnect() {
-        State.serverAddress = "http://" + serverAddress.getText();
+        State.serverAddress = serverAddress.getText();
         new Thread(() -> {
             try {
                 if (HttpClient.pingServer()) {
@@ -91,6 +102,10 @@ public class AuthController {
                     connectForm.setVisible(false);
                     authForm.setVisible(true);
                     errorConnect.setVisible(false);
+                    FileWriter writer = new FileWriter("src/address");
+                    writer.write(serverAddress.getText());
+                    writer.flush();
+                    writer.close();
                 }
             } catch (Exception e) {
                 logger.error(e.getMessage());
