@@ -24,7 +24,7 @@ import java.util.Objects;
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     @FXML
-    Button enter_btn, reg_btn;
+    Button enter_btn, reg_btn, connect_btn;
     @FXML
     Label err_lab, errorConnect;
     @FXML
@@ -99,9 +99,12 @@ public class AuthController {
             try {
                 if (HttpClient.pingServer()) {
                     logger.info("Connection to server established");
-                    connectForm.setVisible(false);
-                    authForm.setVisible(true);
-                    errorConnect.setVisible(false);
+                    connect_btn.setVisible(false);
+                    serverAddress.setVisible(false);
+                    login.setVisible(true);
+                    password.setVisible(true);
+                    enter_btn.setVisible(true);
+                    reg_btn.setVisible(true);
                     FileWriter writer = new FileWriter("src/address");
                     writer.write(serverAddress.getText());
                     writer.flush();
