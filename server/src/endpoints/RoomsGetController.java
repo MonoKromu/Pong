@@ -2,9 +2,11 @@ package endpoints;
 
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpServer;
+import dtos.Room;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 public class RoomsGetController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
@@ -17,7 +19,12 @@ public class RoomsGetController {
                     logger.info("Received request {} {} from {}", exchange.getRequestMethod(), exchange.getRequestURI(), exchange.getRemoteAddress());
                     Gson gson = new Gson();
                     if("GET".equals(exchange.getRequestMethod())){
-                        String rooms = gson.toJson(CustomState.rooms);
+                        ArrayList<Room> visibleRooms = new ArrayList<>();
+                        for(Room r : CustomState.rooms.values()){
+                            if(!r.gameStarted) visibleRooms.add(r);
+                        }
+                        String rooms = gson.toJson(visibleRooms);
+
                         exchange.sendResponseHeaders(200, rooms.length());
                         OutputStream output = exchange.getResponseBody();
                         output.write(rooms.getBytes());
