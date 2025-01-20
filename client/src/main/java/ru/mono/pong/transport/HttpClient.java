@@ -18,7 +18,6 @@ import java.util.Objects;
 public class HttpClient {
     // static final String baseURI = "http://95.181.27.100:8000";
     static String baseURI = "http://46.181.90.183:8000";
-    // static final String baseURI = "http://26.223.214.153:4899";
 
     public static boolean pingServer() {
         baseURI = State.serverAddress;
@@ -38,7 +37,8 @@ public class HttpClient {
             java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseURI + "/rating")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return gson.fromJson(response.body(), new TypeToken<ArrayList<User>>() {}.getType());
+            return gson.fromJson(response.body(), new TypeToken<ArrayList<User>>() {
+            }.getType());
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -50,7 +50,8 @@ public class HttpClient {
             java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseURI + "/rooms")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return gson.fromJson(response.body(), new TypeToken<ArrayList<Room>>() {}.getType());
+            return gson.fromJson(response.body(), new TypeToken<ArrayList<Room>>() {
+            }.getType());
 
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
