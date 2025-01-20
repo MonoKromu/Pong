@@ -18,7 +18,6 @@ import java.util.Objects;
 public class HttpClient {
     // static final String baseURI = "http://95.181.27.100:8000";
     static String baseURI = "http://46.181.90.183:8000";
-    // static final String baseURI = "http://26.223.214.153:4899";
 
     public static boolean pingServer() {
         baseURI = State.serverAddress;
@@ -51,10 +50,9 @@ public class HttpClient {
             java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseURI + "/rooms")).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            HashMap<Integer, Room> roomsMap = gson.fromJson(response.body(), new TypeToken<HashMap<Integer, Room>>() {
+            return gson.fromJson(response.body(), new TypeToken<ArrayList<Room>>() {
             }.getType());
 
-            return new ArrayList<>(roomsMap.values());
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
