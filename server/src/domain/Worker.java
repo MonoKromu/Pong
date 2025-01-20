@@ -110,20 +110,17 @@ public class Worker {
         ballY -= ballSpeedY;
         if (ballY >= SCREEN_HEIGHT || ballY <= 0) {
             changeBallSpeed(Math.PI * 2 - ballAngle, ballSpeed);
+        } else if (ballX <= PLANK1_X+3 && (ballY >= plank1 && ballY <= plank1 + PLANK_HEIGHT)) {
+            double angleMult = ((plank1 + ((double) PLANK_HEIGHT / 2) - ballY) / PLANK_HEIGHT * 0.5);
+            changeBallSpeed(((Math.PI - ballAngle) - (Math.PI - ballAngle) * angleMult), ballSpeed + ACC_STEP);
+        } else if (ballX >= PLANK2_X && (ballY >= plank2 && ballY <= plank2 + PLANK_HEIGHT)) {
+            double angleMult = ((plank2 + ((double) PLANK_HEIGHT / 2) - ballY) / PLANK_HEIGHT * 0.5);
+            changeBallSpeed(((Math.PI - ballAngle) - (Math.PI - ballAngle) * angleMult), ballSpeed + ACC_STEP);
         } else if (ballX >= SCREEN_WIDTH) {
             endRound(1);
         } else if (ballX <= 0) {
             endRound(2);
-        } else if (ballX <= PLANK1_X && (ballY >= plank1 && ballY <= plank1 + PLANK_HEIGHT)){
-            double angleMult = ((plank1+((double)PLANK_HEIGHT /2) - ballY) / PLANK_HEIGHT * 0.5);
-            changeBallSpeed(((Math.PI - ballAngle) - (Math.PI - ballAngle) * angleMult), ballSpeed + ACC_STEP);
         }
-
-        else if (ballX >= PLANK2_X && (ballY >= plank2 && ballY <= plank2 + PLANK_HEIGHT)){
-            double angleMult = ((plank2+((double)PLANK_HEIGHT /2) - ballY) / PLANK_HEIGHT * 0.5);
-            changeBallSpeed(((Math.PI - ballAngle) - (Math.PI - ballAngle) * angleMult), ballSpeed + ACC_STEP);
-        }
-
     }
 
     private void updateState(){
