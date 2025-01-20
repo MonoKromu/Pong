@@ -14,8 +14,8 @@ import java.util.HashMap;
 
 public class UDPServer {
     private static final Logger logger = LoggerFactory.getLogger(UDPServer.class);
-    private static final int receivePort = 8000;
-    private static final int sendPort = 8001;
+    private static final int receivePort = 8001;
+    private static final int sendPort = 8002;
     private static HashMap<Integer, Worker> workers = new HashMap<>();
     private static HashMap<Integer, GameState> states = new HashMap<>();
     public static DatagramSocket receiveSocket;
