@@ -26,15 +26,14 @@ public class UdpClient implements AutoCloseable {
     public UdpClient(Runnable update, boolean start) {
         this.update = update;
         try {
-            receiveSocket = new DatagramSocket(PORT + 1);
-            sendSocket = new DatagramSocket(PORT + 2);
+            receiveSocket = new DatagramSocket(PORT + 2);
+            sendSocket = new DatagramSocket(PORT + 1);
             logger.info("UDP client started on port {}", receiveSocket.getPort());
             if (start) this.start();
             this.listen();
         } catch (SocketException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     private void listen() {
