@@ -11,8 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="092bc016-42db-431c-b506-412034ba8fbd" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/Worker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/endpoints/RatingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/endpoints/RatingController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UDPServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/UDPServer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
