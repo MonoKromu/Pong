@@ -20,6 +20,8 @@ import ru.mono.pong.transport.dtos.Action;
 import ru.mono.pong.transport.dtos.GameState;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 
 public class GameController {
     private static final Logger logger = LoggerFactory.getLogger(GameController.class);
@@ -30,12 +32,26 @@ public class GameController {
     @FXML
     Pane pane;
     @FXML
-    Text plank1Points, plank2Points;
+    Text plank1Points, plank2Points, zet;
+
+    ArrayList<KeyCode> queue = new ArrayList<>();
+    ArrayList<KeyCode> cheat = new ArrayList<>();
+
 
     char keyPressed;
     UdpClient udp;
 
     public void initialize() {
+        cheat.addLast(KeyCode.LEFT);
+        cheat.addLast(KeyCode.LEFT);
+        cheat.addLast(KeyCode.UP);
+        cheat.addLast(KeyCode.UP);
+        cheat.addLast(KeyCode.RIGHT);
+        cheat.addLast(KeyCode.RIGHT);
+        cheat.addLast(KeyCode.DOWN);
+        cheat.addLast(KeyCode.DOWN);
+        cheat.addLast(KeyCode.Z);
+
         udp = new UdpClient(this::update, State.currentPlayerId == 2);
         logger.info(String.valueOf("You are " + State.currentPlayerId + " player"));
         pane.sceneProperty().addListener((observable, oldScene, newScene) -> {
@@ -103,6 +119,11 @@ public class GameController {
             case S -> keyPressed = 's';
             case ESCAPE -> escapeToRooms();
         }
+        queue.addLast(code);
+        if(queue.size() > 9) queue.removeFirst();
+        if(cheat.equals(queue)) zet.setVisible(true);
+        System.out.println(queue);
+        System.out.println(cheat);
     }
 
     @FXML
