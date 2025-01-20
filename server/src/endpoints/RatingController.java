@@ -23,7 +23,7 @@ public class RatingController {
                         Gson gson = new Gson();
                         ArrayList<User> users = DBOperations.getRating();
                         String usersJson = gson.toJson(users);
-                        exchange.sendResponseHeaders(200, usersJson.length());
+                        exchange.sendResponseHeaders(200, usersJson.getBytes().length);
                         OutputStream output = exchange.getResponseBody();
                         output.write(usersJson.getBytes());
                         output.flush();

@@ -1,8 +1,9 @@
 package domain;
 
+import db.DBOperations;
 import dtos.Action;
 import dtos.GameState;
-import endpoints.AuthController;
+import endpoints.CustomState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,6 +12,7 @@ public class Worker {
 
     private Runnable send;
     private GameState state;
+    private int id;
 
     public int plank1 = 200, plank2 = 200;
     public int plank1Points, plank2Points;
@@ -32,9 +34,10 @@ public class Worker {
     public final double BOTTOM_LIMIT = -Math.PI / 4;
     public final double TOP_LIMIT = Math.PI / 4;
 
-    public Worker(GameState state, Runnable send) {
+    public Worker(GameState state, int id, Runnable send) {
         this.send = send;
         this.state = state;
+        this.id = id;
     }
 
     public void start() {
@@ -84,8 +87,13 @@ public class Worker {
         }
 
         if (plank1Points == MAX_POINTS || plank2Points == MAX_POINTS){
-            logger.info("сосал");
+            logger.info("Game has ended");
             gameEnded = true;
+            state.isGameOver = true;
+            updateState();
+            send.run();
+            if(plank1Points == MAX_POINTS) DBOperations.putUserPoints(CustomState.rooms.get(id).host.login);
+            else if(plank2Points == MAX_POINTS) DBOperations.putUserPoints(CustomState.rooms.get(id).guest.login);
         }
         else reset();
     }
@@ -102,20 +110,17 @@ public class Worker {
         ballY -= ballSpeedY;
         if (ballY >= SCREEN_HEIGHT || ballY <= 0) {
             changeBallSpeed(Math.PI * 2 - ballAngle, ballSpeed);
+        } else if (ballX <= PLANK1_X+3 && (ballY >= plank1 && ballY <= plank1 + PLANK_HEIGHT)) {
+            double angleMult = ((plank1 + ((double) PLANK_HEIGHT / 2) - ballY) / PLANK_HEIGHT * 0.5);
+            changeBallSpeed(((Math.PI - ballAngle) - (Math.PI - ballAngle) * angleMult), ballSpeed + ACC_STEP);
+        } else if (ballX >= PLANK2_X && (ballY >= plank2 && ballY <= plank2 + PLANK_HEIGHT)) {
+            double angleMult = ((plank2 + ((double) PLANK_HEIGHT / 2) - ballY) / PLANK_HEIGHT * 0.5);
+            changeBallSpeed(((Math.PI - ballAngle) - (Math.PI - ballAngle) * angleMult), ballSpeed + ACC_STEP);
         } else if (ballX >= SCREEN_WIDTH) {
             endRound(1);
         } else if (ballX <= 0) {
             endRound(2);
-        } else if (ballX <= PLANK1_X && (ballY >= plank1 && ballY <= plank1 + PLANK_HEIGHT)){
-            double angleMult = ((plank1+((double)PLANK_HEIGHT /2) - ballY) / PLANK_HEIGHT * 0.5);
-            changeBallSpeed(((Math.PI - ballAngle) - (Math.PI - ballAngle) * angleMult), ballSpeed + ACC_STEP);
         }
-
-        else if (ballX >= PLANK2_X && (ballY >= plank2 && ballY <= plank2 + PLANK_HEIGHT)){
-            double angleMult = ((plank2+((double)PLANK_HEIGHT /2) - ballY) / PLANK_HEIGHT * 0.5);
-            changeBallSpeed(((Math.PI - ballAngle) - (Math.PI - ballAngle) * angleMult), ballSpeed + ACC_STEP);
-        }
-
     }
 
     private void updateState(){

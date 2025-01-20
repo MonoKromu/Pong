@@ -14,8 +14,8 @@ import java.util.HashMap;
 
 public class UDPServer {
     private static final Logger logger = LoggerFactory.getLogger(UDPServer.class);
-    private static final int receivePort = 8000;
-    private static final int sendPort = 8001;
+    private static final int receivePort = 8001;
+    private static final int sendPort = 8003;
     private static HashMap<Integer, Worker> workers = new HashMap<>();
     private static HashMap<Integer, GameState> states = new HashMap<>();
     public static DatagramSocket receiveSocket;
@@ -41,12 +41,12 @@ public class UDPServer {
                     if(action.key=='n') {
                         logger.info("Player joined room");
                         states.put(action.id, new GameState());
-                        workers.put(action.id, new Worker(states.get(action.id), () -> {
+                        workers.put(action.id, new Worker(states.get(action.id), action.id, () -> {
                             GameState state = states.get(action.id);
                             byte[] out = gson.toJson(state).getBytes();
                             Room room = CustomState.rooms.get(action.id);
-                            DatagramPacket packet1 = new DatagramPacket(out, out.length, room.hostIP, sendPort);
-                            DatagramPacket packet2 = new DatagramPacket(out, out.length, room.guestIP, sendPort);
+                            DatagramPacket packet1 = new DatagramPacket(out, out.length, room.hostIP, sendPort+2);
+                            DatagramPacket packet2 = new DatagramPacket(out, out.length, room.guestIP, sendPort+2);
                             try {
                                 //logger.info("Sending gamestate to players {} {}", room.hostIP, room.guestIP);
                                 sendSocket.send(packet1);
@@ -55,6 +55,7 @@ public class UDPServer {
                                 throw new RuntimeException(e);
                             }
                         }));
+                        CustomState.rooms.get(action.id).gameStarted = true;
                         workers.get(action.id).start();
                     }
                     else if(action.key == 'w' || action.key == 's'){
