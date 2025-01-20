@@ -8,10 +8,7 @@ import ru.mono.pong.transport.dtos.Action;
 import ru.mono.pong.transport.dtos.GameState;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
 
 public class UdpClient implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(UdpClient.class);
@@ -26,9 +23,10 @@ public class UdpClient implements AutoCloseable {
     public UdpClient(Runnable update, boolean start) {
         this.update = update;
         try {
-            receiveSocket = new DatagramSocket(PORT + 2);
-            sendSocket = new DatagramSocket(PORT + 1);
-            logger.info("UDP client started on port {}", receiveSocket.getPort());
+            receiveSocket = new DatagramSocket(PORT + 5);
+            sendSocket = new DatagramSocket(PORT + 2);
+            logger.info("UDP client started on port {} \t Sending on port {}", receiveSocket.getPort(), sendSocket.getPort());
+            logger.info("Real UDP port receive: {}, send: {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
             if (start) this.start();
             this.listen();
         } catch (SocketException e) {
@@ -67,8 +65,9 @@ public class UdpClient implements AutoCloseable {
             Action action = new Action(State.currentRoomId, State.currentPlayerId, 'n');
             byte[] actionByte = gson.toJson(action).getBytes();
             try {
-                DatagramPacket startPacket = new DatagramPacket(actionByte, actionByte.length, InetAddress.getByName(serverAddress), PORT);
+                DatagramPacket startPacket = new DatagramPacket(actionByte, actionByte.length, InetAddress.getByName(serverAddress), PORT + 1);
                 sendSocket.send(startPacket);
+                logger.info("Send start {}", sendSocket.getPort());
                 //logger.info("Start packet sent");
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -80,8 +79,9 @@ public class UdpClient implements AutoCloseable {
         try {
             Gson gson = new Gson();
             byte[] actionByte = gson.toJson(action).getBytes();
-            DatagramPacket sendPacket = new DatagramPacket(actionByte, actionByte.length, InetAddress.getByName(serverAddress), PORT);
+            DatagramPacket sendPacket = new DatagramPacket(actionByte, actionByte.length, InetAddress.getByName(serverAddress), PORT + 1);
             sendSocket.send(sendPacket);
+            logger.info("Send port {}/", sendSocket.getPort());
             logger.info("Action packet sent");
         } catch (Exception e) {
             e.printStackTrace();
