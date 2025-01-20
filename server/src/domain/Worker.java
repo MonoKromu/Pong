@@ -90,6 +90,7 @@ public class Worker {
             logger.info("Game has ended");
             gameEnded = true;
             state.isGameOver = true;
+            updateState();
             send.run();
             if(plank1Points == MAX_POINTS) DBOperations.putUserPoints(CustomState.rooms.get(id).host.login);
             else if(plank2Points == MAX_POINTS) DBOperations.putUserPoints(CustomState.rooms.get(id).guest.login);
