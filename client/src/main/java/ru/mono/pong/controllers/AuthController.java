@@ -84,15 +84,17 @@ public class AuthController {
 
     public void onButtonConnect() {
         State.serverAddress = "http://" + serverAddress.getText();
-        try {
-            if (HttpClient.pingServer()) {
-                logger.info("Connection to server established");
-                connectForm.setVisible(false);
-                authForm.setVisible(true);
-                errorConnect.setVisible(false);
+        new Thread(() -> {
+            try {
+                if (HttpClient.pingServer()) {
+                    logger.info("Connection to server established");
+                    connectForm.setVisible(false);
+                    authForm.setVisible(true);
+                    errorConnect.setVisible(false);
+                }
+            } catch (Exception e) {
+                logger.error(e.getMessage());
             }
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }
+        }).start();
     }
 }
