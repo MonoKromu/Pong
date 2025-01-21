@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 public class Worker {
     private static final Logger logger = LoggerFactory.getLogger(Worker.class);
 
-    private Runnable send;
-    private GameState state;
-    private int id;
+    public Runnable send;
+    public GameState state;
+    public int id;
 
     public int plank1 = 350, plank2 = 350;
     public int plank1Points, plank2Points;
@@ -91,9 +91,17 @@ public class Worker {
             gameEnded = true;
             state.isGameOver = true;
             updateState();
+            if(plank1Points == MAX_POINTS){
+                DBOperations.putUserPoints(CustomState.rooms.get(id).host.login);
+                state.winner = 1;
+                CustomState.rooms.remove(id);
+            }
+            else if(plank2Points == MAX_POINTS){
+                DBOperations.putUserPoints(CustomState.rooms.get(id).guest.login);
+                state.winner = 2;
+                CustomState.rooms.remove(id);
+            }
             send.run();
-            if(plank1Points == MAX_POINTS) DBOperations.putUserPoints(CustomState.rooms.get(id).host.login);
-            else if(plank2Points == MAX_POINTS) DBOperations.putUserPoints(CustomState.rooms.get(id).guest.login);
         }
         else reset();
     }
