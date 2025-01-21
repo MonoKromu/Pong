@@ -15,4 +15,8 @@ public class PasswordManager {
     public static boolean containsNumber(String pass){
         return pass.matches(".*\\d.*");
     }
+
+    public static boolean hasCorrectLength(String pass){
+        return (pass.length()>=10);
+    }
 }
