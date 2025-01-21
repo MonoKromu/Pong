@@ -57,6 +57,7 @@ public class UdpClient implements AutoCloseable {
                         State.currentGameState = state;
                         update.run();
                     }
+                    logger.info(String.valueOf(State.currentGameState.winner));
                     //receiveSocket.close();
                     //sendSocket.close();
                     logger.info("UDP ports is closed - while: {}\t {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());

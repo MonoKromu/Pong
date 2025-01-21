@@ -9,8 +9,10 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import ru.mono.pong.Main;
 import ru.mono.pong.State;
+import ru.mono.pong.transport.HttpClient;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class MenuController {
     @FXML
@@ -20,7 +22,8 @@ public class MenuController {
 
     public void initialize() {
         Platform.runLater(() -> {
-            profile_btn.setText(State.currentUser.login);
+            State.currentUser = HttpClient.postAuth(State.currentUser.login, AuthController.hashedPassword);
+            profile_btn.setText(Objects.requireNonNull(State.currentUser).login);
             points_label.setText(String.valueOf(State.currentUser.points));
         });
     }

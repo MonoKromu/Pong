@@ -49,7 +49,8 @@ public class RoomsController {
 
     public void setClose() {
         Stage stage = (Stage) toMenu_btn.getScene().getWindow();
-        stage.setOnCloseRequest(_ -> {});
+        stage.setOnCloseRequest(_ -> {
+        });
     }
 
     public void onButtonRefresh() {
@@ -139,7 +140,7 @@ public class RoomsController {
         createWindow.showAndWait();
     }
 
-    public void switchToGame( ) {
+    public void switchToGame() {
         Stage stage = (Stage) refresh_btn.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("game.fxml"));
         Scene scene;

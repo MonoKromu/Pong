@@ -99,13 +99,17 @@ public class GameController {
                             break;
                     }
                 }
-                Thread.sleep(1000);
+                if (State.currentGameState.winner == State.currentPlayerId) {
+                    winner_label.setVisible(true);
+                    logger.info("Winner label");
+                } else {
+                    loser_label.setVisible(true);
+                    logger.info("Loser label");
+                }
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             } finally {
-                if (State.currentGameState.winner == State.currentPlayerId) {
-                    winner_label.setVisible(true);
-                } else loser_label.setVisible(true);
                 System.out.println("Game is over - Finally");
                 State.currentGameState.isGameOver = true;
                 udp.close();

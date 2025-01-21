@@ -33,6 +33,11 @@ public class AuthController {
     PasswordField password;
     @FXML
     TextField serverAddress;
+    public static String hashedPassword;
+
+    {
+        hashedPassword = HashManager.sha256Hash(password.getText());
+    }
 
     public void onButtonEnter() {
         err_lab.setVisible(false);
@@ -40,9 +45,9 @@ public class AuthController {
         reg_btn.setDisable(true);
         login.setDisable(true);
         password.setDisable(true);
-        String hashed = HashManager.sha256Hash(password.getText());
+
         new Thread(() -> {
-            State.currentUser = HttpClient.postAuth(login.getText(), hashed);
+            State.currentUser = HttpClient.postAuth(login.getText(), hashedPassword);
             Platform.runLater(() -> {
                 if (!Objects.equals(State.currentUser, null)) {
                     logger.info("Auth successful");
