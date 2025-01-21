@@ -58,11 +58,11 @@ public class Worker {
 
     public void update(Action a) {
         if (a.player == 1) {
-            if (a.key == 'w' && plank1 >= 100) plank1 -= MOVE_STEP;
-            else if (a.key == 's' && plank1 <= SCREEN_HEIGHT-10) plank1 += MOVE_STEP;
+            if (a.key == 'w' && plank1 >= 3) plank1 -= MOVE_STEP;
+            else if (a.key == 's' && plank1 <= SCREEN_HEIGHT-PLANK_HEIGHT-3) plank1 += MOVE_STEP;
         } else if (a.player == 2) {
-            if (a.key == 'w' && plank2 >= 100) plank2 -= MOVE_STEP;
-            else if (a.key == 's' && plank2 <= SCREEN_HEIGHT-10) plank2 += MOVE_STEP;
+            if (a.key == 'w' && plank2 >= 3) plank2 -= MOVE_STEP;
+            else if (a.key == 's' && plank2 <= SCREEN_HEIGHT-PLANK_HEIGHT-3) plank2 += MOVE_STEP;
         }
     }
 
