@@ -11,6 +11,7 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import ru.mono.pong.Main;
 import ru.mono.pong.State;
+import ru.mono.pong.exceptions.BadNewPasswordException;
 import ru.mono.pong.transport.HttpClient;
 import ru.mono.pong.utils.SceneManager;
 
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
+import ru.mono.pong.utils.PasswordManager;
 
 public class ProfileController {
     @FXML
@@ -53,6 +55,19 @@ public class ProfileController {
 
     public void onButtonChangePass() {
         Platform.runLater(() -> {
+            if(!PasswordManager.containsLetters(new_pass_lab.getText())) try {
+                throw new BadNewPasswordException(
+                        "Password must contain lowercase and uppercase letters", change_lab);
+            } catch (BadNewPasswordException e) {
+                throw new RuntimeException(e);
+            }
+            if(!PasswordManager.containsNumber(new_pass_lab.getText())) try {
+                throw new BadNewPasswordException(
+                        "Password must contain numbers", change_lab);
+            } catch (BadNewPasswordException e) {
+                throw new RuntimeException(e);
+            }
+
             accept_btn.setDisable(true);
             old_pass_lab.setDisable(true);
             menu_btn.setDisable(true);

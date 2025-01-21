@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c2bcb69a-24ad-4adf-a063-fd1289b82a90" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../client/src/main/java/ru/mono/pong/utils/PasswordManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client/src/main/java/ru/mono/pong/controllers/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/ru/mono/pong/controllers/ProfileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/main/java/ru/mono/pong/controllers/RegisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/ru/mono/pong/controllers/RegisterController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client/src/main/java/ru/mono/pong/exceptions/BadNewPasswordException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/ru/mono/pong/exceptions/BadNewPasswordException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
