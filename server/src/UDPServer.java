@@ -72,7 +72,6 @@ public class UDPServer {
                                 Worker worker = workers.get(action.id);
                                 worker.gameEnded = true;
                                 worker.state.isGameOver = true;
-                                worker.send.run();
                                 if(action.player == 1){
                                     worker.state.winner = 2;
                                     DBOperations.putUserPoints(room.guest.login);
@@ -81,6 +80,7 @@ public class UDPServer {
                                     worker.state.winner = 1;
                                     DBOperations.putUserPoints(room.host.login);
                                 }
+                                worker.send.run();
                             }
                             else{
                                 logger.info("Room was empty");
