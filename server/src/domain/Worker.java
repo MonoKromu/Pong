@@ -94,14 +94,13 @@ public class Worker {
             if(plank1Points == MAX_POINTS){
                 DBOperations.putUserPoints(CustomState.rooms.get(id).host.login);
                 state.winner = 1;
-                CustomState.rooms.remove(id);
             }
             else if(plank2Points == MAX_POINTS){
                 DBOperations.putUserPoints(CustomState.rooms.get(id).guest.login);
                 state.winner = 2;
-                CustomState.rooms.remove(id);
             }
             send.run();
+            CustomState.rooms.remove(id);
         }
         else reset();
     }
