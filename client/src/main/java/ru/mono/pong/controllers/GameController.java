@@ -1,5 +1,6 @@
 package ru.mono.pong.controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -7,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -18,6 +20,7 @@ import ru.mono.pong.State;
 import ru.mono.pong.transport.UdpClient;
 import ru.mono.pong.transport.dtos.Action;
 import ru.mono.pong.transport.dtos.GameState;
+import ru.mono.pong.utils.SceneManager;
 
 import java.io.IOException;
 import java.util.ArrayDeque;
@@ -53,7 +56,7 @@ public class GameController {
         cheat.addLast(KeyCode.Z);
 
         udp = new UdpClient(this::update, State.currentPlayerId == 2);
-        logger.info(String.valueOf("You are " + State.currentPlayerId + " player"));
+        logger.info("You are " + State.currentPlayerId + " player");
         pane.sceneProperty().addListener((observable, oldScene, newScene) -> {
             if (newScene != null) {
                 newScene.setOnKeyPressed(this::onKeyPressed);
@@ -69,7 +72,7 @@ public class GameController {
                 while (!State.currentGameState.isGameOver) {
                     Thread.sleep(20);
                     switch (keyPressed) {
-                        case 'w', 's':
+                        case 'w', 's', 'e':
                             udp.sendAction(new Action(State.currentRoomId, State.currentPlayerId, keyPressed));
                             break;
                     }
@@ -77,9 +80,22 @@ public class GameController {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             } finally {
+                System.out.println("Game is over - Finally");
+                State.currentGameState.isGameOver = true;
                 udp.close();
+                Platform.runLater(this::backToMenu);
             }
         }).start();
+    }
+
+    public void backToMenu() {
+        try {
+            Stage stage = (Stage) pane.getScene().getWindow();
+            SceneManager.loadScene(stage, "rooms.fxml", "Rooms");
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void update() {
@@ -93,23 +109,6 @@ public class GameController {
         plank2Points.setText(String.valueOf(State.currentGameState.plank2Points));
     }
 
-    public void escapeToRooms() {
-        udp.close();
-        Stage stage = (Stage) pane.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("rooms.fxml"));
-        Scene scene;
-        try {
-            scene = new Scene(fxmlLoader.load(), 1024, 768);
-        } catch (
-                IOException e) {
-            throw new RuntimeException(e);
-        }
-        stage.setTitle("Game rooms");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
-    }
-
     @FXML
     private void onKeyPressed(KeyEvent e) {
         KeyCode code = e.getCode();
@@ -117,11 +116,23 @@ public class GameController {
         switch (code) {
             case W -> keyPressed = 'w';
             case S -> keyPressed = 's';
-            case ESCAPE -> escapeToRooms();
+            case ESCAPE -> {
+                keyPressed = 'e';
+                System.out.println("Game is over - ESCAPE");
+                //State.currentGameState.isGameOver = true;
+            }
         }
         queue.addLast(code);
-        if(queue.size() > 9) queue.removeFirst();
-        if(cheat.equals(queue)) zet.setVisible(true);
+        if (queue.size() > 9) queue.removeFirst();
+        if (cheat.equals(queue)) {
+            ball.setFill(Paint.valueOf("BLACK"));
+            plank1.setFill(Paint.valueOf("BLUE"));
+            plank2.setFill(Paint.valueOf("RED"));
+            plank1Points.setFill(Paint.valueOf("BLACK"));
+            plank2Points.setFill(Paint.valueOf("BLACK"));
+            field.setVisible(false);
+            zet.setVisible(true);
+        }
         System.out.println(queue);
         System.out.println(cheat);
     }

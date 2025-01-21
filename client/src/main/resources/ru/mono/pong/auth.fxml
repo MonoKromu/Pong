@@ -10,42 +10,27 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mono.pong.controllers.AuthController">
     <children>
-      <TextField fx:id="serverAddress" focusTraversable="false" layoutX="345.0" layoutY="365.0" prefHeight="57.0" prefWidth="337.0" promptText="ip:port">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </TextField>
-      <Label fx:id="errorConnect" layoutX="429.0" layoutY="479.0" text="Ошибка подключения" textFill="RED" visible="false">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
-      <Button fx:id="connect_btn" contentDisplay="CENTER" defaultButton="true" layoutX="345.0" layoutY="433.0" mnemonicParsing="false" onAction="#onButtonConnect" prefHeight="39.0" prefWidth="337.0" text="Подключиться">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Button>
       <Label fx:id="err_lab" layoutX="316.0" layoutY="491.0" text="Логин и/или пароль неверный. Попробуйте еще раз." textFill="RED" visible="false">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-        <TextField fx:id="login" layoutX="347.0" layoutY="351.0" prefHeight="67.0" prefWidth="330.0" promptText="Логин" visible="false">
+        <TextField fx:id="login" layoutX="347.0" layoutY="351.0" prefHeight="67.0" prefWidth="330.0" promptText="Логин">
          <font>
             <Font size="24.0" />
          </font>
       </TextField>
-      <PasswordField fx:id="password" layoutX="348.0" layoutY="424.0" prefHeight="67.0" prefWidth="330.0" promptText="Пароль" visible="false">
+      <PasswordField fx:id="password" layoutX="348.0" layoutY="424.0" prefHeight="67.0" prefWidth="330.0" promptText="Пароль">
          <font>
             <Font size="24.0" />
          </font>
       </PasswordField>
-        <Button fx:id="enter_btn" contentDisplay="CENTER" defaultButton="true" layoutX="392.0" layoutY="534.0" mnemonicParsing="false" onAction="#onButtonEnter" prefHeight="77.0" prefWidth="245.0" text="Войти" visible="false">
+        <Button fx:id="enter_btn" contentDisplay="CENTER" defaultButton="true" layoutX="392.0" layoutY="534.0" mnemonicParsing="false" onAction="#onButtonEnter" prefHeight="77.0" prefWidth="245.0" text="Войти">
          <font>
             <Font size="36.0" />
          </font>
       </Button>
-      <Button fx:id="reg_btn" layoutX="436.0" layoutY="611.0" mnemonicParsing="false" onAction="#onButtonReg" prefHeight="43.0" prefWidth="156.0" style="-fx-background-color: #f4f4f4;" text="Регистрация" textOverrun="CLIP" underline="true" visible="false">
+      <Button fx:id="reg_btn" layoutX="436.0" layoutY="611.0" mnemonicParsing="false" onAction="#onButtonReg" prefHeight="43.0" prefWidth="156.0" style="-fx-background-color: #f4f4f4;" text="Регистрация" textOverrun="CLIP" underline="true">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

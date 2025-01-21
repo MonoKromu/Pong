@@ -33,20 +33,6 @@ public class AuthController {
     PasswordField password;
     @FXML
     TextField serverAddress;
-    @FXML
-    VBox authForm, connectForm;
-
-
-    public void initialize(){
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("src/address"));
-            serverAddress.setText(reader.readLine());
-            reader.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
 
     public void onButtonEnter() {
         err_lab.setVisible(false);
@@ -91,28 +77,5 @@ public class AuthController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public void onButtonConnect() {
-        State.serverAddress = serverAddress.getText();
-        new Thread(() -> {
-            try {
-                if (HttpClient.pingServer()) {
-                    logger.info("Connection to server established");
-                    connect_btn.setVisible(false);
-                    serverAddress.setVisible(false);
-                    login.setVisible(true);
-                    password.setVisible(true);
-                    enter_btn.setVisible(true);
-                    reg_btn.setVisible(true);
-                    FileWriter writer = new FileWriter("src/address");
-                    writer.write(serverAddress.getText());
-                    writer.flush();
-                    writer.close();
-                }
-            } catch (Exception e) {
-                logger.error(e.getMessage());
-            }
-        }).start();
     }
 }

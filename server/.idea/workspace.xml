@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c2bcb69a-24ad-4adf-a063-fd1289b82a90" name="Changes" comment="" />
+    <list default="true" id="c2bcb69a-24ad-4adf-a063-fd1289b82a90" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../client/src/main/resources/ru/mono/pong/application.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/main/java/ru/mono/pong/controllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/ru/mono/pong/controllers/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/main/java/ru/mono/pong/controllers/RoomsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/java/ru/mono/pong/controllers/RoomsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/main/resources/ru/mono/pong/game.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/main/resources/ru/mono/pong/game.fxml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -10,6 +15,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "enoughLev"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/MonoKromu/Pong.git",
+    "accountId": "b7535ea8-2dda-4a77-83df-332a454530f0"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 6
+}]]></component>
   <component name="ProjectId" id="2rXSBh869bdkCQ7t75FWYDLqsMh" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -24,7 +45,8 @@
     "WebServerToolWindowFactoryState": "false",
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "client",
-    "last_opened_file_path": "C:/Users/Mono/Documents/GitHub/Pong/client",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/levch/IdeaProjects/Pong/server",
     "show.migrate.to.gradle.popup": "false",
     "vue.rearranger.settings.migration": "true"
   }
