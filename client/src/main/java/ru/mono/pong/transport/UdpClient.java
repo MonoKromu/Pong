@@ -102,32 +102,16 @@ public class UdpClient implements AutoCloseable {
 
     @Override
     public void close() {
-        //new Thread(() -> {
+        new Thread(() -> {
             try {
                 logger.info("UDP ports is closed - close(): {}\t {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
-                System.out.println("FIRST: ");
-                System.out.println(receiveSocket.isClosed());
-                System.out.println(sendSocket.isClosed());
-                System.out.println(receiveSocket.isBound());
-                System.out.println(sendSocket.isBound());
-                System.out.println("0");
-                //receiveSocket.disconnect();
-                System.out.println("1");
-                sendSocket.disconnect();
-                System.out.println("2");
                 receiveSocket.close();
-                System.out.println("3");
                 sendSocket.close();
-                System.out.println("SECOND: ");
-                System.out.println(receiveSocket.isClosed());
-                System.out.println(sendSocket.isClosed());
-                System.out.println(receiveSocket.isBound());
-                System.out.println(sendSocket.isBound());
                 logger.info("UDP ports is closed - close(): {}\t {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
             } catch (UncheckedIOException e) {
                 e.printStackTrace();
             }
-        //}).start();
+        }).start();
     }
 
 }

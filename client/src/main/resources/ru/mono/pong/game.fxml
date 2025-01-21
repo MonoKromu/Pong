@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
@@ -36,5 +37,15 @@
                 <Font size="72.0" />
             </font>
         </Text>
+      <Label fx:id="loser_label" layoutX="247.0" layoutY="287.0" text="GAME OVER" textFill="#e3295f" visible="false">
+         <font>
+            <Font size="96.0" />
+         </font>
+      </Label>
+      <Label fx:id="winner_label" layoutX="150.0" layoutY="311.0" text="Congrutilations! You Win!" textFill="#29ff00" visible="false">
+         <font>
+            <Font size="64.0" />
+         </font>
+      </Label>
     </children>
 </Pane>

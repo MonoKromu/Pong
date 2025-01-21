@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -36,6 +37,8 @@ public class GameController {
     Pane pane;
     @FXML
     Text plank1Points, plank2Points, zet;
+    @FXML
+    Label winner_label, loser_label;
 
     ArrayList<KeyCode> queue = new ArrayList<>();
     ArrayList<KeyCode> cheat = new ArrayList<>();
@@ -45,6 +48,7 @@ public class GameController {
     UdpClient udp;
 
     public void initialize() {
+        State.currentGameState.isGameOver = false;
         cheat.addLast(KeyCode.LEFT);
         cheat.addLast(KeyCode.LEFT);
         cheat.addLast(KeyCode.UP);
@@ -77,9 +81,13 @@ public class GameController {
                             break;
                     }
                 }
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             } finally {
+                if (State.currentGameState.winner == State.currentPlayerId) {
+                    winner_label.setVisible(true);
+                } else loser_label.setVisible(true);
                 System.out.println("Game is over - Finally");
                 State.currentGameState.isGameOver = true;
                 udp.close();
@@ -102,8 +110,8 @@ public class GameController {
         ball.setLayoutX(State.currentGameState.ballX);
         ball.setLayoutY(State.currentGameState.ballY);
 
-        plank1.setY(State.currentGameState.plank1);
-        plank2.setY(State.currentGameState.plank2);
+        plank1.setLayoutY(State.currentGameState.plank1);
+        plank2.setLayoutY(State.currentGameState.plank2);
 
         plank1Points.setText(String.valueOf(State.currentGameState.plank1Points));
         plank2Points.setText(String.valueOf(State.currentGameState.plank2Points));
@@ -141,7 +149,7 @@ public class GameController {
     private void onKeyReleased(KeyEvent e) {
         KeyCode code = e.getCode();
         switch (code) {
-            case W, S -> keyPressed = 'a';
+            case W, S, ESCAPE -> keyPressed = 'a';
         }
     }
 

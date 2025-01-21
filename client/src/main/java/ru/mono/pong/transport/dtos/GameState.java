@@ -5,6 +5,7 @@ public class GameState {
     public double ballX, ballY;
     public int plank1Points, plank2Points;
     public boolean isGameOver;
+    public int winner;
 
     public GameState() {
         isGameOver = false;
