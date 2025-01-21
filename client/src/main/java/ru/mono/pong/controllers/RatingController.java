@@ -2,16 +2,13 @@ package ru.mono.pong.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import ru.mono.pong.Main;
 import ru.mono.pong.transport.dtos.User;
 import ru.mono.pong.transport.HttpClient;
 import ru.mono.pong.utils.SceneManager;

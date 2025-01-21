@@ -18,6 +18,7 @@ import ru.mono.pong.transport.UdpClient;
 import ru.mono.pong.transport.dtos.Action;
 import ru.mono.pong.utils.SceneManager;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -98,10 +99,10 @@ public class GameController {
                 }
                 if (State.currentGameState.winner == State.currentPlayerId) {
                     winner_label.setVisible(true);
-                    logger.info("YOU ARE WINNER");
+                    logger.info("YOU ARE WIN THE GAME");
                 } else {
                     loser_label.setVisible(true);
-                    logger.info("YOU ARE LOSER");
+                    logger.info("YOU ARE LOSE THE GAME");
                 }
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
@@ -136,13 +137,12 @@ public class GameController {
     @FXML
     private void onKeyPressed(KeyEvent e) {
         KeyCode code = e.getCode();
-        logger.info("Key pressed: {}", code);
         switch (code) {
             case W -> keyPressed = 'w';
             case S -> keyPressed = 's';
             case ESCAPE -> {
                 keyPressed = 'e';
-                System.out.println("Game is over - ESCAPE");
+                logger.info("Sending key to close game!");
             }
         }
         queue.addLast(code);
@@ -156,8 +156,6 @@ public class GameController {
             field.setVisible(false);
             zet.setVisible(true);
         }
-        System.out.println(queue);
-        System.out.println(cheat);
     }
 
     @FXML

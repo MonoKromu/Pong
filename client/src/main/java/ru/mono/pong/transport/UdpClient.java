@@ -13,8 +13,10 @@ import java.net.*;
 
 public class UdpClient implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(UdpClient.class);
+
     static String serverAddress = State.serverAddress.split(":")[0];
     static final int PORT = 8000;              // Порт сервера
+
     private static DatagramSocket receiveSocket;
     private static DatagramSocket sendSocket;
 
@@ -27,7 +29,7 @@ public class UdpClient implements AutoCloseable {
             receiveSocket.setReuseAddress(true);
             sendSocket = new DatagramSocket(PORT + 2);
             sendSocket.setReuseAddress(true);
-            logger.info("UDP client started on port {} \t Sending on port {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
+            logger.info("UDP client started on port {} (receive) and {} (send)", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
             if (start) this.start();
             this.listen();
         } catch (SocketException e) {
@@ -56,14 +58,9 @@ public class UdpClient implements AutoCloseable {
                         State.currentGameState = state;
                         update.run();
                     }
-                    logger.info(String.valueOf(State.currentGameState.winner));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-            } else {
-                receiveSocket.close();
-                sendSocket.close();
-                logger.info("UDP ports is closed - else: {}\t {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
             }
         }).start();
     }
@@ -90,7 +87,6 @@ public class UdpClient implements AutoCloseable {
             try {
                 DatagramPacket sendPacket = new DatagramPacket(actionByte, actionByte.length, InetAddress.getByName(serverAddress), PORT + 1);
                 sendSocket.send(sendPacket);
-                //logger.info("Send from port {}", sendSocket.getLocalPort());
             } catch (Exception e) {
                 e.printStackTrace();
             }

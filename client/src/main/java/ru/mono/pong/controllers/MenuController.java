@@ -2,21 +2,15 @@ package ru.mono.pong.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import ru.mono.pong.Main;
 import ru.mono.pong.State;
 import ru.mono.pong.transport.HttpClient;
 import ru.mono.pong.utils.SceneManager;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
-
-import static ru.mono.pong.controllers.ProfileController.sha256Hash;
 
 public class MenuController {
     @FXML

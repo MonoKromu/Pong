@@ -30,7 +30,7 @@ public class CreateRoomController {
     public void showStatus(String message, String color, Boolean visible) {
         err_lab.setText(message);
         err_lab.setTextFill(Paint.valueOf(color));
-        err_lab.setVisible(true);
+        err_lab.setVisible(visible);
     }
 
     public void onButtonCreate() {
@@ -43,7 +43,7 @@ public class CreateRoomController {
                         showStatus("Комната создана", "GREEN", true);
                         onButtonBack();
                         goToGame();
-                    } else showStatus("Status code: " + response, "BLEU", true);
+                    } else showStatus("Status code: " + response, "BLUE", true);
                 });
             } else showStatus("Введите название комнаты", "RED", true);
         }).start();

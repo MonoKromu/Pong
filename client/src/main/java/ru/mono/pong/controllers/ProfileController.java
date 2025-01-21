@@ -2,23 +2,20 @@ package ru.mono.pong.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
-import ru.mono.pong.Main;
 import ru.mono.pong.State;
 import ru.mono.pong.exceptions.BadNewPasswordException;
 import ru.mono.pong.transport.HttpClient;
+import ru.mono.pong.utils.HashManager;
 import ru.mono.pong.utils.SceneManager;
 
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
+
 import ru.mono.pong.utils.PasswordManager;
 
 public class ProfileController {
@@ -37,77 +34,64 @@ public class ProfileController {
         });
     }
 
-    public static String sha256Hash(String data) throws NoSuchAlgorithmException {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] hashBytes = digest.digest(data.getBytes());
-        return bytesToHex(hashBytes);
+    public void setDisable() {
+        accept_btn.setDisable(true);
+        old_pass_lab.setDisable(true);
+        menu_btn.setDisable(true);
+        new_pass_lab.setDisable(true);
+        sec_new_pass_lab.setDisable(true);
+        change_lab.setVisible(false);
     }
 
-    private static String bytesToHex(byte[] hash) {
-        StringBuilder hexString = new StringBuilder();
-        for (byte b : hash) {
-            String hex = Integer.toHexString(0xff & b);
-            if (hex.length() == 1) hexString.append('0');
-            hexString.append(hex);
-        }
-        return hexString.toString();
+    public void unsetDisable() {
+        accept_btn.setDisable(false);
+        old_pass_lab.setDisable(false);
+        menu_btn.setDisable(false);
+        new_pass_lab.setDisable(false);
+        sec_new_pass_lab.setDisable(false);
+    }
+
+    private void showStatus(String message, String color, Boolean visible) {
+        change_lab.setText(message);
+        change_lab.setTextFill(Paint.valueOf(color));
+        change_lab.setVisible(visible);
     }
 
     public void onButtonChangePass() {
         Platform.runLater(() -> {
-            if(!PasswordManager.containsLetters(new_pass_lab.getText())) try {
+            setDisable();
+
+            if (!PasswordManager.containsLetters(new_pass_lab.getText())) try {
                 throw new BadNewPasswordException(
                         "Password must contain lowercase and uppercase letters", change_lab);
             } catch (BadNewPasswordException e) {
                 throw new RuntimeException(e);
             }
-            if(!PasswordManager.containsNumber(new_pass_lab.getText())) try {
+            if (!PasswordManager.containsNumber(new_pass_lab.getText())) try {
                 throw new BadNewPasswordException(
                         "Password must contain numbers", change_lab);
             } catch (BadNewPasswordException e) {
                 throw new RuntimeException(e);
             }
 
-            accept_btn.setDisable(true);
-            old_pass_lab.setDisable(true);
-            menu_btn.setDisable(true);
-            new_pass_lab.setDisable(true);
-            sec_new_pass_lab.setDisable(true);
-            change_lab.setVisible(false);
             if (Objects.equals(old_pass_lab.getText(), new_pass_lab.getText()) || Objects.equals(old_pass_lab.getText(), sec_new_pass_lab.getText())) {
-                change_lab.setText("Пароли не должны совпадать!");
-                change_lab.setTextFill(Paint.valueOf("RED"));
-                change_lab.setVisible(true);
+                showStatus("Пароли не должны совпадать!", "RED", true);
             } else if (Objects.equals(new_pass_lab.getText(), sec_new_pass_lab.getText())) {
                 String hashedOldPass;
                 String hashedNewPass;
-                try {
-                    hashedOldPass = sha256Hash(old_pass_lab.getText());
-                    hashedNewPass = sha256Hash(new_pass_lab.getText());
-                } catch (NoSuchAlgorithmException e) {
-                    throw new RuntimeException(e);
-                }
+                hashedOldPass = HashManager.sha256Hash(old_pass_lab.getText());
+                hashedNewPass = HashManager.sha256Hash(new_pass_lab.getText());
                 boolean response = HttpClient.putPassword(State.currentUser.login, hashedOldPass, hashedNewPass);
                 if (response) {
                     State.currentUser.password = hashedNewPass;
-                    change_lab.setText("Пароль изменен!");
-                    change_lab.setTextFill(Paint.valueOf("GREEN"));
-                    change_lab.setVisible(true);
+                    showStatus("Пароль успешно изменен!", "GREEN", true);
                 } else {
-                    change_lab.setTextFill(Paint.valueOf("RED"));
-                    change_lab.setText("Пароль неверный!");
-                    change_lab.setVisible(true);
+                    showStatus("Пароль неверный!", "RED", true);
                 }
             } else {
-                change_lab.setTextFill(Paint.valueOf("RED"));
-                change_lab.setText("Новые пароли не совпадают!");
-                change_lab.setVisible(true);
+                showStatus("Новые пароли не совпадают!", "RED", true);
             }
-            accept_btn.setDisable(false);
-            old_pass_lab.setDisable(false);
-            menu_btn.setDisable(false);
-            new_pass_lab.setDisable(false);
-            sec_new_pass_lab.setDisable(false);
+            unsetDisable();
         });
     }
 

@@ -5,8 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
-import ru.mono.pong.transport.UdpClient;
-import ru.mono.pong.transport.dtos.Action;
 
 import java.io.IOException;
 import java.util.Objects;

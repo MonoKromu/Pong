@@ -53,7 +53,6 @@ public class RegisterController {
         if(!PasswordManager.hasCorrectLength(password.getText())) throw new BadNewPasswordException(
                 "Password must be 10 or more symbols", status);
 
-
         setInputsDisability(true);
         if (checkCredentials()) {
             new Thread(() -> {
