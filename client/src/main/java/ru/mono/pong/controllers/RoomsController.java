@@ -17,6 +17,7 @@ import ru.mono.pong.transport.dtos.Room;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static ru.mono.pong.State.currentUser;
 

@@ -8,12 +8,13 @@ import ru.mono.pong.transport.dtos.Action;
 import ru.mono.pong.transport.dtos.GameState;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.*;
 
 public class UdpClient implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(UdpClient.class);
     // static final String serverAddress = "95.181.27.100"; // Адрес сервера
-    static final String serverAddress = "46.181.90.183";
+    static String serverAddress = State.serverAddress.split(":")[0];
     static final int PORT = 8000;              // Порт сервера
     private static DatagramSocket receiveSocket;
     private static DatagramSocket sendSocket;
@@ -24,7 +25,9 @@ public class UdpClient implements AutoCloseable {
         this.update = update;
         try {
             receiveSocket = new DatagramSocket(PORT + 5);
+            receiveSocket.setReuseAddress(true);
             sendSocket = new DatagramSocket(PORT + 2);
+            sendSocket.setReuseAddress(true);
             logger.info("UDP client started on port {} \t Sending on port {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
             if (start) this.start();
             this.listen();
@@ -40,6 +43,7 @@ public class UdpClient implements AutoCloseable {
                     Gson gson = new Gson();
                     byte[] receiveData = new byte[256];
                     int i = 0;
+                    logger.info("Start listening");
                     while (!State.currentGameState.isGameOver) {
                         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                         // ожидание запроса
@@ -53,10 +57,16 @@ public class UdpClient implements AutoCloseable {
                         State.currentGameState = state;
                         update.run();
                     }
-                    receiveSocket.close();
+                    //receiveSocket.close();
+                    //sendSocket.close();
+                    logger.info("UDP ports is closed - while: {}\t {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+            } else {
+                receiveSocket.close();
+                sendSocket.close();
+                logger.info("UDP ports is closed - else: {}\t {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
             }
         }).start();
     }
@@ -77,20 +87,47 @@ public class UdpClient implements AutoCloseable {
     }
 
     public void sendAction(Action action) {
-        try {
+        new Thread(() -> {
             Gson gson = new Gson();
             byte[] actionByte = gson.toJson(action).getBytes();
-            DatagramPacket sendPacket = new DatagramPacket(actionByte, actionByte.length, InetAddress.getByName(serverAddress), PORT + 1);
-            sendSocket.send(sendPacket);
-            logger.info("Send port {}/", sendSocket.getLocalPort());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            try {
+                DatagramPacket sendPacket = new DatagramPacket(actionByte, actionByte.length, InetAddress.getByName(serverAddress), PORT + 1);
+                sendSocket.send(sendPacket);
+                logger.info("Send from port {}", sendSocket.getLocalPort());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     @Override
     public void close() {
-        receiveSocket.close();
-        sendSocket.close();
+        //new Thread(() -> {
+            try {
+                logger.info("UDP ports is closed - close(): {}\t {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
+                System.out.println("FIRST: ");
+                System.out.println(receiveSocket.isClosed());
+                System.out.println(sendSocket.isClosed());
+                System.out.println(receiveSocket.isBound());
+                System.out.println(sendSocket.isBound());
+                System.out.println("0");
+                //receiveSocket.disconnect();
+                System.out.println("1");
+                sendSocket.disconnect();
+                System.out.println("2");
+                receiveSocket.close();
+                System.out.println("3");
+                sendSocket.close();
+                System.out.println("SECOND: ");
+                System.out.println(receiveSocket.isClosed());
+                System.out.println(sendSocket.isClosed());
+                System.out.println(receiveSocket.isBound());
+                System.out.println(sendSocket.isBound());
+                logger.info("UDP ports is closed - close(): {}\t {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
+            } catch (UncheckedIOException e) {
+                e.printStackTrace();
+            }
+        //}).start();
     }
+
 }
