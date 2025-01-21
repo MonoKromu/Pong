@@ -12,6 +12,8 @@ public class BadNewPasswordException extends Exception {
                 "Пароль должен содержать строчные и заглавные буквы");
         messageRu.put("Password must contain numbers",
                 "Пароль должен содержать цифры");
+        messageRu.put("Password must be 10 or more symbols",
+                "Пароль должен содержать 10 или более символов");
     }
 
     public BadNewPasswordException(String message, Label label){
