@@ -1,17 +1,25 @@
 package ru.mono.pong.controllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.mono.pong.Main;
 import ru.mono.pong.State;
 import ru.mono.pong.transport.UdpClient;
 import ru.mono.pong.transport.dtos.Action;
+import ru.mono.pong.transport.dtos.GameState;
+
+import java.io.IOException;
 
 public class GameController {
     private static final Logger logger = LoggerFactory.getLogger(GameController.class);
@@ -29,7 +37,7 @@ public class GameController {
 
     public void initialize() {
         udp = new UdpClient(this::update, State.currentPlayerId == 2);
-        logger.info(String.valueOf(State.currentPlayerId));
+        logger.info(String.valueOf("You are " + State.currentPlayerId + " player"));
         pane.sceneProperty().addListener((observable, oldScene, newScene) -> {
             if (newScene != null) {
                 newScene.setOnKeyPressed(this::onKeyPressed);
@@ -48,15 +56,11 @@ public class GameController {
                         case 'w', 's':
                             udp.sendAction(new Action(State.currentRoomId, State.currentPlayerId, keyPressed));
                             break;
-                        default:
-                            //udp.sendAction(new Action(State.gameId, State.playerId, keyPressed));
-                            break;
                     }
                 }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
-            }
-            finally {
+            } finally {
                 udp.close();
             }
         }).start();
@@ -73,13 +77,31 @@ public class GameController {
         plank2Points.setText(String.valueOf(State.currentGameState.plank2Points));
     }
 
+    public void escapeToRooms() {
+        udp.close();
+        Stage stage = (Stage) pane.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("rooms.fxml"));
+        Scene scene;
+        try {
+            scene = new Scene(fxmlLoader.load(), 1024, 768);
+        } catch (
+                IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setTitle("Game rooms");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
+
     @FXML
     private void onKeyPressed(KeyEvent e) {
         KeyCode code = e.getCode();
-        logger.info("Key pressed: " + code);
+        logger.info("Key pressed: {}", code);
         switch (code) {
             case W -> keyPressed = 'w';
             case S -> keyPressed = 's';
+            case ESCAPE -> escapeToRooms();
         }
     }
 
@@ -90,4 +112,6 @@ public class GameController {
             case W, S -> keyPressed = 'a';
         }
     }
+
+
 }
