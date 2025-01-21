@@ -31,7 +31,7 @@ public class ProfileController {
 
     public void initialize() {
         Platform.runLater(() -> {
-            State.currentUser = HttpClient.postAuth(State.currentUser.login, AuthController.hashedPassword);
+            State.currentUser = HttpClient.postAuth(State.currentUser.login, State.currentUser.password);
             login_lab.setText(Objects.requireNonNull(State.currentUser).login);
             points_lab.setText(String.valueOf(State.currentUser.points));
         });
@@ -89,6 +89,7 @@ public class ProfileController {
                 }
                 boolean response = HttpClient.putPassword(State.currentUser.login, hashedOldPass, hashedNewPass);
                 if (response) {
+                    State.currentUser.password = hashedNewPass;
                     change_lab.setText("Пароль изменен!");
                     change_lab.setTextFill(Paint.valueOf("GREEN"));
                     change_lab.setVisible(true);

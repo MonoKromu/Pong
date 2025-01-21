@@ -143,7 +143,7 @@ public class RoomsController {
 
     public void switchToGame() {
         try {
-            Stage stage = (Stage) create_btn.getScene().getWindow();
+            Stage stage = (Stage) toMenu_btn.getScene().getWindow();
             SceneManager.loadScene(stage, "game.fxml", "Pong Masters");
             stage.show();
         } catch (IOException e) {

@@ -13,7 +13,10 @@ import ru.mono.pong.transport.HttpClient;
 import ru.mono.pong.utils.SceneManager;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
+
+import static ru.mono.pong.controllers.ProfileController.sha256Hash;
 
 public class MenuController {
     @FXML
@@ -23,7 +26,7 @@ public class MenuController {
 
     public void initialize() {
         Platform.runLater(() -> {
-            State.currentUser = HttpClient.postAuth(State.currentUser.login, AuthController.hashedPassword);
+            State.currentUser = HttpClient.postAuth(State.currentUser.login, State.currentUser.password);
             profile_btn.setText(Objects.requireNonNull(State.currentUser).login);
             points_label.setText(String.valueOf(State.currentUser.points));
         });
