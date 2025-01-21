@@ -20,7 +20,7 @@ public class HttpClient {
     static String baseURI = "http://46.181.90.183:8000";
 
     public static boolean pingServer() {
-        baseURI = State.serverAddress;
+        baseURI = "http://"+ State.serverAddress;
         try {
             java.net.http.HttpClient client = java.net.http.HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder().uri(URI.create(baseURI)).build();

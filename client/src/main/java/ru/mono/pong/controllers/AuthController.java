@@ -18,13 +18,13 @@ import ru.mono.pong.transport.HttpClient;
 import ru.mono.pong.utils.HashManager;
 import ru.mono.pong.utils.SceneManager;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.Objects;
 
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     @FXML
-    Button enter_btn, reg_btn;
+    Button enter_btn, reg_btn, connect_btn;
     @FXML
     Label err_lab, errorConnect;
     @FXML
@@ -33,9 +33,6 @@ public class AuthController {
     PasswordField password;
     @FXML
     TextField serverAddress;
-    @FXML
-    VBox authForm, connectForm;
-
 
     public void onButtonEnter() {
         err_lab.setVisible(false);
@@ -80,21 +77,5 @@ public class AuthController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public void onButtonConnect() {
-        State.serverAddress = "http://" + serverAddress.getText();
-        new Thread(() -> {
-            try {
-                if (HttpClient.pingServer()) {
-                    logger.info("Connection to server established");
-                    connectForm.setVisible(false);
-                    authForm.setVisible(true);
-                    errorConnect.setVisible(false);
-                }
-            } catch (Exception e) {
-                logger.error(e.getMessage());
-            }
-        }).start();
     }
 }

@@ -16,7 +16,7 @@ public class MenuController {
     @FXML
     Label points_label;
     @FXML
-    Button play_btn, rating_btn, exit_btn, profile_btn;
+    Button play_btn, rating_btn, exit_btn, profile_btn, changeUser_btn;
 
     public void initialize() {
         Platform.runLater(() -> {
@@ -57,8 +57,20 @@ public class MenuController {
         stage.show();
     }
 
-    public void onButtonExit() {
-        Platform.exit();
+    public void onButtonToAuth() {
+        Stage stage = (Stage) changeUser_btn.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("auth.fxml"));
+        Scene scene;
+        try {
+            scene = new Scene(fxmlLoader.load(), 1024, 768);
+        } catch (
+                IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setTitle("Pong Masters");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
     }
 
     public void onButtonAccount() {
@@ -75,5 +87,9 @@ public class MenuController {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+    }
+
+    public void onButtonExit() {
+        Platform.exit();
     }
 }
