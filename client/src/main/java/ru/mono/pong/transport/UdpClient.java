@@ -13,7 +13,6 @@ import java.net.*;
 
 public class UdpClient implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(UdpClient.class);
-    // static final String serverAddress = "95.181.27.100"; // Адрес сервера
     static String serverAddress = State.serverAddress.split(":")[0];
     static final int PORT = 8000;              // Порт сервера
     private static DatagramSocket receiveSocket;
@@ -58,9 +57,6 @@ public class UdpClient implements AutoCloseable {
                         update.run();
                     }
                     logger.info(String.valueOf(State.currentGameState.winner));
-                    //receiveSocket.close();
-                    //sendSocket.close();
-                    logger.info("UDP ports is closed - while: {}\t {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -94,7 +90,7 @@ public class UdpClient implements AutoCloseable {
             try {
                 DatagramPacket sendPacket = new DatagramPacket(actionByte, actionByte.length, InetAddress.getByName(serverAddress), PORT + 1);
                 sendSocket.send(sendPacket);
-                logger.info("Send from port {}", sendSocket.getLocalPort());
+                //logger.info("Send from port {}", sendSocket.getLocalPort());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -105,10 +101,9 @@ public class UdpClient implements AutoCloseable {
     public void close() {
         new Thread(() -> {
             try {
-                logger.info("UDP ports is closed - close(): {}\t {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
+                logger.info("UDP ports is closed on port {} and {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
                 receiveSocket.close();
                 sendSocket.close();
-                logger.info("UDP ports is closed - close(): {}\t {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
             } catch (UncheckedIOException e) {
                 e.printStackTrace();
             }

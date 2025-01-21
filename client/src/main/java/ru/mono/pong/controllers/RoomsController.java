@@ -16,6 +16,7 @@ import ru.mono.pong.State;
 import ru.mono.pong.transport.HttpClient;
 import ru.mono.pong.transport.dtos.Action;
 import ru.mono.pong.transport.dtos.Room;
+import ru.mono.pong.utils.SceneManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -141,36 +142,23 @@ public class RoomsController {
     }
 
     public void switchToGame() {
-        Stage stage = (Stage) refresh_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("game.fxml"));
-        Scene scene;
         try {
-            scene = new Scene(fxmlLoader.load(), 1024, 768);
-        } catch (
-                IOException e) {
+            Stage stage = (Stage) create_btn.getScene().getWindow();
+            SceneManager.loadScene(stage, "game.fxml", "Pong Masters");
+            stage.show();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        stage.setTitle("Pong Masters");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
     }
 
-
     public void onButtonToMenu() {
-        Stage stage = (Stage) toMenu_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu.fxml"));
-        Scene scene;
         try {
-            scene = new Scene(fxmlLoader.load(), 1024, 768);
-        } catch (
-                IOException e) {
+            Stage stage = (Stage) create_btn.getScene().getWindow();
+            SceneManager.loadScene(stage, "menu.fxml", "Menu");
+            stage.show();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        stage.setTitle("Menu");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
     }
 
 }

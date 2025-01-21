@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mono.pong.controllers.ProfileController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mono.pong.controllers.ProfileController">
    <children>
-      <Label fx:id="login_lab" layoutX="392.0" layoutY="210.0" text="NICKNAME">
+      <Label fx:id="login_lab" alignment="CENTER" layoutX="393.0" layoutY="196.0" prefHeight="70.0" prefWidth="239.0">
          <font>
             <Font size="48.0" />
          </font>
@@ -26,7 +26,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="points_lab" prefHeight="35.0" prefWidth="131.0" text="0" GridPane.columnIndex="1">
+            <Label fx:id="points_lab" prefHeight="35.0" prefWidth="131.0" GridPane.columnIndex="1">
                <font>
                   <Font size="24.0" />
                </font>
@@ -60,6 +60,11 @@
                   <Font size="18.0" />
                </font>
             </PasswordField>
+            <Label fx:id="change_lab" alignment="CENTER" prefHeight="20.0" prefWidth="213.0" text="Пароль изменен!" textFill="GREEN" visible="false">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
             <Button fx:id="accept_btn" mnemonicParsing="false" onAction="#onButtonChangePass" prefHeight="35.0" prefWidth="131.0" text="Подтвердить">
                <font>
                   <Font size="18.0" />
@@ -72,10 +77,5 @@
             <Font size="24.0" />
          </font>
       </Button>
-      <Label fx:id="change_lab" alignment="CENTER" layoutX="405.0" layoutY="635.0" prefHeight="20.0" prefWidth="213.0" text="Пароль изменен!" textFill="GREEN" visible="false">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
    </children>
 </Pane>

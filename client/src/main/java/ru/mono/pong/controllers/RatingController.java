@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import ru.mono.pong.Main;
 import ru.mono.pong.transport.dtos.User;
 import ru.mono.pong.transport.HttpClient;
+import ru.mono.pong.utils.SceneManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,18 +66,12 @@ public class RatingController {
     }
 
     public void onButtonExit() {
-        Stage stage = (Stage) exit_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu.fxml"));
-        Scene scene;
         try {
-            scene = new Scene(fxmlLoader.load(), 1024, 768);
-        } catch (
-                IOException e) {
+            Stage stage = (Stage) exit_btn.getScene().getWindow();
+            SceneManager.loadScene(stage, "menu.fxml", "Menu");
+            stage.show();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        stage.setTitle("Menu");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
     }
 }

@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import ru.mono.pong.Main;
 import ru.mono.pong.State;
 import ru.mono.pong.transport.HttpClient;
+import ru.mono.pong.utils.SceneManager;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -24,7 +25,15 @@ public class ProfileController {
     @FXML
     Button accept_btn, menu_btn;
     @FXML
-    Label change_lab;
+    Label change_lab, login_lab, points_lab;
+
+    public void initialize() {
+        Platform.runLater(() -> {
+            State.currentUser = HttpClient.postAuth(State.currentUser.login, AuthController.hashedPassword);
+            login_lab.setText(Objects.requireNonNull(State.currentUser).login);
+            points_lab.setText(String.valueOf(State.currentUser.points));
+        });
+    }
 
     public static String sha256Hash(String data) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -43,25 +52,28 @@ public class ProfileController {
     }
 
     public void onButtonChangePass() {
-        new Thread(() -> {
+        Platform.runLater(() -> {
             accept_btn.setDisable(true);
             old_pass_lab.setDisable(true);
             menu_btn.setDisable(true);
             new_pass_lab.setDisable(true);
             sec_new_pass_lab.setDisable(true);
             change_lab.setVisible(false);
-            if (Objects.equals(new_pass_lab.getText(), sec_new_pass_lab.getText())) {
+            if (Objects.equals(old_pass_lab.getText(), new_pass_lab.getText()) || Objects.equals(old_pass_lab.getText(), sec_new_pass_lab.getText())) {
+                change_lab.setText("Пароли не должны совпадать!");
+                change_lab.setTextFill(Paint.valueOf("RED"));
+                change_lab.setVisible(true);
+            } else if (Objects.equals(new_pass_lab.getText(), sec_new_pass_lab.getText())) {
                 String hashedOldPass;
                 String hashedNewPass;
                 try {
-                    hashedNewPass = sha256Hash(old_pass_lab.getText());
                     hashedOldPass = sha256Hash(old_pass_lab.getText());
+                    hashedNewPass = sha256Hash(new_pass_lab.getText());
                 } catch (NoSuchAlgorithmException e) {
                     throw new RuntimeException(e);
                 }
-                boolean response = HttpClient.putPassword(State.currentUser.login, hashedNewPass, hashedOldPass);
+                boolean response = HttpClient.putPassword(State.currentUser.login, hashedOldPass, hashedNewPass);
                 if (response) {
-                    System.out.println("-- Change pass successful");
                     change_lab.setText("Пароль изменен!");
                     change_lab.setTextFill(Paint.valueOf("GREEN"));
                     change_lab.setVisible(true);
@@ -80,24 +92,16 @@ public class ProfileController {
             menu_btn.setDisable(false);
             new_pass_lab.setDisable(false);
             sec_new_pass_lab.setDisable(false);
-        }).start();
+        });
     }
 
     public void onButtonToMenu() {
-        Platform.runLater(() -> {
+        try {
             Stage stage = (Stage) menu_btn.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu.fxml"));
-            Scene scene;
-            try {
-                scene = new Scene(fxmlLoader.load(), 1024, 768);
-            } catch (
-                    IOException e) {
-                throw new RuntimeException(e);
-            }
-            stage.setTitle("Menu");
-            stage.setScene(scene);
-            stage.setResizable(false);
+            SceneManager.loadScene(stage, "menu.fxml", "Menu");
             stage.show();
-        });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -48,7 +48,6 @@ public class GameController {
     UdpClient udp;
 
     public void initialize() {
-
         State.currentGameState.isGameOver = false;
         cheat.addLast(KeyCode.LEFT);
         cheat.addLast(KeyCode.LEFT);
@@ -61,13 +60,14 @@ public class GameController {
         cheat.addLast(KeyCode.Z);
 
         udp = new UdpClient(this::update, State.currentPlayerId == 2);
-        logger.info("You are " + State.currentPlayerId + " player");
+        logger.info("You are {} player", State.currentPlayerId);
         pane.sceneProperty().addListener((observable, oldScene, newScene) -> {
             if (newScene != null) {
                 newScene.setOnKeyPressed(this::onKeyPressed);
                 newScene.setOnKeyReleased(this::onKeyReleased);
             }
         });
+
         new Thread(() -> {
             try {
                 Thread.sleep(10);
@@ -76,7 +76,6 @@ public class GameController {
             }
             setClose();
         }).start();
-
         sendActions();
     }
 
@@ -110,7 +109,6 @@ public class GameController {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             } finally {
-                System.out.println("Game is over - Finally");
                 State.currentGameState.isGameOver = true;
                 udp.close();
                 Platform.runLater(this::backToMenu);
@@ -121,7 +119,7 @@ public class GameController {
     public void backToMenu() {
         try {
             Stage stage = (Stage) pane.getScene().getWindow();
-            SceneManager.loadScene(stage, "rooms.fxml", "Rooms");
+            SceneManager.loadScene(stage, "rooms.fxml", "Game Rooms");
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -131,10 +129,8 @@ public class GameController {
     private void update() {
         ball.setLayoutX(State.currentGameState.ballX);
         ball.setLayoutY(State.currentGameState.ballY);
-
         plank1.setLayoutY(State.currentGameState.plank1);
         plank2.setLayoutY(State.currentGameState.plank2);
-
         plank1Points.setText(String.valueOf(State.currentGameState.plank1Points));
         plank2Points.setText(String.valueOf(State.currentGameState.plank2Points));
     }
@@ -149,7 +145,6 @@ public class GameController {
             case ESCAPE -> {
                 keyPressed = 'e';
                 System.out.println("Game is over - ESCAPE");
-                //State.currentGameState.isGameOver = true;
             }
         }
         queue.addLast(code);

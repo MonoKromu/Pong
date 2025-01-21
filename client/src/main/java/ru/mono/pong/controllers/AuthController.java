@@ -2,17 +2,13 @@ package ru.mono.pong.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.mono.pong.Main;
 import ru.mono.pong.State;
 import ru.mono.pong.transport.HttpClient;
 import ru.mono.pong.utils.HashManager;
@@ -24,31 +20,25 @@ import java.util.Objects;
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     @FXML
-    Button enter_btn, reg_btn, connect_btn;
+    Button enter_btn, reg_btn;
     @FXML
-    Label err_lab, errorConnect;
+    Label err_lab;
     @FXML
     TextField login;
     @FXML
     PasswordField password;
-    @FXML
-    TextField serverAddress;
+
     public static String hashedPassword;
 
 
-
     public void onButtonEnter() {
-        err_lab.setVisible(false);
-        enter_btn.setDisable(true);
-        reg_btn.setDisable(true);
-        login.setDisable(true);
-        password.setDisable(true);
+        waiting();
         new Thread(() -> {
             hashedPassword = HashManager.sha256Hash(password.getText());
             State.currentUser = HttpClient.postAuth(login.getText(), hashedPassword);
             Platform.runLater(() -> {
                 if (!Objects.equals(State.currentUser, null)) {
-                    logger.info("Auth successful");
+                    logger.info("Authentication successful");
                     try {
                         Stage stage = (Stage) reg_btn.getScene().getWindow();
                         SceneManager.loadScene(stage, "menu.fxml", "Menu");
@@ -57,25 +47,33 @@ public class AuthController {
                         throw new RuntimeException(e);
                     }
                 } else {
-                    logger.info("Auth bad");
+                    logger.info("Authentication bad");
                     err_lab.setVisible(true);
                 }
             });
-            enter_btn.setDisable(false);
-            reg_btn.setDisable(false);
-            login.setDisable(false);
-            password.setDisable(false);
+            nextStep();
         }).start();
+    }
+
+    public void nextStep() {
+        enter_btn.setDisable(false);
+        reg_btn.setDisable(false);
+        login.setDisable(false);
+        password.setDisable(false);
+    }
+
+    public void waiting() {
+        err_lab.setVisible(false);
+        enter_btn.setDisable(true);
+        reg_btn.setDisable(true);
+        login.setDisable(true);
+        password.setDisable(true);
     }
 
     public void onButtonReg() {
         try {
             Stage stage = (Stage) reg_btn.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("reg.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 1024, 768);
-            stage.setTitle("Registration");
-            stage.setScene(scene);
-            stage.setResizable(false);
+            SceneManager.loadScene(stage, "reg.fxml", "Registration");
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);

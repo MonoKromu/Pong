@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import ru.mono.pong.Main;
 import ru.mono.pong.State;
 import ru.mono.pong.transport.HttpClient;
+import ru.mono.pong.utils.SceneManager;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -29,67 +30,43 @@ public class MenuController {
     }
 
     public void onButtonPlay() {
-        Stage stage = (Stage) profile_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("rooms.fxml"));
-        Scene scene;
         try {
-            scene = new Scene(fxmlLoader.load(), 1024, 768);
-        } catch (
-                IOException e) {
+            Stage stage = (Stage) play_btn.getScene().getWindow();
+            SceneManager.loadScene(stage, "rooms.fxml", "Game Rooms");
+            stage.show();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        stage.setTitle("Game rooms");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
     }
 
     public void onButtonRating() {
-        Stage stage = (Stage) rating_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("rating.fxml"));
-        Scene scene;
         try {
-            scene = new Scene(fxmlLoader.load(), 1024, 768);
-        } catch (
-                IOException e) {
+            Stage stage = (Stage) rating_btn.getScene().getWindow();
+            SceneManager.loadScene(stage, "rating.fxml", "Players Rating");
+            stage.show();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        stage.setTitle("Players rating");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
     }
 
     public void onButtonToAuth() {
-        Stage stage = (Stage) changeUser_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("auth.fxml"));
-        Scene scene;
         try {
-            scene = new Scene(fxmlLoader.load(), 1024, 768);
-        } catch (
-                IOException e) {
+            Stage stage = (Stage) changeUser_btn.getScene().getWindow();
+            SceneManager.loadScene(stage, "auth.fxml", "Pong Masters");
+            stage.show();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        stage.setTitle("Pong Masters");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
     }
 
     public void onButtonAccount() {
-        Stage stage = (Stage) profile_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("profile.fxml"));
-        Scene scene;
         try {
-            scene = new Scene(fxmlLoader.load(), 1024, 768);
-        } catch (
-                IOException e) {
+            Stage stage = (Stage) profile_btn.getScene().getWindow();
+            SceneManager.loadScene(stage, "profile.fxml", "Your Profile");
+            stage.show();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        stage.setTitle("Your profile");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
     }
 
     public void onButtonExit() {
