@@ -50,6 +50,9 @@ public class RegisterController {
                 "Password must contain lowercase and uppercase letters", status);
         if(!PasswordManager.containsNumber(password.getText())) throw new BadNewPasswordException(
                 "Password must contain numbers", status);
+        if(!PasswordManager.hasCorrectLength(password.getText())) throw new BadNewPasswordException(
+                "Password must be 10 or more symbols", status);
+
 
         setInputsDisability(true);
         if (checkCredentials()) {
