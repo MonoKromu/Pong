@@ -34,7 +34,7 @@ public class RatingController {
     public void onButtonRefresh() {
         rating_table.getChildren().clear();
         refresh_btn.setDisable(true);
-        exit_btn.setDisable(true);
+        exit_btn.setDisable(false);
         err_lab.setVisible(false);
         new Thread(() -> {
             ArrayList<User> users = HttpClient.getRating();
