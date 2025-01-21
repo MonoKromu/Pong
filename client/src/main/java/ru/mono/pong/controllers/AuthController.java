@@ -35,9 +35,7 @@ public class AuthController {
     TextField serverAddress;
     public static String hashedPassword;
 
-    {
-        hashedPassword = HashManager.sha256Hash(password.getText());
-    }
+
 
     public void onButtonEnter() {
         err_lab.setVisible(false);
@@ -45,8 +43,8 @@ public class AuthController {
         reg_btn.setDisable(true);
         login.setDisable(true);
         password.setDisable(true);
-
         new Thread(() -> {
+            hashedPassword = HashManager.sha256Hash(password.getText());
             State.currentUser = HttpClient.postAuth(login.getText(), hashedPassword);
             Platform.runLater(() -> {
                 if (!Objects.equals(State.currentUser, null)) {
