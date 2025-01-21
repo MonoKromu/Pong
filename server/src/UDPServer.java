@@ -86,6 +86,10 @@ public class UDPServer {
                                 logger.info("Room was empty");
                                 GameState state = new GameState();
                                 state.isGameOver = true;
+                                state.plank2 = 350;
+                                state.plank1 = 350;
+                                state.ballY = 400;
+                                state. ballX = 512;
                                 byte[] out = gson.toJson(state).getBytes();
                                 sendSocket.send(new DatagramPacket(out, out.length, room.hostIP, sendPort+2));
                             }
