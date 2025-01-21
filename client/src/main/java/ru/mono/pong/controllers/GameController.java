@@ -2,9 +2,6 @@ package ru.mono.pong.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -16,15 +13,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.mono.pong.Main;
 import ru.mono.pong.State;
 import ru.mono.pong.transport.UdpClient;
 import ru.mono.pong.transport.dtos.Action;
-import ru.mono.pong.transport.dtos.GameState;
 import ru.mono.pong.utils.SceneManager;
 
 import java.io.IOException;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 public class GameController {
@@ -43,25 +37,15 @@ public class GameController {
     ArrayList<KeyCode> queue = new ArrayList<>();
     ArrayList<KeyCode> cheat = new ArrayList<>();
 
-
     char keyPressed;
     UdpClient udp;
 
     public void initialize() {
         State.currentGameState.isGameOver = false;
-        cheat.addLast(KeyCode.LEFT);
-        cheat.addLast(KeyCode.LEFT);
-        cheat.addLast(KeyCode.UP);
-        cheat.addLast(KeyCode.UP);
-        cheat.addLast(KeyCode.RIGHT);
-        cheat.addLast(KeyCode.RIGHT);
-        cheat.addLast(KeyCode.DOWN);
-        cheat.addLast(KeyCode.DOWN);
-        cheat.addLast(KeyCode.Z);
-
         udp = new UdpClient(this::update, State.currentPlayerId == 2);
         logger.info("You are {} player", State.currentPlayerId);
-        pane.sceneProperty().addListener((observable, oldScene, newScene) -> {
+
+        pane.sceneProperty().addListener((_, _, newScene) -> {
             if (newScene != null) {
                 newScene.setOnKeyPressed(this::onKeyPressed);
                 newScene.setOnKeyReleased(this::onKeyReleased);
@@ -74,17 +58,31 @@ public class GameController {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            setClose();
+            setOnClose();
         }).start();
+
+        generateCheatCode();
         sendActions();
     }
 
-    public void setClose() {
+    public void setOnClose() {
         Stage stage = (Stage) pane.getScene().getWindow();
         stage.setOnCloseRequest(_ -> {
             State.currentGameState.isGameOver = true;
             udp.sendAction(new Action(State.currentRoomId, State.currentPlayerId, 'e'));
         });
+    }
+
+    public void generateCheatCode() {
+        cheat.addLast(KeyCode.LEFT);
+        cheat.addLast(KeyCode.LEFT);
+        cheat.addLast(KeyCode.UP);
+        cheat.addLast(KeyCode.UP);
+        cheat.addLast(KeyCode.RIGHT);
+        cheat.addLast(KeyCode.RIGHT);
+        cheat.addLast(KeyCode.DOWN);
+        cheat.addLast(KeyCode.DOWN);
+        cheat.addLast(KeyCode.Z);
     }
 
     public void sendActions() {
@@ -100,10 +98,10 @@ public class GameController {
                 }
                 if (State.currentGameState.winner == State.currentPlayerId) {
                     winner_label.setVisible(true);
-                    logger.info("Winner label");
+                    logger.info("YOU ARE WINNER");
                 } else {
                     loser_label.setVisible(true);
-                    logger.info("Loser label");
+                    logger.info("YOU ARE LOSER");
                 }
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
