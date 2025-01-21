@@ -14,7 +14,7 @@ public class Worker {
     private GameState state;
     private int id;
 
-    public int plank1 = 200, plank2 = 200;
+    public int plank1 = 350, plank2 = 350;
     public int plank1Points, plank2Points;
     public boolean lastWinner1;
     public double ballX, ballY, ballAngle, ballSpeed, ballSpeedX, ballSpeedY;
@@ -27,9 +27,9 @@ public class Worker {
     public final int PLANK2_X = SCREEN_WIDTH - 27;
     public final int PLANK_HEIGHT = 90;
 
-    public final int MOVE_STEP = 5;
-    public final int BASE_SPEED = 5;
-    public final double ACC_STEP = 0.2;
+    public final int MOVE_STEP = 10;
+    public final int BASE_SPEED = 8;
+    public final double ACC_STEP = 0.5;
 
     public final double BOTTOM_LIMIT = -Math.PI / 4;
     public final double TOP_LIMIT = Math.PI / 4;
@@ -110,12 +110,12 @@ public class Worker {
         ballY -= ballSpeedY;
         if (ballY >= SCREEN_HEIGHT || ballY <= 0) {
             changeBallSpeed(Math.PI * 2 - ballAngle, ballSpeed);
-        } else if (ballX <= PLANK1_X+3 && (ballY >= plank1 && ballY <= plank1 + PLANK_HEIGHT)) {
-            double angleMult = ((plank1 + ((double) PLANK_HEIGHT / 2) - ballY) / PLANK_HEIGHT * 0.5);
-            changeBallSpeed(((Math.PI - ballAngle) - (Math.PI - ballAngle) * angleMult), ballSpeed + ACC_STEP);
-        } else if (ballX >= PLANK2_X && (ballY >= plank2 && ballY <= plank2 + PLANK_HEIGHT)) {
-            double angleMult = ((plank2 + ((double) PLANK_HEIGHT / 2) - ballY) / PLANK_HEIGHT * 0.5);
-            changeBallSpeed(((Math.PI - ballAngle) - (Math.PI - ballAngle) * angleMult), ballSpeed + ACC_STEP);
+        } else if ((ballX <= PLANK1_X+3 && ballX>= PLANK1_X-ballSpeed) && (ballY >= plank1 && ballY <= plank1 + PLANK_HEIGHT)) {
+            double angleMult = ((plank1 + ((double) PLANK_HEIGHT / 2) - ballY) / PLANK_HEIGHT * 0.2);
+            changeBallSpeed(((Math.PI - ballAngle) + (Math.PI - ballAngle) * angleMult), ballSpeed + ACC_STEP);
+        } else if ((ballX >= PLANK2_X && ballX <= PLANK2_X+ballSpeed) && (ballY >= plank2 && ballY <= plank2 + PLANK_HEIGHT)) {
+            double angleMult = ((plank2 + ((double) PLANK_HEIGHT / 2) - ballY) / PLANK_HEIGHT * 0.2);
+            changeBallSpeed(((Math.PI - ballAngle) + (Math.PI - ballAngle) * angleMult), ballSpeed + ACC_STEP);
         } else if (ballX >= SCREEN_WIDTH) {
             endRound(1);
         } else if (ballX <= 0) {
