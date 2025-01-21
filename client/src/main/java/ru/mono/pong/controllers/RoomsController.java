@@ -12,7 +12,9 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ru.mono.pong.Main;
+import ru.mono.pong.State;
 import ru.mono.pong.transport.HttpClient;
+import ru.mono.pong.transport.dtos.Action;
 import ru.mono.pong.transport.dtos.Room;
 
 import java.io.IOException;
@@ -35,6 +37,19 @@ public class RoomsController {
 
     public void initialize() {
         Platform.runLater(this::onButtonRefresh);
+        new Thread(() -> {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            setClose();
+        }).start();
+    }
+
+    public void setClose() {
+        Stage stage = (Stage) toMenu_btn.getScene().getWindow();
+        stage.setOnCloseRequest(_ -> {});
     }
 
     public void onButtonRefresh() {

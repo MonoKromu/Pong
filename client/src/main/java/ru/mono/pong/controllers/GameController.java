@@ -48,6 +48,7 @@ public class GameController {
     UdpClient udp;
 
     public void initialize() {
+
         State.currentGameState.isGameOver = false;
         cheat.addLast(KeyCode.LEFT);
         cheat.addLast(KeyCode.LEFT);
@@ -67,7 +68,24 @@ public class GameController {
                 newScene.setOnKeyReleased(this::onKeyReleased);
             }
         });
+        new Thread(() -> {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            setClose();
+        }).start();
+
         sendActions();
+    }
+
+    public void setClose() {
+        Stage stage = (Stage) pane.getScene().getWindow();
+        stage.setOnCloseRequest(_ -> {
+            State.currentGameState.isGameOver = true;
+            udp.sendAction(new Action(State.currentRoomId, State.currentPlayerId, 'e'));
+        });
     }
 
     public void sendActions() {
