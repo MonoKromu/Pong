@@ -27,6 +27,11 @@ public class CreateRoomController {
         this.papa = papa;
     }
 
+    public void showStatus(String message, String color, Boolean visible) {
+        err_lab.setText(message);
+        err_lab.setTextFill(Paint.valueOf(color));
+        err_lab.setVisible(visible);
+    }
 
     public void onButtonCreate() {
         new Thread(() -> {
@@ -35,22 +40,12 @@ public class CreateRoomController {
                 Platform.runLater(() -> {
                     String response = HttpClient.postRoom(name_label.getText(), State.currentUser.login);
                     if (Objects.equals(response, "200")) {
-                        err_lab.setText("Комната создана");
-                        err_lab.setTextFill(Paint.valueOf("GREEN"));
-                        err_lab.setVisible(true);
+                        showStatus("Комната создана", "GREEN", true);
                         onButtonBack();
                         goToGame();
-                    } else {
-                        err_lab.setTextFill(Paint.valueOf("BLUE"));
-                        err_lab.setText("Status code: " + response);
-                        err_lab.setVisible(true);
-                    }
+                    } else showStatus("Status code: " + response, "BLUE", true);
                 });
-            } else {
-                err_lab.setTextFill(Paint.valueOf("RED"));
-                err_lab.setText("Введите название комнаты");
-                err_lab.setVisible(true);
-            }
+            } else showStatus("Введите название комнаты", "RED", true);
         }).start();
     }
 

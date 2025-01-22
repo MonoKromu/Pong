@@ -29,9 +29,9 @@
             <Font size="24.0" />
          </font>
       </Button>
-      <Button fx:id="profile_btn" alignment="CENTER" focusTraversable="false" layoutX="428.0" layoutY="151.0" mnemonicParsing="false" onAction="#onButtonAccount" prefHeight="39.0" prefWidth="168.0" style="-fx-background-color: #f4f4f4;" text="Player" underline="true">
+      <Button fx:id="profile_btn" alignment="CENTER" focusTraversable="false" layoutX="386.0" layoutY="133.0" mnemonicParsing="false" onAction="#onButtonAccount" prefHeight="77.0" prefWidth="255.0" style="-fx-background-color: #f4f4f4;" underline="true">
          <font>
-            <Font size="24.0" />
+            <Font size="36.0" />
          </font>
          <opaqueInsets>
             <Insets />
@@ -40,7 +40,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label fx:id="points_label" alignment="CENTER" layoutX="457.0" layoutY="202.0" prefHeight="39.0" prefWidth="113.0" text="123456">
+      <Label fx:id="points_label" alignment="CENTER" layoutX="457.0" layoutY="202.0" prefHeight="39.0" prefWidth="113.0">
          <font>
             <Font size="18.0" />
          </font>

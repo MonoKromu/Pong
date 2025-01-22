@@ -2,9 +2,7 @@ package ru.mono.pong.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
@@ -15,15 +13,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.mono.pong.Main;
 import ru.mono.pong.State;
 import ru.mono.pong.transport.UdpClient;
 import ru.mono.pong.transport.dtos.Action;
-import ru.mono.pong.transport.dtos.GameState;
 import ru.mono.pong.utils.SceneManager;
 
+
 import java.io.IOException;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 public class GameController {
@@ -36,15 +32,49 @@ public class GameController {
     Pane pane;
     @FXML
     Text plank1Points, plank2Points, zet;
+    @FXML
+    Label winner_label, loser_label;
 
     ArrayList<KeyCode> queue = new ArrayList<>();
     ArrayList<KeyCode> cheat = new ArrayList<>();
-
 
     char keyPressed;
     UdpClient udp;
 
     public void initialize() {
+        State.currentGameState.isGameOver = false;
+        udp = new UdpClient(this::update, State.currentPlayerId == 2);
+        logger.info("You are {} player", State.currentPlayerId);
+
+        pane.sceneProperty().addListener((_, _, newScene) -> {
+            if (newScene != null) {
+                newScene.setOnKeyPressed(this::onKeyPressed);
+                newScene.setOnKeyReleased(this::onKeyReleased);
+            }
+        });
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            setOnClose();
+        }).start();
+
+        generateCheatCode();
+        sendActions();
+    }
+
+    public void setOnClose() {
+        Stage stage = (Stage) pane.getScene().getWindow();
+        stage.setOnCloseRequest(_ -> {
+            State.currentGameState.isGameOver = true;
+            udp.sendAction(new Action(State.currentRoomId, State.currentPlayerId, 'e'));
+        });
+    }
+
+    public void generateCheatCode() {
         cheat.addLast(KeyCode.LEFT);
         cheat.addLast(KeyCode.LEFT);
         cheat.addLast(KeyCode.UP);
@@ -54,16 +84,6 @@ public class GameController {
         cheat.addLast(KeyCode.DOWN);
         cheat.addLast(KeyCode.DOWN);
         cheat.addLast(KeyCode.Z);
-
-        udp = new UdpClient(this::update, State.currentPlayerId == 2);
-        logger.info("You are " + State.currentPlayerId + " player");
-        pane.sceneProperty().addListener((observable, oldScene, newScene) -> {
-            if (newScene != null) {
-                newScene.setOnKeyPressed(this::onKeyPressed);
-                newScene.setOnKeyReleased(this::onKeyReleased);
-            }
-        });
-        sendActions();
     }
 
     public void sendActions() {
@@ -77,10 +97,17 @@ public class GameController {
                             break;
                     }
                 }
+                if (State.currentGameState.winner == State.currentPlayerId) {
+                    winner_label.setVisible(true);
+                    logger.info("YOU ARE WIN THE GAME");
+                } else {
+                    loser_label.setVisible(true);
+                    logger.info("YOU ARE LOSE THE GAME");
+                }
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             } finally {
-                System.out.println("Game is over - Finally");
                 State.currentGameState.isGameOver = true;
                 udp.close();
                 Platform.runLater(this::backToMenu);
@@ -91,7 +118,7 @@ public class GameController {
     public void backToMenu() {
         try {
             Stage stage = (Stage) pane.getScene().getWindow();
-            SceneManager.loadScene(stage, "rooms.fxml", "Rooms");
+            SceneManager.loadScene(stage, "rooms.fxml", "Game Rooms");
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -101,10 +128,8 @@ public class GameController {
     private void update() {
         ball.setLayoutX(State.currentGameState.ballX);
         ball.setLayoutY(State.currentGameState.ballY);
-
-        plank1.setY(State.currentGameState.plank1);
-        plank2.setY(State.currentGameState.plank2);
-
+        plank1.setLayoutY(State.currentGameState.plank1);
+        plank2.setLayoutY(State.currentGameState.plank2);
         plank1Points.setText(String.valueOf(State.currentGameState.plank1Points));
         plank2Points.setText(String.valueOf(State.currentGameState.plank2Points));
     }
@@ -112,14 +137,12 @@ public class GameController {
     @FXML
     private void onKeyPressed(KeyEvent e) {
         KeyCode code = e.getCode();
-        logger.info("Key pressed: {}", code);
         switch (code) {
             case W -> keyPressed = 'w';
             case S -> keyPressed = 's';
             case ESCAPE -> {
                 keyPressed = 'e';
-                System.out.println("Game is over - ESCAPE");
-                //State.currentGameState.isGameOver = true;
+                logger.info("Sending key to close game!");
             }
         }
         queue.addLast(code);
@@ -133,15 +156,13 @@ public class GameController {
             field.setVisible(false);
             zet.setVisible(true);
         }
-        System.out.println(queue);
-        System.out.println(cheat);
     }
 
     @FXML
     private void onKeyReleased(KeyEvent e) {
         KeyCode code = e.getCode();
         switch (code) {
-            case W, S -> keyPressed = 'a';
+            case W, S, ESCAPE -> keyPressed = 'a';
         }
     }
 

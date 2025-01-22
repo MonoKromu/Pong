@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mono.pong.controllers.RegisterController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.mono.pong.controllers.RegisterController">
     <children>
       <VBox alignment="CENTER" layoutX="369.0" layoutY="198.0" prefHeight="303.0" prefWidth="294.0" spacing="20.0">
          <children>
@@ -42,7 +38,7 @@
          <font>
             <Font size="24.0" />
          </font></Button>
-      <Label fx:id="status" alignment="CENTER" layoutX="314.0" layoutY="501.0" prefHeight="32.0" prefWidth="405.0" textFill="GREEN">
+      <Label fx:id="status" alignment="CENTER" layoutX="212.0" layoutY="501.0" prefHeight="32.0" prefWidth="600.0" textFill="GREEN">
          <font>
             <Font size="20.0" />
          </font>

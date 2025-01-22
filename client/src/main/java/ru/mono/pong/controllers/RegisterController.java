@@ -8,8 +8,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
+import ru.mono.pong.exceptions.BadNewPasswordException;
 import ru.mono.pong.transport.HttpClient;
 import ru.mono.pong.utils.HashManager;
+import ru.mono.pong.utils.PasswordManager;
 import ru.mono.pong.utils.SceneManager;
 
 import java.io.IOException;
@@ -43,7 +45,14 @@ public class RegisterController {
         status.setVisible(true);
     }
 
-    public void onButtonAccept() {
+    public void onButtonAccept() throws BadNewPasswordException {
+        if(!PasswordManager.containsLetters(password.getText())) throw new BadNewPasswordException(
+                "Password must contain lowercase and uppercase letters", status);
+        if(!PasswordManager.containsNumber(password.getText())) throw new BadNewPasswordException(
+                "Password must contain numbers", status);
+        if(!PasswordManager.hasCorrectLength(password.getText())) throw new BadNewPasswordException(
+                "Password must be 10 or more symbols", status);
+
         setInputsDisability(true);
         if (checkCredentials()) {
             new Thread(() -> {

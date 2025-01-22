@@ -11,17 +11,21 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.mono.pong.Main;
+import ru.mono.pong.State;
 import ru.mono.pong.transport.HttpClient;
 import ru.mono.pong.transport.dtos.Room;
+import ru.mono.pong.utils.SceneManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static ru.mono.pong.State.currentUser;
 
 public class RoomsController {
+    private static final Logger logger = LoggerFactory.getLogger(RoomsController.class);
     @FXML
     Button refresh_btn;
     @FXML
@@ -35,6 +39,20 @@ public class RoomsController {
 
     public void initialize() {
         Platform.runLater(this::onButtonRefresh);
+        new Thread(() -> {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            setClose();
+        }).start();
+    }
+
+    public void setClose() {
+        Stage stage = (Stage) toMenu_btn.getScene().getWindow();
+        stage.setOnCloseRequest(_ -> {
+        });
     }
 
     public void onButtonRefresh() {
@@ -69,7 +87,7 @@ public class RoomsController {
             joinButton.setMinWidth(163);
             joinButton.setPrefHeight(29);
             joinButton.setPrefWidth(163);
-            joinButton.setOnAction(it -> joinRoom(id));
+            joinButton.setOnAction(_ -> joinRoom(id));
             rooms_grid.add(labelRoomName, 0, row);
             rooms_grid.add(labelLogin, 1, row);
             rooms_grid.add(joinButton, 2, row);
@@ -80,27 +98,20 @@ public class RoomsController {
         new Thread(() -> {
             boolean response = HttpClient.putRoom(id, currentUser);
             if (response) {
-                System.out.println("-- Success join to room");
+                logger.info("Join to room {}", State.currentRoomId);
                 Platform.runLater(this::startGame);
             }
         }).start();
-        System.out.printf("\nEntering room %s", id);
     }
 
     public void startGame() {
-        Stage stage = (Stage) refresh_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("game.fxml"));
-        Scene scene;
         try {
-            scene = new Scene(fxmlLoader.load(), 1024, 768);
-        } catch (
-                IOException e) {
+            Stage stage = (Stage) create_btn.getScene().getWindow();
+            SceneManager.loadScene(stage, "game.fxml", "Pong Masters");
+            stage.show();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        stage.setTitle("Pong Masters");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
     }
 
     public void onButtonCreate() {
@@ -124,37 +135,23 @@ public class RoomsController {
         createWindow.showAndWait();
     }
 
-    public void switchToGame( ) {
-        Stage stage = (Stage) refresh_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("game.fxml"));
-        Scene scene;
+    public void switchToGame() {
         try {
-            scene = new Scene(fxmlLoader.load(), 1024, 768);
-        } catch (
-                IOException e) {
+            Stage stage = (Stage) toMenu_btn.getScene().getWindow();
+            SceneManager.loadScene(stage, "game.fxml", "Pong Masters");
+            stage.show();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        stage.setTitle("Pong Masters");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
     }
-
 
     public void onButtonToMenu() {
-        Stage stage = (Stage) toMenu_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("menu.fxml"));
-        Scene scene;
         try {
-            scene = new Scene(fxmlLoader.load(), 1024, 768);
-        } catch (
-                IOException e) {
+            Stage stage = (Stage) toMenu_btn.getScene().getWindow();
+            SceneManager.loadScene(stage, "menu.fxml", "Menu");
+            stage.show();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        stage.setTitle("Menu");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
     }
-
 }

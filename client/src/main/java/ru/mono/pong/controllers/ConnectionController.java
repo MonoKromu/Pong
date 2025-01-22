@@ -2,17 +2,15 @@ package ru.mono.pong.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import ru.mono.pong.Main;
 import ru.mono.pong.State;
 import ru.mono.pong.transport.HttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.mono.pong.utils.SceneManager;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -51,7 +49,6 @@ public class ConnectionController {
                     writer.write(serverAddress.getText());
                     writer.flush();
                     writer.close();
-
                 } catch (Exception e) {
                     logger.error(e.getMessage());
                 }
@@ -60,18 +57,12 @@ public class ConnectionController {
     }
 
     public void toAuth() {
-        Stage stage = (Stage) connect_btn.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("auth.fxml"));
-        Scene scene;
         try {
-            scene = new Scene(fxmlLoader.load(), 1024, 768);
-        } catch (
-                IOException e) {
+            Stage stage = (Stage) connect_btn.getScene().getWindow();
+            SceneManager.loadScene(stage, "auth.fxml", "Pong Masters");
+            stage.show();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        stage.setTitle("Pong Masters");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
     }
 }

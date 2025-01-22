@@ -13,9 +13,10 @@ import java.net.*;
 
 public class UdpClient implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(UdpClient.class);
-    // static final String serverAddress = "95.181.27.100"; // Адрес сервера
+
     static String serverAddress = State.serverAddress.split(":")[0];
     static final int PORT = 8000;              // Порт сервера
+
     private static DatagramSocket receiveSocket;
     private static DatagramSocket sendSocket;
 
@@ -28,7 +29,7 @@ public class UdpClient implements AutoCloseable {
             receiveSocket.setReuseAddress(true);
             sendSocket = new DatagramSocket(PORT + 2);
             sendSocket.setReuseAddress(true);
-            logger.info("UDP client started on port {} \t Sending on port {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
+            logger.info("UDP client started on port {} (receive) and {} (send)", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
             if (start) this.start();
             this.listen();
         } catch (SocketException e) {
@@ -57,16 +58,9 @@ public class UdpClient implements AutoCloseable {
                         State.currentGameState = state;
                         update.run();
                     }
-                    //receiveSocket.close();
-                    //sendSocket.close();
-                    logger.info("UDP ports is closed - while: {}\t {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-            } else {
-                receiveSocket.close();
-                sendSocket.close();
-                logger.info("UDP ports is closed - else: {}\t {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
             }
         }).start();
     }
@@ -93,7 +87,6 @@ public class UdpClient implements AutoCloseable {
             try {
                 DatagramPacket sendPacket = new DatagramPacket(actionByte, actionByte.length, InetAddress.getByName(serverAddress), PORT + 1);
                 sendSocket.send(sendPacket);
-                logger.info("Send from port {}", sendSocket.getLocalPort());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -102,32 +95,15 @@ public class UdpClient implements AutoCloseable {
 
     @Override
     public void close() {
-        //new Thread(() -> {
+        new Thread(() -> {
             try {
-                logger.info("UDP ports is closed - close(): {}\t {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
-                System.out.println("FIRST: ");
-                System.out.println(receiveSocket.isClosed());
-                System.out.println(sendSocket.isClosed());
-                System.out.println(receiveSocket.isBound());
-                System.out.println(sendSocket.isBound());
-                System.out.println("0");
-                //receiveSocket.disconnect();
-                System.out.println("1");
-                sendSocket.disconnect();
-                System.out.println("2");
+                logger.info("UDP ports is closed on port {} and {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
                 receiveSocket.close();
-                System.out.println("3");
                 sendSocket.close();
-                System.out.println("SECOND: ");
-                System.out.println(receiveSocket.isClosed());
-                System.out.println(sendSocket.isClosed());
-                System.out.println(receiveSocket.isBound());
-                System.out.println(sendSocket.isBound());
-                logger.info("UDP ports is closed - close(): {}\t {}", receiveSocket.getLocalPort(), sendSocket.getLocalPort());
             } catch (UncheckedIOException e) {
                 e.printStackTrace();
             }
-        //}).start();
+        }).start();
     }
 
 }
