@@ -1,4 +1,5 @@
 import com.google.gson.Gson;
+import db.DBOperations;
 import domain.Worker;
 import dtos.Action;
 import dtos.GameState;
@@ -61,6 +62,39 @@ public class UDPServer {
                     else if(action.key == 'w' || action.key == 's'){
                         logger.info("Received action {}", new String(receivePacket.getData()));
                         if(workers.get(action.id)!=null) workers.get(action.id).update(action);
+                    }
+                    else if(action.key == 'e'){
+                        logger.info("Received ESCAPE");
+                        Room room = CustomState.rooms.get(action.id);
+                        if(room!=null){
+                            if(room.gameStarted){
+                                logger.info("Game was started, player {} left", action.player);
+                                Worker worker = workers.get(action.id);
+                                worker.gameEnded = true;
+                                worker.state.isGameOver = true;
+                                if(action.player == 1){
+                                    worker.state.winner = 2;
+                                    DBOperations.putUserPoints(room.guest.login);
+                                }
+                                else if(action.player == 2){
+                                    worker.state.winner = 1;
+                                    DBOperations.putUserPoints(room.host.login);
+                                }
+                                worker.send.run();
+                            }
+                            else{
+                                logger.info("Room was empty");
+                                GameState state = new GameState();
+                                state.isGameOver = true;
+                                state.plank2 = 350;
+                                state.plank1 = 350;
+                                state.ballY = 400;
+                                state. ballX = 512;
+                                byte[] out = gson.toJson(state).getBytes();
+                                sendSocket.send(new DatagramPacket(out, out.length, room.hostIP, sendPort+2));
+                            }
+                            CustomState.rooms.remove(action.id);
+                        }
                     }
                     //String response = "Сообщение получено: " + receivedMessage;
                     //byte[] sendData = response.getBytes();

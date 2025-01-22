@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 public class Worker {
     private static final Logger logger = LoggerFactory.getLogger(Worker.class);
 
-    private Runnable send;
-    private GameState state;
-    private int id;
+    public Runnable send;
+    public GameState state;
+    public int id;
 
     public int plank1 = 350, plank2 = 350;
     public int plank1Points, plank2Points;
@@ -58,11 +58,11 @@ public class Worker {
 
     public void update(Action a) {
         if (a.player == 1) {
-            if (a.key == 'w' && plank1 >= 100) plank1 -= MOVE_STEP;
-            else if (a.key == 's' && plank1 <= SCREEN_HEIGHT-10) plank1 += MOVE_STEP;
+            if (a.key == 'w' && plank1 >= 3) plank1 -= MOVE_STEP;
+            else if (a.key == 's' && plank1 <= SCREEN_HEIGHT-PLANK_HEIGHT-3) plank1 += MOVE_STEP;
         } else if (a.player == 2) {
-            if (a.key == 'w' && plank2 >= 100) plank2 -= MOVE_STEP;
-            else if (a.key == 's' && plank2 <= SCREEN_HEIGHT-10) plank2 += MOVE_STEP;
+            if (a.key == 'w' && plank2 >= 3) plank2 -= MOVE_STEP;
+            else if (a.key == 's' && plank2 <= SCREEN_HEIGHT-PLANK_HEIGHT-3) plank2 += MOVE_STEP;
         }
     }
 
@@ -91,9 +91,16 @@ public class Worker {
             gameEnded = true;
             state.isGameOver = true;
             updateState();
+            if(plank1Points == MAX_POINTS){
+                DBOperations.putUserPoints(CustomState.rooms.get(id).host.login);
+                state.winner = 1;
+            }
+            else if(plank2Points == MAX_POINTS){
+                DBOperations.putUserPoints(CustomState.rooms.get(id).guest.login);
+                state.winner = 2;
+            }
             send.run();
-            if(plank1Points == MAX_POINTS) DBOperations.putUserPoints(CustomState.rooms.get(id).host.login);
-            else if(plank2Points == MAX_POINTS) DBOperations.putUserPoints(CustomState.rooms.get(id).guest.login);
+            CustomState.rooms.remove(id);
         }
         else reset();
     }

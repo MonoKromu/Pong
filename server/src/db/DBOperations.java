@@ -69,13 +69,15 @@ public class DBOperations {
     }
 
     public static boolean putPassword(String login, String oldPass, String newPass) {
+        logger.info("CHECK PASSWORD FOR USER {}", login);
         try (Connection conn = DriverManager.getConnection(DB_URL, LOGIN, PASSWORD);
-             Statement stmt = conn.createStatement()) {
-
-            if (getUser(login, oldPass) != null) {
-                stmt.executeUpdate("UPDATE `users_table` SET `password` = '%s' WHERE login LIKE '%s';".formatted(newPass, login));
-            }
-            return true;
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT * FROM users_table WHERE login LIKE '%s' and password LIKE '%s';".formatted(login, oldPass))) {
+            if (rs.next()) {
+                logger.info("CHANGE PASSWORD FOR USER {}", login);
+                stmt.executeUpdate("UPDATE users_table SET password = '%s' WHERE login LIKE '%s';".formatted(newPass, login));
+                return true;
+            } else return false;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
